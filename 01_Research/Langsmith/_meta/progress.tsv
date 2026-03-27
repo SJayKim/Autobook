@@ -1,0 +1,13 @@
+source_id	title	url	type	keywords	content_length	scraped_at	status
+001	LangSmith Observability Concepts — Traces, Runs, Projects, Tags, Metadata	https://docs.langchain.com/langsmith/observability-concepts	docs	tracing, runs, projects, tags and metadata	1842	2026-03-27	done
+002	LangSmith Tracing Quickstart — Setup, Environment Variables, First Trace	https://docs.langchain.com/langsmith/observability-quickstart	docs	tracing, runs, projects	3210	2026-03-27	done
+003	LangSmith Custom Instrumentation — @traceable, wrap_openai, RunTree, trace context manager	https://docs.langchain.com/langsmith/annotate-code	docs	tracing, runs	5890	2026-03-27	done
+004	LangSmith — Log Traces to Specific Project (Static & Dynamic Assignment)	https://docs.langchain.com/langsmith/log-traces-to-project	docs	projects, tracing	4120	2026-03-27	done
+005	LangSmith — Adding Metadata and Tags to Traces	https://docs.langchain.com/langsmith/add-metadata-tags	docs	tags and metadata, tracing, runs	3480	2026-03-27	done
+006	LangSmith — Trace Using the REST API (POST /runs, PATCH /runs, Batch Ingestion)	https://docs.langchain.com/langsmith/trace-with-api	docs	tracing, runs	5640	2026-03-27	done
+007	LangSmith — Distributed Tracing (Context Propagation Headers, Cross-Service)	https://docs.langchain.com/langsmith/distributed-tracing	docs	tracing, runs	3920	2026-03-27	done
+008	LangSmith — Filter Traces in Application (Query Syntax, Tags, Metadata, SDK)	https://docs.langchain.com/langsmith/filter-traces-in-application	docs	tags and metadata, runs, tracing	2870	2026-03-27	done
+009	LangSmith — Trace with OpenTelemetry (OTEL Integration, Attribute Mapping)	https://docs.langchain.com/langsmith/trace-with-opentelemetry	docs	tracing, runs, tags and metadata	5310	2026-03-27	done
+010	LangSmith — Configure Threads for Multi-Turn Conversations (session_id, thread_id)	https://docs.langchain.com/langsmith/threads	docs	tracing, tags and metadata, runs	3280	2026-03-27	done
+011	LangSmith — Run Types Reference and LLM Call Logging	https://docs.langchain.com/langsmith/log-llm-trace	docs	runs, tracing	3120	2026-03-27	done
+012	LangSmith — RunTree API Reference (Python & JS, parent-child hierarchy)	https://docs.smith.langchain.com/reference/python/run_trees/langsmith.run_trees.RunTree	docs	runs, tracing	2650	2026-03-27	done

@@ -1,0 +1,559 @@
+{
+  "keywords": [
+    {
+      "id": "kw_001",
+      "primary": "tracing",
+      "variants": {
+        "synonyms": ["trace", "run logging", "execution logging", "observability trace"],
+        "abbreviations": [],
+        "broader": ["observability", "monitoring", "telemetry"],
+        "narrower": ["run tree", "trace hierarchy", "child run", "root run", "span"],
+        "related_tech": ["OpenTelemetry", "Jaeger", "Zipkin", "LangChain callbacks"],
+        "translations": ["추적", "트레이싱", "실행 추적"]
+      },
+      "search_queries": [
+        "LangSmith tracing setup tutorial",
+        "LangSmith trace run tree hierarchy",
+        "LangSmith @traceable decorator usage",
+        "LangSmith tracing OpenTelemetry integration"
+      ],
+      "cluster": "cluster_observability",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_002",
+      "primary": "runs",
+      "variants": {
+        "synonyms": ["execution record", "trace record", "span"],
+        "abbreviations": [],
+        "broader": ["trace", "tracing"],
+        "narrower": ["root run", "child run", "LLM run", "chain run", "tool run"],
+        "related_tech": ["RunTree", "LangChain Run", "OpenTelemetry span"],
+        "translations": ["실행 기록", "런", "실행 단위"]
+      },
+      "search_queries": [
+        "LangSmith runs API reference",
+        "LangSmith run types LLM chain tool",
+        "LangSmith run tree structure",
+        "LangSmith runs inputs outputs metadata"
+      ],
+      "cluster": "cluster_observability",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_003",
+      "primary": "projects",
+      "variants": {
+        "synonyms": ["workspace", "environment", "namespace"],
+        "abbreviations": [],
+        "broader": ["LangSmith organization"],
+        "narrower": ["project settings", "project API key", "project tags"],
+        "related_tech": ["LANGCHAIN_PROJECT env var", "LangSmith workspace"],
+        "translations": ["프로젝트", "작업 공간"]
+      },
+      "search_queries": [
+        "LangSmith projects organization setup",
+        "LangSmith project LANGCHAIN_PROJECT environment variable",
+        "LangSmith project filtering traces"
+      ],
+      "cluster": "cluster_observability",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_004",
+      "primary": "tags and metadata",
+      "variants": {
+        "synonyms": ["run tags", "run metadata", "trace labels", "annotations metadata"],
+        "abbreviations": [],
+        "broader": ["tracing", "run management"],
+        "narrower": ["tag filtering", "metadata filtering", "custom metadata"],
+        "related_tech": ["LangChain metadata", "OpenTelemetry attributes"],
+        "translations": ["태그", "메타데이터", "실행 레이블"]
+      },
+      "search_queries": [
+        "LangSmith tags metadata runs filtering",
+        "LangSmith add metadata to trace",
+        "LangSmith tag-based filtering dashboard"
+      ],
+      "cluster": "cluster_observability",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_005",
+      "primary": "datasets",
+      "variants": {
+        "synonyms": ["evaluation dataset", "test set", "benchmark set", "golden dataset"],
+        "abbreviations": [],
+        "broader": ["evaluation", "data management"],
+        "narrower": ["examples", "key-value dataset", "chat dataset", "split dataset"],
+        "related_tech": ["Hugging Face Datasets", "LangChain datasets", "CSV import"],
+        "translations": ["데이터셋", "평가 데이터셋", "테스트 세트"]
+      },
+      "search_queries": [
+        "LangSmith datasets create manage",
+        "LangSmith dataset examples inputs outputs",
+        "LangSmith dataset from production traces",
+        "LangSmith dataset versioning splits"
+      ],
+      "cluster": "cluster_evaluation",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_006",
+      "primary": "evaluators",
+      "variants": {
+        "synonyms": ["evaluation function", "scorer", "judge", "grader"],
+        "abbreviations": [],
+        "broader": ["evaluation", "quality assessment"],
+        "narrower": ["heuristic evaluator", "LLM-as-judge", "custom evaluator", "pairwise evaluator", "code evaluator"],
+        "related_tech": ["LangChain evaluators", "OpenAI eval", "Ragas"],
+        "translations": ["평가자", "평가 함수", "채점기"]
+      },
+      "search_queries": [
+        "LangSmith evaluators types heuristic LLM judge",
+        "LangSmith custom evaluator Python TypeScript",
+        "LangSmith pairwise comparison evaluator",
+        "LangSmith evaluator feedback scores"
+      ],
+      "cluster": "cluster_evaluation",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_007",
+      "primary": "LLM-as-judge",
+      "variants": {
+        "synonyms": ["LLM evaluator", "model-based evaluation", "AI judge", "GPT grader"],
+        "abbreviations": ["LaaJ"],
+        "broader": ["evaluators", "automated evaluation"],
+        "narrower": ["criteria-based scoring", "reference-free evaluation", "reference-based evaluation"],
+        "related_tech": ["OpenAI GPT-4", "Claude", "Gemini", "G-Eval", "MT-Bench"],
+        "translations": ["LLM 심판", "모델 기반 평가", "AI 평가자"]
+      },
+      "search_queries": [
+        "LangSmith LLM-as-judge setup criteria",
+        "LangSmith model-based evaluator scoring",
+        "LLM judge evaluation reliability bias",
+        "LangSmith AI evaluator prompt template"
+      ],
+      "cluster": "cluster_evaluation",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_008",
+      "primary": "experiments",
+      "variants": {
+        "synonyms": ["evaluation run", "eval experiment", "A/B test", "benchmark run"],
+        "abbreviations": [],
+        "broader": ["evaluation", "testing"],
+        "narrower": ["experiment comparison", "regression testing", "experiment results", "repetitions"],
+        "related_tech": ["MLflow experiments", "Weights & Biases runs", "Comet ML"],
+        "translations": ["실험", "평가 실험", "벤치마크 실행"]
+      },
+      "search_queries": [
+        "LangSmith experiments comparison view",
+        "LangSmith run experiment dataset evaluator",
+        "LangSmith experiment regression testing",
+        "LangSmith experiments side-by-side comparison"
+      ],
+      "cluster": "cluster_evaluation",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_009",
+      "primary": "annotation queues",
+      "variants": {
+        "synonyms": ["human review queue", "labeling queue", "feedback queue", "review workflow"],
+        "abbreviations": [],
+        "broader": ["human evaluation", "feedback collection", "HITL"],
+        "narrower": ["annotation rubric", "single-run annotation", "pairwise annotation", "queue assignment"],
+        "related_tech": ["Label Studio", "Scale AI", "Argilla"],
+        "translations": ["어노테이션 큐", "리뷰 큐", "인간 검토 대기열"]
+      },
+      "search_queries": [
+        "LangSmith annotation queues human review setup",
+        "LangSmith annotation queue rubric feedback",
+        "LangSmith human evaluation workflow",
+        "LangSmith annotation queue pairwise comparison"
+      ],
+      "cluster": "cluster_evaluation",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_010",
+      "primary": "online evaluation",
+      "variants": {
+        "synonyms": ["production evaluation", "live evaluation", "real-time evaluation", "continuous evaluation"],
+        "abbreviations": [],
+        "broader": ["evaluation", "monitoring"],
+        "narrower": ["sampling rate", "online evaluator trigger", "quality drift detection"],
+        "related_tech": ["production monitoring", "A/B testing in production", "shadow mode"],
+        "translations": ["온라인 평가", "프로덕션 평가", "실시간 평가"]
+      },
+      "search_queries": [
+        "LangSmith online evaluation production traces",
+        "LangSmith real-time evaluation quality drift",
+        "LangSmith online evaluator automation rule",
+        "LangSmith production sampling evaluation"
+      ],
+      "cluster": "cluster_evaluation",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_011",
+      "primary": "prompt playground",
+      "variants": {
+        "synonyms": ["prompt editor", "prompt tester", "interactive prompt lab", "prompt sandbox"],
+        "abbreviations": [],
+        "broader": ["prompt engineering", "prompt management"],
+        "narrower": ["prompt comparison", "model comparison", "output preview", "streaming preview"],
+        "related_tech": ["OpenAI Playground", "Anthropic Console", "PromptLayer"],
+        "translations": ["프롬프트 플레이그라운드", "프롬프트 실험실", "프롬프트 샌드박스"]
+      },
+      "search_queries": [
+        "LangSmith prompt playground usage guide",
+        "LangSmith playground model comparison providers",
+        "LangSmith playground run on dataset",
+        "LangSmith playground multimodal images audio"
+      ],
+      "cluster": "cluster_prompt",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_012",
+      "primary": "prompt versioning",
+      "variants": {
+        "synonyms": ["prompt version control", "prompt history", "prompt commits", "prompt changelog"],
+        "abbreviations": [],
+        "broader": ["prompt management", "version control"],
+        "narrower": ["prompt commit hash", "prompt diff", "prompt rollback", "prompt tagging"],
+        "related_tech": ["Git versioning", "LangChain Hub", "PromptLayer versions"],
+        "translations": ["프롬프트 버전 관리", "프롬프트 이력", "프롬프트 커밋"]
+      },
+      "search_queries": [
+        "LangSmith prompt versioning commit history",
+        "LangSmith pull prompt by version tag",
+        "LangSmith prompt rollback deployment",
+        "LangSmith prompt diff comparison"
+      ],
+      "cluster": "cluster_prompt",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_013",
+      "primary": "LangChain Hub",
+      "variants": {
+        "synonyms": ["prompt hub", "prompt registry", "prompt repository", "prompt marketplace"],
+        "abbreviations": ["Hub"],
+        "broader": ["prompt management", "prompt sharing"],
+        "narrower": ["public prompt", "private prompt", "hub pull", "hub push"],
+        "related_tech": ["Hugging Face Hub", "LangSmith API", "langchain hub package"],
+        "translations": ["랭체인 허브", "프롬프트 허브", "프롬프트 저장소"]
+      },
+      "search_queries": [
+        "LangChain Hub prompt sharing pull push",
+        "LangSmith Hub integration prompt registry",
+        "langchain hub pull prompt Python example",
+        "LangChain Hub public community prompts"
+      ],
+      "cluster": "cluster_prompt",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_014",
+      "primary": "feedback",
+      "variants": {
+        "synonyms": ["run feedback", "user feedback", "quality score", "thumbs up/down"],
+        "abbreviations": [],
+        "broader": ["evaluation", "observability"],
+        "narrower": ["continuous feedback", "correction feedback", "feedback key", "feedback score", "feedback source"],
+        "related_tech": ["RLHF", "RLAIF", "human-in-the-loop"],
+        "translations": ["피드백", "사용자 피드백", "품질 점수"]
+      },
+      "search_queries": [
+        "LangSmith feedback API run quality score",
+        "LangSmith user feedback collection SDK",
+        "LangSmith feedback types correction continuous",
+        "LangSmith feedback dashboard visualization"
+      ],
+      "cluster": "cluster_evaluation",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_015",
+      "primary": "monitoring dashboards",
+      "variants": {
+        "synonyms": ["observability dashboard", "metrics dashboard", "performance dashboard", "telemetry dashboard"],
+        "abbreviations": [],
+        "broader": ["monitoring", "observability"],
+        "narrower": ["latency metrics", "token usage", "cost tracking", "error rate", "P50/P99"],
+        "related_tech": ["Grafana", "Datadog", "Prometheus", "CloudWatch"],
+        "translations": ["모니터링 대시보드", "성능 대시보드", "관찰성 대시보드"]
+      },
+      "search_queries": [
+        "LangSmith monitoring dashboard custom metrics",
+        "LangSmith token usage cost tracking dashboard",
+        "LangSmith latency P50 P99 monitoring",
+        "LangSmith error rate alerts dashboard"
+      ],
+      "cluster": "cluster_monitoring",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_016",
+      "primary": "automation rules",
+      "variants": {
+        "synonyms": ["automations", "trigger rules", "trace automation", "workflow automation"],
+        "abbreviations": [],
+        "broader": ["monitoring", "observability"],
+        "narrower": ["filter condition", "sampling rate", "webhook trigger", "dataset addition rule", "annotation queue rule"],
+        "related_tech": ["Zapier", "n8n", "PagerDuty", "webhooks"],
+        "translations": ["자동화 규칙", "오토메이션", "트리거 규칙"]
+      },
+      "search_queries": [
+        "LangSmith automation rules setup filter sampling",
+        "LangSmith automations webhook trigger action",
+        "LangSmith auto-add traces to dataset rule",
+        "LangSmith automation annotation queue trigger"
+      ],
+      "cluster": "cluster_monitoring",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_017",
+      "primary": "alerts",
+      "variants": {
+        "synonyms": ["metric alerts", "threshold alerts", "notifications", "alarms"],
+        "abbreviations": [],
+        "broader": ["monitoring", "automation rules"],
+        "narrower": ["PagerDuty alert", "webhook alert", "threshold configuration", "alert condition"],
+        "related_tech": ["PagerDuty", "OpsGenie", "Slack alerts", "email notifications"],
+        "translations": ["알림", "경보", "알럿"]
+      },
+      "search_queries": [
+        "LangSmith alerts PagerDuty webhook configuration",
+        "LangSmith metric threshold alert setup",
+        "LangSmith monitoring alerts quality drift",
+        "LangSmith notification rules triggers"
+      ],
+      "cluster": "cluster_monitoring",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_018",
+      "primary": "SDK integration",
+      "variants": {
+        "synonyms": ["LangSmith SDK", "Python SDK", "TypeScript SDK", "client library"],
+        "abbreviations": ["SDK"],
+        "broader": ["LangSmith platform", "developer tools"],
+        "narrower": ["@traceable decorator", "wrap_openai", "RunTree API", "context manager tracing"],
+        "related_tech": ["langsmith Python package", "langsmith-sdk", "OpenAI Python SDK", "Anthropic SDK"],
+        "translations": ["SDK 통합", "클라이언트 라이브러리", "개발자 SDK"]
+      },
+      "search_queries": [
+        "LangSmith Python SDK installation quickstart",
+        "LangSmith SDK traceable decorator example",
+        "LangSmith wrap_openai integration example",
+        "LangSmith TypeScript SDK usage"
+      ],
+      "cluster": "cluster_integration",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_019",
+      "primary": "framework integrations",
+      "variants": {
+        "synonyms": ["third-party integrations", "framework support", "provider integrations"],
+        "abbreviations": [],
+        "broader": ["SDK integration", "LangSmith platform"],
+        "narrower": ["LangChain integration", "LangGraph integration", "OpenAI integration", "Anthropic integration", "LlamaIndex integration", "CrewAI integration", "Vercel AI SDK integration"],
+        "related_tech": ["LangChain", "LangGraph", "LlamaIndex", "AutoGen", "CrewAI", "Haystack"],
+        "translations": ["프레임워크 통합", "서드파티 통합", "프로바이더 연동"]
+      },
+      "search_queries": [
+        "LangSmith LangGraph integration tracing",
+        "LangSmith LlamaIndex integration setup",
+        "LangSmith framework agnostic integration guide",
+        "LangSmith CrewAI AutoGen tracing"
+      ],
+      "cluster": "cluster_integration",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_020",
+      "primary": "deployment",
+      "variants": {
+        "synonyms": ["agent deployment", "agent server", "production deployment", "agent hosting"],
+        "abbreviations": [],
+        "broader": ["LangSmith platform", "MLOps"],
+        "narrower": ["Agent Servers", "control plane", "data plane", "deployment scaling"],
+        "related_tech": ["Kubernetes", "Docker", "AWS", "GCP", "Azure", "LangGraph Platform"],
+        "translations": ["배포", "에이전트 배포", "프로덕션 배포"]
+      },
+      "search_queries": [
+        "LangSmith deployment agent servers production",
+        "LangSmith agent server control plane data plane",
+        "LangSmith deployment scaling Kubernetes",
+        "LangSmith deploy LangGraph agent"
+      ],
+      "cluster": "cluster_deployment",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_021",
+      "primary": "self-hosted LangSmith",
+      "variants": {
+        "synonyms": ["on-premise LangSmith", "private deployment", "enterprise deployment", "self-managed"],
+        "abbreviations": [],
+        "broader": ["deployment", "enterprise features"],
+        "narrower": ["Kubernetes deployment", "Helm chart", "data residency", "air-gapped deployment"],
+        "related_tech": ["Kubernetes", "Helm", "Docker Compose", "AWS EKS", "GKE"],
+        "translations": ["자체 호스팅", "온프레미스 배포", "셀프 호스팅"]
+      },
+      "search_queries": [
+        "LangSmith self-hosted deployment Kubernetes Helm",
+        "LangSmith on-premise enterprise setup guide",
+        "LangSmith self-hosted data residency security",
+        "LangSmith self-hosted vs cloud comparison"
+      ],
+      "cluster": "cluster_deployment",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_022",
+      "primary": "Insights Agent",
+      "variants": {
+        "synonyms": ["trace insights", "AI insights", "pattern discovery", "failure analysis"],
+        "abbreviations": [],
+        "broader": ["monitoring", "observability", "analytics"],
+        "narrower": ["failure mode discovery", "usage pattern analysis", "agent behavior analysis"],
+        "related_tech": ["LangSmith Plus", "LangSmith Enterprise", "analytics AI"],
+        "translations": ["인사이트 에이전트", "트레이스 인사이트", "패턴 분석"]
+      },
+      "search_queries": [
+        "LangSmith Insights Agent feature usage",
+        "LangSmith Insights Agent failure mode discovery",
+        "LangSmith trace pattern analysis automation",
+        "LangSmith Insights Agent enterprise plus"
+      ],
+      "cluster": "cluster_monitoring",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_023",
+      "primary": "multi-turn evaluation",
+      "variants": {
+        "synonyms": ["conversation evaluation", "thread evaluation", "multi-turn evals", "session evaluation"],
+        "abbreviations": [],
+        "broader": ["evaluation", "online evaluation"],
+        "narrower": ["semantic intent evaluation", "semantic outcome evaluation", "agent trajectory evaluation", "thread-level scoring"],
+        "related_tech": ["RAGAS conversation", "MT-Bench", "chatbot evaluation"],
+        "translations": ["멀티턴 평가", "대화 평가", "세션 평가"]
+      },
+      "search_queries": [
+        "LangSmith multi-turn evaluation conversation",
+        "LangSmith multi-turn evals agent trajectory",
+        "LangSmith thread evaluation semantic intent",
+        "LangSmith conversation-level quality assessment"
+      ],
+      "cluster": "cluster_evaluation",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_024",
+      "primary": "API and SDK reference",
+      "variants": {
+        "synonyms": ["REST API", "LangSmith API", "HTTP API", "programmatic access"],
+        "abbreviations": ["API"],
+        "broader": ["LangSmith platform", "developer tools"],
+        "narrower": ["runs API", "datasets API", "feedback API", "projects API", "API key management"],
+        "related_tech": ["REST", "OpenAPI", "Swagger", "langsmith-sdk client"],
+        "translations": ["API 레퍼런스", "SDK 참조", "프로그래밍 인터페이스"]
+      },
+      "search_queries": [
+        "LangSmith REST API reference documentation",
+        "LangSmith API key authentication",
+        "LangSmith API runs datasets feedback endpoints",
+        "LangSmith programmatic evaluation API"
+      ],
+      "cluster": "cluster_integration",
+      "status": "uncovered",
+      "matched_sources": []
+    },
+    {
+      "id": "kw_025",
+      "primary": "cost and token tracking",
+      "variants": {
+        "synonyms": ["token usage tracking", "LLM cost monitoring", "usage analytics", "spend tracking"],
+        "abbreviations": [],
+        "broader": ["monitoring dashboards", "observability"],
+        "narrower": ["per-run token count", "cost per trace", "provider cost breakdown", "token budget"],
+        "related_tech": ["OpenAI usage API", "Anthropic token counting", "cost optimization"],
+        "translations": ["비용 추적", "토큰 사용량 추적", "LLM 비용 모니터링"]
+      },
+      "search_queries": [
+        "LangSmith token usage cost tracking per run",
+        "LangSmith cost monitoring provider breakdown",
+        "LangSmith token count optimization insights",
+        "LangSmith LLM spend dashboard"
+      ],
+      "cluster": "cluster_monitoring",
+      "status": "uncovered",
+      "matched_sources": []
+    }
+  ],
+  "clusters": [
+    {
+      "id": "cluster_observability",
+      "name": "관찰성 및 추적 (Observability & Tracing)",
+      "description": "LLM 애플리케이션 실행 과정의 가시성 확보 — 트레이스 구조, 실행 단위, 프로젝트 관리, 메타데이터",
+      "keywords": ["kw_001", "kw_002", "kw_003", "kw_004"]
+    },
+    {
+      "id": "cluster_evaluation",
+      "name": "평가 체계 (Evaluation)",
+      "description": "LLM 출력 품질 측정 — 데이터셋, 평가자, 실험, 어노테이션, 온라인/오프라인 평가, 피드백, 멀티턴 평가",
+      "keywords": ["kw_005", "kw_006", "kw_007", "kw_008", "kw_009", "kw_010", "kw_014", "kw_023"]
+    },
+    {
+      "id": "cluster_prompt",
+      "name": "프롬프트 관리 (Prompt Management)",
+      "description": "프롬프트 작성, 테스트, 버전 관리, 공유 — 플레이그라운드, 버전 관리, Hub",
+      "keywords": ["kw_011", "kw_012", "kw_013"]
+    },
+    {
+      "id": "cluster_monitoring",
+      "name": "모니터링 및 자동화 (Monitoring & Automation)",
+      "description": "프로덕션 품질 지속 관리 — 대시보드, 자동화 규칙, 알림, 인사이트 에이전트, 비용/토큰 추적",
+      "keywords": ["kw_015", "kw_016", "kw_017", "kw_022", "kw_025"]
+    },
+    {
+      "id": "cluster_integration",
+      "name": "통합 및 배포 인프라 (Integration & Infrastructure)",
+      "description": "SDK, 프레임워크 연동, REST API, 배포 환경 — Python/TS SDK, 서드파티 프레임워크, 자체 호스팅",
+      "keywords": ["kw_018", "kw_019", "kw_020", "kw_021", "kw_024"]
+    }
+  ]
+}

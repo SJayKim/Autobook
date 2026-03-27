@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/protect-rules.sh \"$TOOL_INPUT\""
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/on-compact.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

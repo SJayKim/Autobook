@@ -1,0 +1,201 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.local/schemas/curriculum.schema.json",
+  "title": "Curriculum",
+  "description": "Phase ⊃ Section ⊃ Topic 계층과 topic 단위 prerequisites(선수). DAG·전방 참조·ID 접두 일치·선수 순서(본인보다 앞선가)는 JSON Schema만으로는 검증할 수 없고, prerequisite_ordering.mode에 따라 별도 검증기가 수행한다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "curriculum_id", "numbering", "phases"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "이 스키마/규칙 세트 버전 (예: 1.0.0)",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "curriculum_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "과목·커리큘럼 고유 식별자"
+    },
+    "title": {
+      "type": "string",
+      "description": "사람이 읽는 커리큘럼 제목"
+    },
+    "locale": {
+      "type": "string",
+      "description": "BCP 47 등 로캘 (선택)"
+    },
+    "numbering": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase_base"],
+      "properties": {
+        "phase_base": {
+          "type": "integer",
+          "enum": [0, 1],
+          "description": "Phase 번호 시작값. 한 문서 안에서만 일관되게 사용."
+        }
+      }
+    },
+    "prerequisite_shorthand": {
+      "type": "string",
+      "enum": ["none", "all_in_section", "first_topic_only"],
+      "description": "prerequisites에 a.b 형 축약이 있을 때 전개 규칙. none이면 모든 선수는 a.b.c만 허용하는 것을 권장."
+    },
+    "prerequisite_ordering": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "‘선수 번호가 본인보다 앞서는가’ 검증 방식. 스키마는 모드만 기록하고, 실제 비교는 검증 스크립트가 수행한다.",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["off", "id_numeric_tuple", "global_sequence"],
+          "default": "off",
+          "description": "off: 순서 검증 안 함. id_numeric_tuple: id를 정수 3튜플 (a,b,c)로 파싱해 사전순 비교 — 각 전개된 선수 튜플이 본인 튜플보다 반드시 작아야 함. global_sequence: 각 topic의 global_sequence 정수로 비교 — 선수 topic들의 값은 본인보다 작아야 함."
+        }
+      }
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/phase" }
+    }
+  },
+  "definitions": {
+    "phaseId": {
+      "type": "string",
+      "pattern": "^[0-9]+$",
+      "description": "Phase 식별자 a (문자열로 저장)"
+    },
+    "sectionId": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$",
+      "description": "섹션 식별자 a.b"
+    },
+    "topicId": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "세부 주제 식별자 a.b.c. id_numeric_tuple 순서 검증: 점으로 나눈 세 부분을 정수로 변환한 뒤 (a,b,c)를 앞에서부터 비교(사전순). 문자열 대소 비교는 사용하지 않음."
+    },
+    "prerequisiteRef": {
+      "type": "string",
+      "description": "선수 topic id (a.b.c) 또는 축약 a.b — 후자는 prerequisite_shorthand에 따라 전개",
+      "pattern": "^[0-9]+(\\.[0-9]+){1,2}$"
+    },
+    "lab": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description"],
+      "properties": {
+        "description": { "type": "string" },
+        "commands": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "phase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "sections"],
+      "properties": {
+        "id": { "$ref": "#/definitions/phaseId" },
+        "title": { "type": "string", "minLength": 1 },
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "표시 순서 (선택, id와 별도)"
+        },
+        "exit_capability": {
+          "type": "string",
+          "description": "Phase 출구 문장: 이 Phase 후 독자가 할 수 있는 일"
+        },
+        "phase_checkpoint": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["question"],
+          "properties": {
+            "question": { "type": "string" },
+            "required_topic_ids": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/topicId" }
+            }
+          }
+        },
+        "sections": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/section" }
+        }
+      }
+    },
+    "section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "phase_id", "title", "topics"],
+      "properties": {
+        "id": { "$ref": "#/definitions/sectionId" },
+        "phase_id": { "$ref": "#/definitions/phaseId" },
+        "title": { "type": "string", "minLength": 1 },
+        "order": { "type": "integer", "minimum": 0 },
+        "section_checkpoint": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["question"],
+          "properties": {
+            "question": { "type": "string" }
+          }
+        },
+        "topics": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/topic" }
+        }
+      }
+    },
+    "topic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "section_id",
+        "title",
+        "order",
+        "learning_objectives",
+        "learning_content",
+        "prerequisites"
+      ],
+      "properties": {
+        "id": { "$ref": "#/definitions/topicId" },
+        "section_id": { "$ref": "#/definitions/sectionId" },
+        "title": { "type": "string", "minLength": 1 },
+        "order": { "type": "integer", "minimum": 1 },
+        "learning_objectives": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "검증 가능한 목표 문장(권장: 1~소수)"
+        },
+        "learning_content": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "키워드·개념 목록"
+        },
+        "lab": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/definitions/lab" }],
+          "description": "실습 없음은 null"
+        },
+        "global_sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "prerequisite_ordering.mode가 global_sequence일 때 필수 권장: 커리큘럼 전역의 읽기/배치 순서(1,2,3,…). 검증기는 전개된 각 선수 topic의 global_sequence < 본인 global_sequence 인지 확인. 전역 유일·단조 증가를 권장."
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/prerequisiteRef" },
+          "description": "선수 topic 참조. 존재성·DAG·순서(id_numeric_tuple 또는 global_sequence)는 애플리케이션에서 검증."
+        }
+      }
+    }
+  }
+}

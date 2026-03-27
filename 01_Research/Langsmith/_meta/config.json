@@ -1,0 +1,84 @@
+{
+  "topic": "Langsmith",
+  "input_raw": "/autoresearch Langsmith",
+  "created_at": "2026-03-27T00:00:00",
+  "status": "in_progress",
+  "params": {
+    "min_sources": 30,
+    "target_sources": 60,
+    "coverage_threshold": 0.8
+  },
+  "keywords": {
+    "seed": [
+      "tracing",
+      "evaluation",
+      "monitoring",
+      "prompt management",
+      "datasets",
+      "observability",
+      "deployment"
+    ],
+    "expanded": [
+      "tracing",
+      "runs",
+      "projects",
+      "tags and metadata",
+      "datasets",
+      "evaluators",
+      "LLM-as-judge",
+      "experiments",
+      "annotation queues",
+      "online evaluation",
+      "prompt playground",
+      "prompt versioning",
+      "LangChain Hub",
+      "feedback",
+      "monitoring dashboards",
+      "automation rules",
+      "alerts",
+      "SDK integration",
+      "framework integrations",
+      "deployment",
+      "self-hosted LangSmith",
+      "Insights Agent",
+      "multi-turn evaluation",
+      "API and SDK reference",
+      "cost and token tracking"
+    ],
+    "covered": [
+      "tracing",
+      "runs",
+      "projects",
+      "tags and metadata"
+    ],
+    "uncovered": [
+      "datasets",
+      "evaluators",
+      "LLM-as-judge",
+      "experiments",
+      "annotation queues",
+      "online evaluation",
+      "prompt playground",
+      "prompt versioning",
+      "LangChain Hub",
+      "feedback",
+      "monitoring dashboards",
+      "automation rules",
+      "alerts",
+      "SDK integration",
+      "framework integrations",
+      "deployment",
+      "self-hosted LangSmith",
+      "Insights Agent",
+      "multi-turn evaluation",
+      "API and SDK reference",
+      "cost and token tracking"
+    ]
+  },
+  "stats": {
+    "total_sources": 12,
+    "valid_sources": 12,
+    "keyword_coverage": 0.16,
+    "total_content_chars": 45332
+  }
+}

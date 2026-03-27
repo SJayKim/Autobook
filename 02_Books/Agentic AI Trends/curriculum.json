@@ -1,0 +1,902 @@
+{
+  "schema_version": "1.0.0",
+  "curriculum_id": "agentic-ai-trends",
+  "title": "Agentic AI: 자율 에이전트의 구조와 최신 동향",
+  "locale": "ko-KR",
+  "numbering": {
+    "phase_base": 1
+  },
+  "prerequisite_shorthand": "none",
+  "prerequisite_ordering": {
+    "mode": "id_numeric_tuple"
+  },
+  "phases": [
+    {
+      "id": "1",
+      "title": "에이전트 AI 아키텍처",
+      "exit_capability": "이 Phase를 마치면 독자는 LLM 에이전트의 핵심 구성 요소, 다중 에이전트 시스템의 설계 패턴, 자동화된 에이전트 설계의 원리, 그리고 에이전트 평가와 안전성 문제를 체계적으로 설명할 수 있다.",
+      "sections": [
+        {
+          "id": "1.1",
+          "phase_id": "1",
+          "title": "에이전트의 기본 구조",
+          "topics": [
+            {
+              "id": "1.1.1",
+              "section_id": "1.1",
+              "title": "LLM 에이전트의 정의와 구성 요소",
+              "order": 1,
+              "learning_objectives": ["LLM 에이전트가 단순 텍스트 생성기와 어떻게 다른지 설명하고, Planning, Reasoning, Tool Use, Memory 네 가지 핵심 모듈의 역할과 상호작용을 구별할 수 있다."],
+              "learning_content": ["LLM-as-Agent 패러다임", "에이전트의 4대 모듈: Planning, Reasoning, Tool Use, Memory", "환경과의 상호작용 루프", "에이전트 빌딩 블록의 개념", "코드 실행 통합", "Human-in-the-Loop 구조"],
+              "prerequisites": [],
+              "lab": null
+            },
+            {
+              "id": "1.1.2",
+              "section_id": "1.1",
+              "title": "ReAct 패턴과 에이전트 루프",
+              "order": 2,
+              "learning_objectives": ["ReAct 패턴의 Reasoning-Acting 교대 구조를 단계별로 설명하고, Self-Reflection 및 Self-Refine 메커니즘이 에이전트 루프를 어떻게 확장하는지 기술할 수 있다."],
+              "learning_content": ["ReAct 패턴: Thought-Action-Observation 구조", "Chain-of-Thought 추론과 에이전트 행동의 결합", "Self-Reflection 메커니즘", "Self-Refine 반복 개선 루프", "오류 복구 메커니즘", "관찰-사고-행동의 반복 사이클"],
+              "prerequisites": ["1.1.1"],
+              "lab": null
+            },
+            {
+              "id": "1.1.3",
+              "section_id": "1.1",
+              "title": "역할 기반 페르소나 설계",
+              "order": 3,
+              "learning_objectives": ["에이전트에 특정 역할과 페르소나를 부여하는 설계 원칙을 설명하고, 정적 페르소나와 동적 페르소나의 차이를 구별할 수 있다."],
+              "learning_content": ["역할 기반 페르소나의 개념", "시스템 프롬프트를 통한 역할 부여", "정적 페르소나 vs 동적 페르소나", "전문가 역할, 비평가 역할 등 역할 유형", "에이전트 주체성 스펙트럼"],
+              "prerequisites": ["1.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "phase_id": "1",
+          "title": "다중 에이전트 시스템",
+          "topics": [
+            {
+              "id": "1.2.1",
+              "section_id": "1.2",
+              "title": "다중 에이전트 시스템의 구조 유형",
+              "order": 1,
+              "learning_objectives": ["다중 에이전트 시스템의 중앙집중형, 분산형, 계층형, P2P 구조를 비교하고, 동질적 에이전트와 이질적 에이전트 구성의 차이를 설명할 수 있다."],
+              "learning_content": ["동질적 에이전트 구성과 이질적 에이전트 구성", "중앙집중형 구조", "분산형 구조와 공유 메시지 풀", "계층형 구조", "P2P 구조", "에이전트 수 확장 시 통신 비용 폭발 문제"],
+              "prerequisites": ["1.1.1", "1.1.3"],
+              "lab": null
+            },
+            {
+              "id": "1.2.2",
+              "section_id": "1.2",
+              "title": "에이전트 협업 전략과 조율 프로토콜",
+              "order": 2,
+              "learning_objectives": ["협력, 경쟁, 협경 세 가지 협업 유형의 차이를 설명하고, 역할 기반, 규칙 기반, 모델 기반 전략과 조율 프로토콜의 설계 원리를 기술할 수 있다."],
+              "learning_content": ["협력, 경쟁(Debate), 협경(Coopetition) 유형", "역할 기반 전략", "규칙 기반 전략", "모델 기반 전략", "조율 프로토콜: 메시지 형식, 턴 순서, 종료 조건, 합의 메커니즘", "동기식 통신과 비동기식 통신", "공유 메모리와 블랙보드 패턴"],
+              "prerequisites": ["1.2.1"],
+              "lab": null
+            },
+            {
+              "id": "1.2.3",
+              "section_id": "1.2",
+              "title": "SOP 기반 협업과 구조화된 산출물",
+              "order": 3,
+              "learning_objectives": ["표준 운영 절차(SOP)를 다중 에이전트 협업에 적용하는 방법을 설명하고, 구조화된 산출물이 연쇄 환각을 어떻게 억제하는지 그 메커니즘을 기술할 수 있다."],
+              "learning_content": ["SOP(Standard Operating Procedure) 기반 협업", "어셈블리 라인 패러다임", "구조화된 산출물: PRD, 설계 문서, 인터페이스 스펙", "연쇄 환각 문제와 억제 메커니즘", "MetaGPT의 역할 분담 구조", "중첩 대화 패턴"],
+              "prerequisites": ["1.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "phase_id": "1",
+          "title": "자동화된 에이전트 설계",
+          "topics": [
+            {
+              "id": "1.3.1",
+              "section_id": "1.3",
+              "title": "에이전트 설계 자동화와 탐색 공간",
+              "order": 1,
+              "learning_objectives": ["ADAS 연구 분야의 정의와 동기를 NAS 유추로 설명하고, 에이전트 설계 탐색 공간의 세 가지 구성 요소(탐색 공간, 탐색 알고리즘, 평가 함수)를 구별할 수 있다."],
+              "learning_content": ["ADAS(Automated Design of Agentic Systems) 개념", "NAS와의 유추", "탐색 공간, 탐색 알고리즘, 평가 함수", "코드 공간 탐색", "워크플로우 토폴로지", "에이전트 빌딩 블록: Aggregate, Reflect, Debate, Summarize"],
+              "prerequisites": ["1.1.2", "1.2.1"],
+              "lab": null
+            },
+            {
+              "id": "1.3.2",
+              "section_id": "1.3",
+              "title": "메타 에이전트와 아카이브 기반 탐색",
+              "order": 2,
+              "learning_objectives": ["메타 에이전트가 아카이브를 참조하며 새로운 에이전트를 코드로 프로그래밍하는 Meta Agent Search 알고리즘의 동작 과정을 단계별로 설명할 수 있다."],
+              "learning_content": ["메타 에이전트의 역할", "아카이브 기반 탐색 전략", "Meta Agent Search 알고리즘", "경험 풀과 프롬프트 시드 초기화", "교차 도메인 전이와 교차 모델 전이"],
+              "prerequisites": ["1.3.1"],
+              "lab": null
+            },
+            {
+              "id": "1.3.3",
+              "section_id": "1.3",
+              "title": "모듈 진화와 재결합",
+              "order": 3,
+              "learning_objectives": ["MoLAS 프레임워크에서 표준화된 모듈 인터페이스를 기반으로 모듈 진화와 재결합이 작동하는 메커니즘을 설명하고, 성능 예측기의 역할을 기술할 수 있다."],
+              "learning_content": ["MoLAS(Modularized LLM Agent Search)", "표준화된 모듈 IO 인터페이스", "모듈 진화: LLM 기반 코드 수준 변이", "모듈 재결합: 경험 풀 기반 최적 조합 탐색", "성능 예측기와 In-context Surrogate", "프롬프트-토폴로지 동시 최적화", "Local-to-Global 인터리빙 최적화"],
+              "prerequisites": ["1.3.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.4",
+          "phase_id": "1",
+          "title": "에이전트 평가와 안전성",
+          "topics": [
+            {
+              "id": "1.4.1",
+              "section_id": "1.4",
+              "title": "에이전트 벤치마크와 평가 체계",
+              "order": 1,
+              "learning_objectives": ["다중 환경 에이전트 벤치마크의 설계 원칙을 설명하고, AgentBench, GAIA, OSWorld, SWE-bench 등 주요 벤치마크의 평가 방식과 인간-AI 성능 격차를 비교할 수 있다."],
+              "learning_content": ["다중 환경 에이전트 벤치마크 설계 원칙", "AgentBench: 8개 환경 통합 평가", "GAIA: 범용 AI 어시스턴트 평가와 난이도 분류", "OSWorld: 실제 OS 환경과 GUI 그라운딩", "SWE-bench: 실세계 소프트웨어 엔지니어링 평가", "실행 기반 자동 검증", "인간-AI 성능 격차와 상용-오픈소스 격차"],
+              "prerequisites": ["1.1.2"],
+              "lab": null
+            },
+            {
+              "id": "1.4.2",
+              "section_id": "1.4",
+              "title": "에이전트 안전성과 정렬",
+              "order": 2,
+              "learning_objectives": ["도구를 사용하는 에이전트의 안전성 위험을 분류하고, 다단계 해로운 행동 체인과 탈옥 공격의 메커니즘을 설명할 수 있다."],
+              "learning_content": ["에이전트 안전성 문제 영역", "다단계 해로운 행동 체인", "탈옥(Jailbreak) 공격", "악의적 요청 순응성", "해악 카테고리 분류", "자동 생성 코드의 위험성", "MAS 안전성과 정렬 문제"],
+              "prerequisites": ["1.1.2", "1.2.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "메모리 관리",
+      "exit_capability": "이 Phase를 마치면 독자는 에이전트 메모리의 분류 체계, 저장 아키텍처, 형성-검색-진화 메커니즘, 다중 에이전트 메모리 설계, 그리고 메모리 시스템의 평가와 안전성 문제를 체계적으로 설명하고 설계 판단을 내릴 수 있다.",
+      "sections": [
+        {
+          "id": "2.1",
+          "phase_id": "2",
+          "title": "에이전트 메모리의 기초",
+          "topics": [
+            {
+              "id": "2.1.1",
+              "section_id": "2.1",
+              "title": "에이전트 메모리의 정의와 필요성",
+              "order": 1,
+              "learning_objectives": ["에이전트 메모리가 LLM 메모리, RAG, Context Engineering과 어떻게 다른지 구별하고, 컨텍스트 윈도우의 고정 길이 한계와 Lost in the Middle 현상이 장기 에이전트 동작의 병목이 되는 이유를 설명할 수 있다."],
+              "learning_content": ["에이전트 메모리 vs LLM 메모리", "에이전트 메모리 vs RAG", "에이전트 메모리 vs Context Engineering", "컨텍스트 윈도우의 고정 길이 한계", "Lost in the Middle 현상", "에이전트의 무상태성과 외부 메모리의 역할"],
+              "prerequisites": ["1.1.1"],
+              "lab": null
+            },
+            {
+              "id": "2.1.2",
+              "section_id": "2.1",
+              "title": "메모리 표현 형태와 기능 분류",
+              "order": 2,
+              "learning_objectives": ["에이전트 메모리의 표현 형태(Flat, Planar, Hierarchical, Parametric, Latent)와 기능(Factual, Experiential, Working)을 체계적으로 분류하고, 각 범주의 특성과 사용 맥락을 설명할 수 있다."],
+              "learning_content": ["Token-level Memory: Flat(1D), Planar(2D), Hierarchical(3D)", "Parametric Memory: Internal과 External", "Latent Memory: Generate, Reuse, Transform", "Factual Memory: User와 Environment", "Experiential Memory: Case-based, Strategy-based, Skill-based", "Working Memory: Single-turn과 Multi-turn"],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            },
+            {
+              "id": "2.1.3",
+              "section_id": "2.1",
+              "title": "인지과학 기반 메모리 유형",
+              "order": 3,
+              "learning_objectives": ["인지과학의 에피소드 기억, 의미 기억, 절차 기억 분류가 에이전트 메모리 설계에 어떻게 적용되는지 설명하고, Core Memory와 Declarative/Procedural 이분법의 실용적 의미를 기술할 수 있다."],
+              "learning_content": ["Episodic Memory: 시간 태그가 붙은 경험 기억", "Semantic Memory: 시간 독립적 추상 지식", "Procedural Memory: 목표 지향 절차와 워크플로우", "Core Memory: 항상 노출되는 최우선 정보", "Declarative vs Procedural Memory 이분법", "인간 기억 모델의 에이전트 설계 적용"],
+              "prerequisites": ["2.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "phase_id": "2",
+          "title": "메모리 저장 아키텍처",
+          "topics": [
+            {
+              "id": "2.2.1",
+              "section_id": "2.2",
+              "title": "계층적 메모리 저장 구조",
+              "order": 1,
+              "learning_objectives": ["STM/MTM/LTM 계층 구조와 OS 가상 메모리 비유를 단계별로 설명하고, Main Context와 External Storage 간 페이징 메커니즘이 무한 컨텍스트의 환상을 어떻게 구현하는지 기술할 수 있다."],
+              "learning_content": ["Short-Term Memory(STM)와 FIFO 관리", "Mid-Term Memory(MTM)", "Long-Term Memory(LTM)", "OS 가상 메모리 비유: Main Context(RAM)와 External Context(Disk)", "Working Context와 FIFO Queue", "Recall Storage vs Archival Storage", "MemGPT의 자율적 데이터 스와핑"],
+              "prerequisites": ["2.1.3"],
+              "lab": null
+            },
+            {
+              "id": "2.2.2",
+              "section_id": "2.2",
+              "title": "그래프 기반 메모리 저장",
+              "order": 2,
+              "learning_objectives": ["지식 그래프 기반 메모리와 Zettelkasten 방법론이 에이전트 메모리에 적용되는 원리를 설명하고, 다계층 그래프 구조(Interaction-Query-Insight)의 설계 이유와 동작 방식을 기술할 수 있다."],
+              "learning_content": ["지식 그래프 기반 메모리", "Zettelkasten 방법론의 에이전트 메모리 적용", "구조화된 노트 형식: 내용, 타임스탬프, 키워드, 태그, 문맥 설명, 임베딩, 링크", "Interaction Graph, Query Graph, Insight Graph 3계층 구조", "하이퍼엣지를 통한 복합 관계 인코딩"],
+              "prerequisites": ["2.2.1"],
+              "lab": null
+            },
+            {
+              "id": "2.2.3",
+              "section_id": "2.2",
+              "title": "메모리 세분성과 최적 단위 선택",
+              "order": 3,
+              "learning_objectives": ["턴, 세그먼트, 세션, 요약 등 메모리 세분성 스펙트럼의 각 단위를 비교하고, 토픽 일관 세그먼트 분할 전략과 압축 기반 디노이징 기법의 작동 원리를 설명할 수 있다."],
+              "learning_content": ["메모리 세분성 스펙트럼: 턴 → 세그먼트 → 세션 → 요약", "최적 세분성 선택의 트레이드오프", "토픽 일관 세그먼트 분할", "Self-Reflection 기반 분할 가이드라인 학습", "압축 기반 메모리 디노이징", "구조화된 bullet 컬렉션"],
+              "prerequisites": ["2.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "phase_id": "2",
+          "title": "메모리 형성",
+          "topics": [
+            {
+              "id": "2.3.1",
+              "section_id": "2.3",
+              "title": "메모리 생성과 추출",
+              "order": 1,
+              "learning_objectives": ["에이전트-환경 상호작용에서 메모리 후보를 식별하고 구조화된 메타데이터를 자동 생성하는 과정을 단계별로 설명할 수 있다."],
+              "learning_content": ["메모리 후보 추출 공식: M_{t+1} = F(M_t, phi_t)", "LLM 기반 키워드, 태그, 문맥 설명 자동 추출", "경험 구조화: (입력, 출력, 피드백) 트리플", "함수 호출을 통한 자기 주도적 메모리 편집", "Memory Pressure 경고 메커니즘", "멀티모달 메모리 변환"],
+              "prerequisites": ["2.2.2", "2.2.3"],
+              "lab": null
+            },
+            {
+              "id": "2.3.2",
+              "section_id": "2.3",
+              "title": "메모리 입장 제어",
+              "order": 2,
+              "learning_objectives": ["메모리 입장 제어의 5가지 판단 요인(Future Utility, Factual Confidence, Semantic Novelty, Temporal Recency, Content-Type Prior)을 설명하고, 평가기 품질이 장기 성능에 미치는 영향을 기술할 수 있다."],
+              "learning_content": ["메모리 입장 제어의 개념", "Future Utility(미래 유용성)", "Factual Confidence(사실적 신뢰도)", "Semantic Novelty(의미적 신규성)", "Temporal Recency(시간적 최신성)", "Content-Type Prior(내용 유형 사전 확률)", "평가기 품질과 메모리 입장의 연관성"],
+              "prerequisites": ["2.3.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.4",
+          "phase_id": "2",
+          "title": "메모리 검색",
+          "topics": [
+            {
+              "id": "2.4.1",
+              "section_id": "2.4",
+              "title": "메모리 검색 기법",
+              "order": 1,
+              "learning_objectives": ["벡터 임베딩 기반 의미 검색, BM25 키워드 검색, 하이브리드 검색의 원리를 비교하고, 다중 메모리 컴포넌트 병렬 검색과 반복적 검색의 동작 방식을 설명할 수 있다."],
+              "learning_content": ["벡터 임베딩 기반 의미 검색과 코사인 유사도", "BM25 키워드 기반 검색", "하이브리드 검색 전략", "다중 메모리 컴포넌트 병렬 검색", "반복적 검색과 function chaining", "Active Retrieval 설계 원칙"],
+              "prerequisites": ["2.3.2"],
+              "lab": null
+            },
+            {
+              "id": "2.4.2",
+              "section_id": "2.4",
+              "title": "검색 품질 향상과 근본 문제",
+              "order": 2,
+              "learning_objectives": ["링크 기반 연관 확장, 역할 인식 필터링, 양방향 그래프 탐색, LLM 재순위화 등 검색 품질 향상 기법을 설명하고, 메모리 크기와 검색 품질의 비선형 관계를 기술할 수 있다."],
+              "learning_content": ["링크 기반 연관 메모리 확장", "토픽 추출을 통한 쿼리 확장", "역할 인식 메모리 필터링", "양방향 그래프 탐색", "LLM 기반 관련도 재순위화", "스파시파이어를 통한 컨텍스트 길이 제어", "검색 vs 생성 트레이드오프", "전체 이력 삽입의 역설", "메모리 크기와 검색 품질의 비선형 관계"],
+              "prerequisites": ["2.4.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.5",
+          "phase_id": "2",
+          "title": "메모리 진화",
+          "topics": [
+            {
+              "id": "2.5.1",
+              "section_id": "2.5",
+              "title": "메모리 업데이트와 통합",
+              "order": 1,
+              "learning_objectives": ["메모리 진화의 공식화와 점진적 델타 업데이트 전략을 설명하고, Context Collapse 문제와 이를 방지하는 Generator-Reflector-Curator 패턴의 동작 과정을 기술할 수 있다."],
+              "learning_content": ["메모리 진화 공식: M_{t+1} = E(M_t, M^form_{t+1})", "LLM 기반 자율적 메모리 업데이트", "점진적 델타 업데이트", "Context Collapse 문제", "Grow-and-Refine 패턴", "Generator-Reflector-Curator 3역할 분리"],
+              "prerequisites": ["2.4.2"],
+              "lab": null
+            },
+            {
+              "id": "2.5.2",
+              "section_id": "2.5",
+              "title": "메모리 망각과 삭제 전략",
+              "order": 2,
+              "learning_objectives": ["Ebbinghaus 망각 곡선, 열도 기반 승격, FIFO 플러시, 선택적 망각 등 메모리 감쇠·삭제 전략을 비교하고, 주기적 삭제와 이력 기반 삭제의 트레이드오프를 설명할 수 있다."],
+              "learning_content": ["망각 곡선 기반 메모리 감쇠", "열도(Heat) 기반 메모리 승격: STM -> MTM -> LTM", "세그먼트 페이징", "FIFO 큐 플러시와 재귀적 요약 생성", "Selective Forgetting", "주기적 삭제 vs 이력 기반 삭제"],
+              "prerequisites": ["2.5.1"],
+              "lab": null
+            },
+            {
+              "id": "2.5.3",
+              "section_id": "2.5",
+              "title": "자기 진화 메모리",
+              "order": 3,
+              "learning_objectives": ["자기 진화 메모리의 정의를 설명하고, Think-Act-Refine 루프와 메모리 기반 Test-Time Learning이 에이전트의 행동을 추가 학습 없이 개선하는 메커니즘을 기술할 수 있다."],
+              "learning_content": ["자기 진화 메모리의 정의", "Think-Act-Refine 루프", "메모리 기반 Test-Time Learning", "고차 패턴 발견", "경험 재활용 vs 대화 회상의 구분", "RL 기반 메모리 관리"],
+              "prerequisites": ["2.5.2"],
+              "lab": null
+            },
+            {
+              "id": "2.5.4",
+              "section_id": "2.5",
+              "title": "메모리 아키텍처 메타 진화",
+              "order": 4,
+              "learning_objectives": ["메모리 아키텍처 자동 탐색의 개념을 설명하고, Bilevel 최적화(내부 루프/외부 루프)와 Diagnose-and-Design 진화 연산이 도메인 최적 메모리 구조를 발견하는 과정을 단계별로 기술할 수 있다."],
+              "learning_content": ["메모리 아키텍처 자동 탐색 개념", "Bilevel 최적화: 내부 루프(경험 진화) + 외부 루프(아키텍처 진화)", "Diagnose-and-Design 진화 연산", "메모리 설계의 코드 표현", "열린 탐색 루프", "Encode-Store-Retrieve-Manage 4모듈 설계 공간", "도메인별 최적 메모리 구조의 차이", "교차 모델 전이"],
+              "prerequisites": ["2.5.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.6",
+          "phase_id": "2",
+          "title": "다중 에이전트 메모리와 개인화",
+          "topics": [
+            {
+              "id": "2.6.1",
+              "section_id": "2.6",
+              "title": "다중 에이전트 메모리 공유와 분배",
+              "order": 1,
+              "learning_objectives": ["단일 에이전트 메모리를 MAS에 직접 이식할 때의 역효과를 설명하고, 역할 인식 개인화, Insight 공유, Meta Memory Manager 패턴 등 MAS 전용 메모리 설계의 원리를 기술할 수 있다."],
+              "learning_content": ["MAS의 메모리 규모 문제", "단일 에이전트 메모리의 MAS 이식 역효과", "역할 인식 메모리 개인화", "Insight 공유 계층", "Interaction 기록의 역할별 선택적 노출", "다중 에이전트 병렬 메모리 업데이트", "Meta Memory Manager 패턴", "조직 기억 이론"],
+              "prerequisites": ["2.5.1", "1.2.2"],
+              "lab": null
+            },
+            {
+              "id": "2.6.2",
+              "section_id": "2.6",
+              "title": "사용자 선호 모델링과 장기 개인화",
+              "order": 2,
+              "learning_objectives": ["다차원 사용자 선호 벡터와 SW-EMA 이중 시간 스케일 융합의 동작 원리를 설명하고, 선호 변화 감지와 선호 가이드 프롬프팅이 장기 개인화를 구현하는 메커니즘을 기술할 수 있다."],
+              "learning_content": ["다차원 사용자 선호 벡터", "Sliding Window 선호 추정", "Exponential Moving Average 선호 추정", "SW-EMA 이중 시간 스케일 융합", "선호 변화 감지 메커니즘", "선호 가이드 프롬프팅", "세션 간 개인화", "Knowledge Vault"],
+              "prerequisites": ["2.4.2", "2.5.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.7",
+          "phase_id": "2",
+          "title": "메모리 시스템 평가와 안전성",
+          "topics": [
+            {
+              "id": "2.7.1",
+              "section_id": "2.7",
+              "title": "메모리 평가 벤치마크",
+              "order": 1,
+              "learning_objectives": ["Accurate Retrieval, Test-Time Learning, Long-Range Understanding, Selective Forgetting 등 메모리 평가 핵심 역량을 구별하고, LoCoMo, MemoryAgentBench, Evo-Memory 등 주요 벤치마크의 평가 방식을 비교할 수 있다."],
+              "learning_content": ["메모리 평가 핵심 역량: AR, TTL, LRU, SF", "Multi-Hop Reasoning과 Temporal Reasoning", "LoCoMo 벤치마크", "MemoryAgentBench", "Evo-Memory Benchmark", "태스크 스트리밍 평가 방식", "F1, BLEU, GPT4Score 등 평가 지표"],
+              "prerequisites": ["2.5.3"],
+              "lab": null
+            },
+            {
+              "id": "2.7.2",
+              "section_id": "2.7",
+              "title": "메모리 프라이버시와 오류 전파",
+              "order": 2,
+              "learning_objectives": ["메모리 추출 공격의 메커니즘과 위협 모델을 설명하고, Experience-Following 속성에 의한 오류 전파 악순환과 메모리 노이즈 축적의 원리를 기술할 수 있다."],
+              "learning_content": ["메모리 추출 공격과 MEXTRA 프레임워크", "블랙박스 vs 화이트박스 위협 모델", "유사도 함수와 프라이버시 취약성", "Experience-Following 속성", "오류 전파 메커니즘", "메모리 노이즈 축적", "메모리 품질 vs 메모리 크기", "Brevity Bias"],
+              "prerequisites": ["2.7.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "도구 사용과 MCP",
+      "exit_capability": "이 Phase를 마치면 독자는 Function Calling의 구조와 패턴, 도구 학습 패러다임, 합성 데이터 생성 기법, MCP 프로토콜과 에이전트 간 통신 프로토콜의 아키텍처, 그리고 도구 사용의 보안 위협과 평가 체계를 체계적으로 설명할 수 있다.",
+      "sections": [
+        {
+          "id": "3.1",
+          "phase_id": "3",
+          "title": "도구 사용의 기초",
+          "topics": [
+            {
+              "id": "3.1.1",
+              "section_id": "3.1",
+              "title": "LLM의 한계와 도구의 필요성",
+              "order": 1,
+              "learning_objectives": ["LLM의 구조적 한계(산술, 최신 정보, 시간 인식)를 구체적으로 설명하고, API 환각 문제와 오픈소스-폐쇄형 모델 간 도구 사용 능력 격차를 기술할 수 있다."],
+              "learning_content": ["LLM의 구조적 한계: 산술, 최신 정보, 시간 인식", "외부 도구의 보완 역할", "API 환각(hallucination) 문제", "API 문서의 빈번한 변경과 적응", "폐쇄형-오픈소스 모델 간 도구 사용 격차", "실세계 태스크의 조합적 성격"],
+              "prerequisites": ["1.1.1"],
+              "lab": null
+            },
+            {
+              "id": "3.1.2",
+              "section_id": "3.1",
+              "title": "Function Calling의 기본 구조",
+              "order": 2,
+              "learning_objectives": ["API 호출의 기본 구조(함수명, 인자, 반환값)를 설명하고, 단일 턴 Function Calling에서 도구 사용 시점 결정과 입력 위치별 호출 삽입의 동작 방식을 기술할 수 있다."],
+              "learning_content": ["API 호출의 기본 구조: 함수명 + 인자 + 반환값", "단일 턴 Function Calling", "도구 사용 시점 결정(non-tool-use 판단 포함)", "입력 위치별 API 호출 삽입", "도구 체이닝 vs 단일 호출"],
+              "prerequisites": ["3.1.1"],
+              "lab": null
+            },
+            {
+              "id": "3.1.3",
+              "section_id": "3.1",
+              "title": "멀티턴과 복합 Function Calling 패턴",
+              "order": 3,
+              "learning_objectives": ["멀티턴 Function Calling에서 대화 맥락 유지 방식을 설명하고, 순차적, 병렬, 의존적 함수 호출과 중첩 파라미터 처리의 차이를 구별할 수 있다."],
+              "learning_content": ["멀티턴 Function Calling과 대화 맥락 유지", "순차적 함수 호출", "병렬 함수 호출", "의존적 함수 호출과 출력 의존성 그래프", "중첩 파라미터 처리", "원자 태스크와 조합 태스크의 구분"],
+              "prerequisites": ["3.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "phase_id": "3",
+          "title": "도구 학습과 데이터 합성",
+          "topics": [
+            {
+              "id": "3.2.1",
+              "section_id": "3.2",
+              "title": "자가 지도 도구 학습",
+              "order": 1,
+              "learning_objectives": ["Toolformer의 자가 지도 학습 방식에서 손실 기반 유용성 필터링이 인간 주석 없이 도구 호출 시점과 방법을 학습하는 메커니즘을 단계별로 설명할 수 있다."],
+              "learning_content": ["자가 지도 도구 학습 패러다임", "손실 기반 유용성 필터링: 도구 호출 전후 손실 차이", "Few-shot 데모 기반 API 호출 후보 샘플링", "범용 언어 모델 능력 보존", "인스트럭션 튜닝의 도구 사용 적용"],
+              "prerequisites": ["3.1.3"],
+              "lab": null
+            },
+            {
+              "id": "3.2.2",
+              "section_id": "3.2",
+              "title": "API 검색과 Retriever-Aware 학습",
+              "order": 2,
+              "learning_objectives": ["대규모 API 생태계에서의 API 검색 문제를 설명하고, Retriever-Aware Fine-tuning과 신경망 API 검색기의 작동 원리, 그리고 테스트 타임 문서 적응의 메커니즘을 기술할 수 있다."],
+              "learning_content": ["대규모 API 생태계의 규모 문제", "희소 검색(BM25)과 밀집 검색(GPT-Index)", "Oracle 검색과 성능 상한선", "Retriever-Aware Fine-tuning", "신경망 API 검색기", "검색기 품질이 핵심 병목인 이유", "테스트 타임 문서 적응", "API Context Tree"],
+              "prerequisites": ["3.2.1"],
+              "lab": null
+            },
+            {
+              "id": "3.2.3",
+              "section_id": "3.2",
+              "title": "합성 데이터 기반 도구 학습",
+              "order": 3,
+              "learning_objectives": ["Bottom-Up 지시 구성과 Top-Down 궤적 생성의 차이를 설명하고, 3-에이전트 시뮬레이션, 자기 진화 API 합성, 이중 검증 등 합성 데이터 생성과 품질 보증 기법을 기술할 수 있다."],
+              "learning_content": ["Bottom-Up 지시 구성: 원자 태스크에서 조합 태스크로", "Top-Down 궤적 생성", "3-에이전트 시뮬레이션: User, Assistant, Tool Agent", "일관성 기반 데이터 필터링", "자기 진화 API 합성", "모델 인식 복잡도 조절", "이중 검증: 규칙 기반 + 모델 기반", "대조적 추론 기반 프롬프트 최적화"],
+              "prerequisites": ["3.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "phase_id": "3",
+          "title": "도구 사용 추론과 평가",
+          "topics": [
+            {
+              "id": "3.3.1",
+              "section_id": "3.3",
+              "title": "도구 사용을 위한 추론 전략",
+              "order": 1,
+              "learning_objectives": ["ReAct 패턴, CoT, DFSDT 등 도구 사용을 위한 추론 전략을 비교하고, 백트래킹과 솔루션 경로 탐색이 선형 추론의 한계를 극복하는 방식을 설명할 수 있다."],
+              "learning_content": ["ReAct 패턴의 도구 사용 적용", "Chain-of-Thought와 도구 사용의 결합", "DFSDT: 선형 추론의 트리 탐색 확장", "백트래킹과 재탐색", "솔루션 경로의 개념", "프롬프트 자동 최적화", "긍정/부정 궤적 대조 분석"],
+              "prerequisites": ["3.1.3", "1.1.2"],
+              "lab": null
+            },
+            {
+              "id": "3.3.2",
+              "section_id": "3.3",
+              "title": "도구 사용 벤치마크와 신뢰성 평가",
+              "order": 2,
+              "learning_objectives": ["AST 서브트리 매칭, pass^k, 환각률 등 도구 사용 평가 지표를 구별하고, BFCL, APIBench, ToolBench, tau-bench 등 주요 벤치마크의 평가 초점과 도구-에이전트-사용자 3자 상호작용 평가의 의미를 설명할 수 있다."],
+              "learning_content": ["AST 서브트리 매칭", "환각률 vs 오류율 분리 측정", "Pass Rate과 Win Rate", "pass^k 신뢰성 메트릭", "BFCL 리더보드", "APIBench", "ToolBench/ToolEval", "tau-bench: 도구-에이전트-사용자 3자 상호작용", "정책 준수 동시 측정", "Zero-shot 일반화 평가"],
+              "prerequisites": ["3.3.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.4",
+          "phase_id": "3",
+          "title": "MCP와 에이전트 프로토콜",
+          "topics": [
+            {
+              "id": "3.4.1",
+              "section_id": "3.4",
+              "title": "MCP 아키텍처와 라이프사이클",
+              "order": 1,
+              "learning_objectives": ["MCP의 클라이언트-서버 아키텍처에서 호스트, 클라이언트, 서버의 역할을 구별하고, 설정-연결-실행-종료 4단계 라이프사이클과 Tools/Resources/Prompts 3가지 기본 기능을 설명할 수 있다."],
+              "learning_content": ["MCP의 기본 역할: AI 에이전트와 외부 도구/데이터 간 표준 인터페이스", "MCP 클라이언트-서버 아키텍처: 호스트, 클라이언트, 서버", "MCP 라이프사이클 4단계: 설정, 연결, 실행, 종료", "MCP의 3가지 기본 기능: Tools, Resources, Prompts", "컨텍스트 지향 프로토콜로서의 MCP"],
+              "prerequisites": ["3.1.3"],
+              "lab": null
+            },
+            {
+              "id": "3.4.2",
+              "section_id": "3.4",
+              "title": "에이전트 간 통신 프로토콜 비교",
+              "order": 2,
+              "learning_objectives": ["MCP, A2A, ACP, ANP 에이전트 통신 프로토콜의 설계 목표와 아키텍처를 비교하고, 프로토콜 상호운용성, 표준화 수준, 확장성의 트레이드오프를 설명할 수 있다."],
+              "learning_content": ["프로토콜의 2차원 분류: 컨텍스트 지향 vs 에이전트 간, 범용 vs 도메인 특화", "A2A(Agent-to-Agent, Google)", "ACP(Agent Communication Protocol, IBM/BeeAI)", "ANP(Agent Network Protocol): 탈중앙화 P2P", "프로토콜 상호운용성", "표준화 수준, 확장성, 지연의 트레이드오프"],
+              "prerequisites": ["3.4.1"],
+              "lab": null
+            },
+            {
+              "id": "3.4.3",
+              "section_id": "3.4",
+              "title": "도구 사용의 보안 위협과 방어",
+              "order": 3,
+              "learning_objectives": ["MCP 라이프사이클 단계별 16개 보안 위협을 분류하고, 프롬프트 인젝션, 도구 하이재킹, 서버 위장, 데이터 유출 등 주요 공격 벡터의 메커니즘과 단계별 방어 전략을 설명할 수 있다."],
+              "learning_content": ["프롬프트 인젝션", "도구 하이재킹", "MCP 서버 위장 공격", "데이터 유출", "4가지 공격자 유형", "라이프사이클 단계별 위협 매트릭스", "도구 실행 권한 모델", "라이프사이클 단계별 방어 전략"],
+              "prerequisites": ["3.4.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "계획 수립과 작업 분할",
+      "exit_capability": "이 Phase를 마치면 독자는 작업 분해 원칙, 계획 표현, 오케스트레이션 패턴, 워크플로우 자동 최적화, 그리고 진화적 에이전트 생성과 소프트웨어 엔지니어링 에이전트의 구조를 체계적으로 설명할 수 있다.",
+      "sections": [
+        {
+          "id": "4.1",
+          "phase_id": "4",
+          "title": "작업 분해와 계획 표현",
+          "topics": [
+            {
+              "id": "4.1.1",
+              "section_id": "4.1",
+              "title": "작업 분해의 원칙",
+              "order": 1,
+              "learning_objectives": ["Solvability, Completeness, Non-Redundancy 세 가지 분해 원칙을 설명하고, 능력-서브태스크 정합, 동시 분해-할당, 정적 분해 vs 동적 분해의 설계 선택지를 비교할 수 있다."],
+              "learning_content": ["Solvability 원칙", "Completeness 원칙", "Non-Redundancy 원칙", "능력-서브태스크 정합", "동시 분해-할당", "정적 분해 vs 동적 분해", "추상적 목표 분해", "입력 청킹", "태스크 카테고리화"],
+              "prerequisites": ["1.1.2", "1.2.1"],
+              "lab": null
+            },
+            {
+              "id": "4.1.2",
+              "section_id": "4.1",
+              "title": "계획 표현과 의존 그래프",
+              "order": 2,
+              "learning_objectives": ["의존 그래프(DAG), 코드 기반 워크플로우 표현, 계산 그래프 등 계획 표현 방식을 비교하고, 위상 정렬 기반 실행 순서 결정과 Communication Unit의 역할을 설명할 수 있다."],
+              "learning_content": ["의존 그래프(DAG)와 태스크 구조화 스키마", "리소스 참조 태그", "위상 정렬 기반 실행 순서", "코드 기반 워크플로우 표현", "계산 그래프로서의 에이전트 시스템", "Communication Unit", "태스크 상태 머신"],
+              "prerequisites": ["4.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "phase_id": "4",
+          "title": "오케스트레이션 패턴",
+          "topics": [
+            {
+              "id": "4.2.1",
+              "section_id": "4.2",
+              "title": "LLM-as-Controller와 계층적 오케스트레이션",
+              "order": 1,
+              "learning_objectives": ["LLM-as-Controller 패러다임과 Planner-Coordinator-Worker 3계층 구조의 동작 방식을 설명하고, 메타 에이전트 패턴, 공유 태스크 채널, 실행 컨텍스트 격리의 설계 원리를 기술할 수 있다."],
+              "learning_content": ["메타 에이전트 패턴", "LLM-as-Controller 패러다임", "Planner-Coordinator-Worker 3계층 구조", "공유 태스크 채널 통신", "플러그앤플레이 Worker 교체", "언어를 범용 인터페이스로 사용", "실행 컨텍스트 격리", "모델 카드 기반 모델 선택"],
+              "prerequisites": ["4.1.2", "1.2.3"],
+              "lab": null
+            },
+            {
+              "id": "4.2.2",
+              "section_id": "4.2",
+              "title": "순차 체인과 정보 축적 패턴",
+              "order": 2,
+              "learning_objectives": ["Worker-Manager 2계층 구조와 순차 체인 오케스트레이션의 동작 과정을 설명하고, 읽기-처리 인터리빙, 누적적 정보 전달, 태스크 적응형 CU 포맷의 설계 원리를 기술할 수 있다."],
+              "learning_content": ["Worker-Manager 2계층 구조", "순차 체인 오케스트레이션", "읽기-처리 인터리빙", "누적적 정보 전달", "lost-in-the-middle 문제의 완화", "오류 전파 위험", "태스크 적응형 CU 포맷", "Training-Free 다중 에이전트 협업"],
+              "prerequisites": ["4.2.1"],
+              "lab": null
+            },
+            {
+              "id": "4.2.3",
+              "section_id": "4.2",
+              "title": "에이전트-컴퓨터 인터페이스",
+              "order": 3,
+              "learning_objectives": ["ACI(Agent-Computer Interface) 개념을 설명하고, 에이전트 특화 명령어 세트, 구조화된 피드백 포맷, 파일 탐색-검색-편집 루프가 에이전트 성능에 미치는 영향을 기술할 수 있다."],
+              "learning_content": ["ACI(Agent-Computer Interface) 개념", "에이전트 특화 명령어 세트", "구조화된 피드백 포맷", "파일 탐색-검색-편집 루프", "웹 에이전트 탐색 인터페이스", "인터페이스 설계가 성능에 미치는 영향"],
+              "prerequisites": ["4.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.3",
+          "phase_id": "4",
+          "title": "워크플로우 최적화",
+          "topics": [
+            {
+              "id": "4.3.1",
+              "section_id": "4.3",
+              "title": "자동 워크플로우 탐색과 최적화",
+              "order": 1,
+              "learning_objectives": ["MCTS 기반 워크플로우 탐색, 오퍼레이터 패턴, 프롬프트-토폴로지 동시 최적화의 동작 원리를 설명하고, 보상 모델 기반 사전 평가와 재계획 메커니즘의 역할을 기술할 수 있다."],
+              "learning_content": ["MCTS 기반 워크플로우 탐색", "오퍼레이터 패턴: Ensemble, Review & Revise 등", "코드 수정을 통한 워크플로우 변이", "프롬프트-토폴로지 동시 최적화", "토폴로지 자동 탐색", "보상 모델 기반 사전 평가", "Representative Works 메커니즘", "재계획과 계획 상세화"],
+              "prerequisites": ["4.1.2", "4.2.1"],
+              "lab": null
+            },
+            {
+              "id": "4.3.2",
+              "section_id": "4.3",
+              "title": "RL 기반 에이전트 학습",
+              "order": 2,
+              "learning_objectives": ["GRPO 기반 Planner 학습과 자기 진화 온라인 커리큘럼 RL의 동작 과정을 설명하고, SFT에서 RL로 이어지는 2단계 학습 패턴과 Outcome-Supervised Reward Model의 역할을 기술할 수 있다."],
+              "learning_content": ["RL 기반 Planner 학습(GRPO)", "자기 진화 온라인 커리큘럼 RL", "Outcome-Supervised Reward Model", "SFT -> RL 2단계 학습 패턴", "계획-실행 분리 원칙", "도메인 전이", "피드백 루프"],
+              "prerequisites": ["4.3.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.4",
+          "phase_id": "4",
+          "title": "진화적 에이전트와 코드 에이전트",
+          "topics": [
+            {
+              "id": "4.4.1",
+              "section_id": "4.4",
+              "title": "진화적 다중 에이전트 생성",
+              "order": 1,
+              "learning_objectives": ["진화 알고리즘(돌연변이, 교차, 선택)을 통해 단일 에이전트에서 다중 에이전트 시스템을 자동 확장하는 과정을 설명하고, 에이전트 역할 다양성의 자동 증가와 에이전트 스웜의 자기 개선 메커니즘을 기술할 수 있다."],
+              "learning_content": ["진화적 MAS 자동 생성", "에이전트 돌연변이", "에이전트 교차", "성능 기반 선택", "에이전트 역할 다양성 자동 증가", "에이전트 수와 역할 자동 결정", "에이전트 스웜과 자기 개선"],
+              "prerequisites": ["4.3.1", "1.3.1"],
+              "lab": null
+            },
+            {
+              "id": "4.4.2",
+              "section_id": "4.4",
+              "title": "소프트웨어 엔지니어링 에이전트",
+              "order": 2,
+              "learning_objectives": ["에이전트가 GitHub 이슈를 자율적으로 해결하는 전 과정(코드베이스 네비게이션, 패치 생성, 검증)을 설명하고, ACI 설계가 코딩 에이전트 성능에 미치는 영향을 기술할 수 있다."],
+              "learning_content": ["자율적 GitHub 이슈 해결", "코드베이스 네비게이션", "패치 생성", "순차적 컨텍스트 축적", "워크플로우 기반 코드 생성 벤치마크 최적화", "ACI 설계의 코딩 에이전트 적용"],
+              "prerequisites": ["4.2.3", "4.3.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "자가 교정과 추론 시간 연산",
+      "exit_capability": "이 Phase를 마치면 독자는 Test-Time Compute의 분류와 스케일링 전략, 자기 교정의 근본적 한계와 이를 우회하는 RL/증류 기반 학습 방법, 검증 메커니즘과 보상 모델 설계, 멀티턴 Credit Assignment의 원리를 체계적으로 설명할 수 있다.",
+      "sections": [
+        {
+          "id": "5.1",
+          "phase_id": "5",
+          "title": "추론 시간 연산",
+          "topics": [
+            {
+              "id": "5.1.1",
+              "section_id": "5.1",
+              "title": "Test-Time Compute의 개념과 분류",
+              "order": 1,
+              "learning_objectives": ["Test-Time Compute의 정의를 System-1/System-2 사고 프레임워크로 설명하고, TTA(Test-Time Adaptation)와 TTR(Test-Time Reasoning)의 차이, Proposer-Verifier 프레임워크의 구조를 기술할 수 있다."],
+              "learning_content": ["Test-Time Compute의 개념", "System-1 vs System-2 사고", "Test-Time Adaptation(TTA)", "Test-Time Reasoning(TTR)", "Proposer-Verifier 프레임워크", "사전학습 연산 vs 추론 연산의 트레이드오프", "학습-추론 공동 설계 원칙"],
+              "prerequisites": ["1.1.2"],
+              "lab": null
+            },
+            {
+              "id": "5.1.2",
+              "section_id": "5.1",
+              "title": "TTC 스케일링 전략",
+              "order": 2,
+              "learning_objectives": ["Parallel Sampling(Best-of-N), Sequential Revision, Tree Search 세 가지 TTC 스케일링 전략을 비교하고, Compute-Optimal Scaling에서 프롬프트 난이도에 따른 전략 분기와 FLOPs 매칭 비교 방법론을 설명할 수 있다."],
+              "learning_content": ["Parallel Sampling(Best-of-N)", "Sequential Revision(반복 수정)", "Tree Search 기반 탐색: ToT, MCTS", "Compute-Optimal Scaling", "프롬프트 난이도 추정", "쉬운 문제 vs 어려운 문제별 최적 전략 분기", "FLOPs 매칭 비교", "pass@N 메트릭"],
+              "prerequisites": ["5.1.1"],
+              "lab": null
+            },
+            {
+              "id": "5.1.3",
+              "section_id": "5.1",
+              "title": "추론 길이 최적화와 CoT 과확장",
+              "order": 3,
+              "learning_objectives": ["CoT 과확장의 역효과를 실증적으로 설명하고, 추론 노력 제어, 최적 추론 경로 선택, TOPS 전략이 추론 길이를 자율 조절하는 메커니즘을 기술할 수 있다."],
+              "learning_content": ["Chain-of-Thought의 추론 시간 연산 역할", "CoT 과확장(Overthinking)의 역효과", "추론 노력 제어: Low/Medium/High", "최적 추론 경로 선택(Shortest Correct Path)", "Thinking-Optimal Scaling(TOPS)", "Self-Consistency(SC-CoT)", "오류 단계 포함 추론 경로의 이중적 효과"],
+              "prerequisites": ["5.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.2",
+          "phase_id": "5",
+          "title": "자기 교정",
+          "topics": [
+            {
+              "id": "5.2.1",
+              "section_id": "5.2",
+              "title": "자기 교정의 정의와 근본적 한계",
+              "order": 1,
+              "learning_objectives": ["내재적 자기 교정, 외부 피드백 기반 교정, 파인튜닝 기반 교정을 구분하고, 근본적 역설, 교정 방향성 비대칭, 오라클 의존 문제 등 자기 교정의 한계를 체계적으로 설명할 수 있다."],
+              "learning_content": ["자기 교정의 정의", "내재적 자기 교정 vs 외부 피드백 기반 교정 vs 파인튜닝 기반 교정", "S1/S2/S3 교정 분류 체계", "근본적 역설: 교정 능력과 초기 정확도의 모순", "교정 방향성 비대칭", "오라클 의존 문제", "불공정 비교 문제", "추론 LLM에서의 교정 포화"],
+              "prerequisites": ["5.1.3"],
+              "lab": null
+            },
+            {
+              "id": "5.2.2",
+              "section_id": "5.2",
+              "title": "RL 기반 자기 교정 학습",
+              "order": 2,
+              "learning_objectives": ["SCoRe의 2단계 멀티턴 RL과 S2R의 Outcome+Process RL 결합이 내재적 자기 교정을 달성하는 메커니즘을 설명하고, 행동 붕괴 문제와 보상 셰이핑의 역할을 기술할 수 있다."],
+              "learning_content": ["SCoRe: Self-Correction via Reinforcement Learning", "2단계 멀티턴 RL", "온 폴리시 교정 학습과 분포 불일치 해결", "보상 셰이핑과 자기 교정 진행도 보상", "행동 붕괴 문제", "S2R: Self-verify & Self-correct via RL", "행동 초기화(Behavior Initialization)", "Outcome-level RL과 Process-level RL", "GRPO와 PPO 알고리즘"],
+              "prerequisites": ["5.2.1"],
+              "lab": null
+            },
+            {
+              "id": "5.2.3",
+              "section_id": "5.2",
+              "title": "증류와 오류-수정 궤적 학습",
+              "order": 3,
+              "learning_objectives": ["사고 템플릿 증류와 교차 모델 DPO의 작동 원리를 설명하고, 오류-수정 trajectory 학습이 올바른 trajectory만 학습하는 것보다 에이전트 일반화에 유리한 이유를 기술할 수 있다."],
+              "learning_content": ["사고 템플릿 증류", "교차 모델 협력적 DPO", "오류-수정 Trajectory 학습", "오류 턴 Loss 마스킹", "AgentRefine: 합성 환경에서의 에이전트 일반화", "올바른 Trajectory 암기의 한계", "환경 피드백 기반 수정", "반복적 자기 개선 루프"],
+              "prerequisites": ["5.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.3",
+          "phase_id": "5",
+          "title": "검증과 보상",
+          "topics": [
+            {
+              "id": "5.3.1",
+              "section_id": "5.3",
+              "title": "검증 메커니즘과 보상 모델",
+              "order": 1,
+              "learning_objectives": ["ORM, PRM, GenRM, LLM-as-a-Judge, Verifiable Reward 등 검증 메커니즘의 차이를 비교하고, PRM 기반 트리 탐색과 자기 검증의 작동 원리를 설명할 수 있다."],
+              "learning_content": ["Outcome Reward Model(ORM)", "Process Reward Model(PRM)", "LLM-as-a-Judge", "Verifiable Reward", "자기 검증(Self-Verification)", "PRM 기반 트리 탐색", "생성형 검증(GenRM)", "교정 효율성 평가"],
+              "prerequisites": ["5.2.2"],
+              "lab": null
+            },
+            {
+              "id": "5.3.2",
+              "section_id": "5.3",
+              "title": "멀티턴 Credit Assignment",
+              "order": 2,
+              "learning_objectives": ["멀티턴 에이전트에서의 Credit Assignment 문제를 정의하고, Sparse Outcome Reward의 한계, Dense Intermediate Reward, 턴 수준 보상 설계, MT-GRPO와 MT-PPO 알고리즘의 동작 원리를 설명할 수 있다."],
+              "learning_content": ["Credit Assignment 문제", "Sparse Outcome Reward의 한계", "Dense Intermediate Reward", "턴 수준 보상 설계", "MT-GRPO: 턴별 advantage 분리 계산", "MT-PPO: GAE 기반 토큰 수준 advantage", "Generalized Advantage Estimation", "멀티턴 MDP 모델링"],
+              "prerequisites": ["5.3.1"],
+              "lab": null
+            },
+            {
+              "id": "5.3.3",
+              "section_id": "5.3",
+              "title": "학습 목표와 추론의 정렬",
+              "order": 3,
+              "learning_objectives": ["CE 손실과 pass@N의 비정렬 문제를 설명하고, 과신에 의한 탐색 저해와 DCO 손실 함수가 탐색-활용 트레이드오프를 최적화하는 메커니즘을 기술할 수 있다."],
+              "learning_content": ["Cross-Entropy 손실과 pass@N의 비정렬", "과신(Overconfidence)과 탐색 저해", "탐색-활용 트레이드오프의 이론적 관계", "DCO(Diversity-Encouraging Confidence-Limiting Objective)", "출력 다양성 장려", "학습 조기 중단과 TTC"],
+              "prerequisites": ["5.3.2", "5.1.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "에이전틱 RAG와 그래프 RAG",
+      "exit_capability": "이 Phase를 마치면 독자는 전통적 RAG의 한계, 지식 그래프 구축과 커뮤니티 탐지, 그래프 기반 검색과 멀티홉 추론, 하이브리드 RAG, 에이전틱 검색 오케스트레이션, 뇌과학 영감 아키텍처, 다중 관계 그래프 메모리의 원리를 체계적으로 설명할 수 있다.",
+      "sections": [
+        {
+          "id": "6.1",
+          "phase_id": "6",
+          "title": "RAG의 한계와 지식 그래프 구축",
+          "topics": [
+            {
+              "id": "6.1.1",
+              "section_id": "6.1",
+              "title": "전통적 RAG의 구조적 한계",
+              "order": 1,
+              "learning_objectives": ["벡터 유사도 기반 top-k 검색, 패시지 독립 인코딩, 단일 단계 검색의 구조적 한계를 설명하고, 글로벌 센스메이킹 쿼리 실패와 LLM 환각 문제를 기술할 수 있다."],
+              "learning_content": ["벡터 유사도 검색의 top-k 방식과 한계", "평면적 데이터 표현의 문제", "패시지 독립 인코딩의 한계", "글로벌 센스메이킹 쿼리 실패", "컨텍스트 윈도우 제한", "단일 단계 검색의 멀티홉 추론 실패", "LLM 환각 문제"],
+              "prerequisites": ["1.1.1"],
+              "lab": null
+            },
+            {
+              "id": "6.1.2",
+              "section_id": "6.1",
+              "title": "LLM 기반 지식 그래프 구축",
+              "order": 2,
+              "learning_objectives": ["LLM을 활용한 엔티티-관계 추출 파이프라인의 전체 과정을 설명하고, 중복 제거, 클레임 추출, 증분 업데이트 등 KG 품질 관리 기법을 기술할 수 있다."],
+              "learning_content": ["LLM 기반 엔티티-관계 추출 파이프라인", "트리플 표현: 헤드, 관계, 테일", "스키마리스 지식 그래프 구축", "중복 엔티티-관계 집계와 엣지 가중치", "LLM 프로파일링을 통한 중복 제거", "클레임 추출", "도메인 맞춤 few-shot 프롬프트", "증분 그래프 업데이트"],
+              "prerequisites": ["6.1.1"],
+              "lab": null
+            },
+            {
+              "id": "6.1.3",
+              "section_id": "6.1",
+              "title": "그래프 인덱싱과 커뮤니티 탐지",
+              "order": 3,
+              "learning_objectives": ["Leiden 알고리즘 기반 계층적 커뮤니티 탐지의 동작 과정을 설명하고, 커뮤니티별 LLM 요약 사전 생성과 키-값 구조 기반 그래프 저장의 설계 원리를 기술할 수 있다."],
+              "learning_content": ["Leiden 알고리즘을 이용한 계층적 커뮤니티 탐지", "재귀적 커뮤니티 분할", "커뮤니티별 LLM 요약 사전 생성", "상위 커뮤니티 요약의 재귀적 통합", "쿼리 독립적 인덱싱", "키-값 구조 기반 그래프 저장", "엔티티 노드의 허브 역할", "그래프와 벡터 표현의 결합 인덱싱"],
+              "prerequisites": ["6.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.2",
+          "phase_id": "6",
+          "title": "그래프 기반 검색과 추론",
+          "topics": [
+            {
+              "id": "6.2.1",
+              "section_id": "6.2",
+              "title": "그래프 기반 검색 전략",
+              "order": 1,
+              "learning_objectives": ["Map-Reduce 패턴, 이중 레벨 검색(Low-level/High-level), Personalized PageRank 기반 연상 검색의 동작 원리를 비교하고, 각 전략의 적합한 쿼리 유형을 설명할 수 있다."],
+              "learning_content": ["Map-Reduce 패턴: 병렬 부분 응답 후 통합", "이중 레벨 검색: Low-level과 High-level", "Personalized PageRank 기반 연상 검색", "시드 노드 식별과 확산 탐색", "서브그래프 검색과 연결 패시지 반환", "하이브리드 검색과 리랭커 정제", "RRF를 통한 벡터-키워드 검색 결합"],
+              "prerequisites": ["6.1.3"],
+              "lab": null
+            },
+            {
+              "id": "6.2.2",
+              "section_id": "6.2",
+              "title": "KG 위의 멀티홉 추론",
+              "order": 2,
+              "learning_objectives": ["LLM이 KG 위에서 능동적 탐색 에이전트로 동작하는 LLM x KG 패러다임을 설명하고, 반복적 빔 서치, 서브 목표 분해, 적응적 가이드, 반성 메커니즘의 동작 과정을 기술할 수 있다."],
+              "learning_content": ["LLM x KG 패러다임과 LLM + KG의 차이", "반복적 빔 서치로 추론 경로 탐색", "탐색 종료 판단", "추론 경로의 명시적 기록과 추적 가능성", "서브 목표 분해", "적응적 가이드", "메모리를 통한 이전 탐색 결과 활용", "반성을 통한 탐색 전략 수정", "Relation Check와 Sequence Judge", "토픽 엔티티 식별", "증거 체인 구축"],
+              "prerequisites": ["6.2.1"],
+              "lab": null
+            },
+            {
+              "id": "6.2.3",
+              "section_id": "6.2",
+              "title": "하이브리드 RAG 아키텍처",
+              "order": 3,
+              "learning_objectives": ["구조화 KG와 비구조화 벡터 DB를 병용하는 하이브리드 RAG의 설계 원리를 설명하고, KG 탐색과 문서 검색의 교대 수행, Graph Memory, IRCoT 결합 등의 구체적 메커니즘을 기술할 수 있다."],
+              "learning_content": ["하이브리드 지식 베이스: KG + 벡터 DB", "KG가 벡터 검색의 진입점 역할", "KG의 구조적 추론 방향과 문서의 세부 증거", "KG 탐색과 문서 검색의 교대 수행", "Graph Memory: 추론 트리플의 서브그래프 집계", "컨텍스트 윈도우 효율화", "IRCoT와 KG 검색의 결합", "검색 비용 비교"],
+              "prerequisites": ["6.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.3",
+          "phase_id": "6",
+          "title": "에이전틱 검색과 고급 아키텍처",
+          "topics": [
+            {
+              "id": "6.3.1",
+              "section_id": "6.3",
+              "title": "에이전틱 검색 오케스트레이션",
+              "order": 1,
+              "learning_objectives": ["멀티툴 오케스트레이션 에이전트의 쿼리 분해-도구 선택-반복 수행 과정을 설명하고, Cypher 쿼리 동적 생성, 서브 질문 재작성, 증거 수집-평가-후속 계획의 에이전틱 검색 패턴을 기술할 수 있다."],
+              "learning_content": ["멀티툴 오케스트레이션 에이전트", "Cypher 쿼리 동적 생성", "쿼리 분해와 서브 질문 재작성", "증거 수집-평가-후속 계획의 반복적 탐구", "ReAct 패턴의 RAG 적용", "Working Memory: 관찰 이력 + 검색된 메모리 통합", "서브골 생성-업데이트 기반 계획", "매 관찰마다 그래프 업데이트"],
+              "prerequisites": ["6.2.3", "1.1.2"],
+              "lab": null
+            },
+            {
+              "id": "6.3.2",
+              "section_id": "6.3",
+              "title": "뇌과학 영감의 RAG 아키텍처",
+              "order": 2,
+              "learning_objectives": ["해마 인덱싱 이론이 RAG에 적용되는 원리를 설명하고, 신피질-해마 역할 분담, 연상 기억, PPR 기반 단일 단계 멀티홉 검색의 동작 메커니즘을 기술할 수 있다."],
+              "learning_content": ["해마 인덱싱 이론", "신피질의 기억 저장 역할", "해마의 연관 인덱스 유지 역할", "연상 기억과 연상 검색", "시맨틱 유사도 검색과의 차이", "의미 기억과 에피소드 기억의 구분", "장기 기억 시스템으로서의 KG", "단일 단계 멀티홉 검색"],
+              "prerequisites": ["6.3.1", "2.1.3"],
+              "lab": null
+            },
+            {
+              "id": "6.3.3",
+              "section_id": "6.3",
+              "title": "다중 관계 그래프 메모리",
+              "order": 3,
+              "learning_objectives": ["시맨틱, 시간, 인과, 엔티티 4개 직교 관계 그래프의 설계 이유와 구조를 설명하고, 이중 스트림 메모리 진화(Fast Path/Slow Path)와 의도 기반 검색 정책의 동작 과정을 기술할 수 있다."],
+              "learning_content": ["4개 직교 관계 그래프: 시맨틱, 시간, 인과, 엔티티", "시간 그래프: 타임스탬프 기반 불변 시간 체인", "인과 그래프: LLM 추론으로 인과 관계 추출", "이중 스트림 메모리 진화: Fast Path와 Slow Path", "Fast Path: LLM 호출 없이 즉시 업데이트", "Slow Path: 비동기 워커의 인과-엔티티 링크 추론", "의도 기반 검색 정책: WHY, WHEN, ENTITY", "위상 정렬 기반 서브그래프 선형화", "Mechanistic Dependency"],
+              "prerequisites": ["6.3.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
