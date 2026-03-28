@@ -11,8 +11,8 @@ allowed-tools: Read, Glob, Grep
 
 ### 1단계: 현재 상태 파악
 
-1. `교재/` 하위에서 curriculum.json을 찾아 로드한다.
-2. `교재/{책이름}/wikidocs/pages/` 디렉토리를 스캔하여 기존 토픽 파일 목록을 수집한다.
+1. `02_Books/` 하위에서 curriculum.json을 찾아 로드한다.
+2. `02_Books/{책이름}/wikidocs/pages/` 디렉토리를 스캔하여 기존 토픽 파일 목록을 수집한다.
    - 파일명 `{pp}-{ss}-{tt}-` 패턴에서 토픽 ID를 추출하여 작성 완료된 토픽 ID 목록을 만든다.
    - pp → phase, ss → section 두 번째 숫자, tt → topic 세 번째 숫자.
 

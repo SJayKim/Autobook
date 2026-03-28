@@ -19,6 +19,13 @@ prompt에 다음 정보가 포함된다:
 
 ## 프로세스
 
+### 0. 사전 수집 자료 확인
+
+`01_Research/` 하위에 관련 주제의 synthesis/ 파일이 있으면 먼저 읽어 온톨로지 조사를 대체한다:
+- `01_Research/{관련 디렉토리}/synthesis/topic_overview.md` — 주제 전체 구조 파악
+- `01_Research/{관련 디렉토리}/synthesis/keyword_findings.md` — 키워드별 발견 사항
+- 사전 수집 자료가 충분하면 웹 조사 범위를 공백 영역에 집중한다.
+
 ### 1. 웹 조사
 
 WebSearch와 WebFetch로 공식 문서, 스펙, 신뢰할 수 있는 자료를 조사한다:

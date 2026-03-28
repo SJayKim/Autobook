@@ -36,6 +36,7 @@ prompt에 다음 정보가 포함된다:
 **항목 2: learning_content 커버리지**
 - curriculum.json의 learning_content 각 항목(키워드)이 본문에 존재하는가?
 - Grep으로 각 키워드를 본문에서 검색. 전 항목이 반영되어야 PASS.
+- 키워드가 단순 언급(1회, 나열 속)에 그치면 FAIL. 해당 키워드 전후 2문단 이내에 설명적 서술(배경, 정의, 메커니즘 중 하나 이상)이 있어야 PASS.
 
 **항목 3: learning_objectives 검증 가능**
 - 각 목표 문장의 핵심 동사/개념이 본문에 존재하는가?

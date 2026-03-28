@@ -44,10 +44,18 @@ prompt에 다음 정보가 포함된다:
 
 ### 5. 검색 전략 수립
 
-각 키워드별로 추천 검색 쿼리를 작성한다:
+각 키워드별로 **웹 검색 쿼리**와 **논문 검색 쿼리**를 별도로 작성한다:
+
+**웹 검색 쿼리 (`search_queries`):**
 - 원본 키워드 + 핵심 수식어 조합
 - variants 활용 쿼리
 - 한글/영문 병행 쿼리
+
+**논문 검색 쿼리 (`paper_queries`):**
+- `"site:arxiv.org {키워드} {관련 학술 용어}"` 형태
+- `"{키워드} paper survey"` — 서베이 논문 우선 탐색
+- `"{키워드} {연도} benchmark"` — 최신 벤치마크 논문
+- 해당 키워드의 학술적 표현 활용 (예: "agent memory" → "memory-augmented LLM")
 
 URL 입력이 있으면 해당 사이트 중심 크롤 전략도 포함한다.
 
@@ -77,6 +85,10 @@ URL 입력이 있으면 해당 사이트 중심 크롤 전략도 포함한다.
       "search_queries": [
         "agent memory architecture",
         "LLM memory module design"
+      ],
+      "paper_queries": [
+        "site:arxiv.org memory-augmented LLM agent",
+        "agent memory survey paper 2024"
       ],
       "cluster": "memory_core",
       "status": "uncovered",

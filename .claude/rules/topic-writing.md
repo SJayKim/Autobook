@@ -1,6 +1,6 @@
 ---
 description: 교재 단원 파일(.md)을 편집할 때 자동 로드
-globs: "교재/**/*.md"
+globs: "02_Books/**/*.md"
 ---
 
 # 단원 파일 편집 리마인더
@@ -32,7 +32,7 @@ globs: "교재/**/*.md"
    - 번역 투("~에 의해", "~것이 가능하다"), 명사화 남용("처리를 수행") 지양
    - 장문(80자 초과) 지양, 의식적으로 분리
 
-5. **파일 경로**: `교재/{책이름}/wikidocs/pages/{pp}-{ss}-{tt}-{토픽}.md`
+5. **파일 경로**: `02_Books/{책이름}/wikidocs/pages/{pp}-{ss}-{tt}-{토픽}.md`
    - pp = phase id를 2자리 zero-pad (예: "1" → "01")
    - ss = section id의 두 번째 숫자를 2자리 zero-pad (예: "1.2" → "02")
    - tt = topic id의 세 번째 숫자를 2자리 zero-pad (예: "1.2.3" → "03")

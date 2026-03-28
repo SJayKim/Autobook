@@ -19,9 +19,9 @@ if [ -n "$CLAUDE_AGENT_NAME" ]; then
 fi
 
 # 3. orchestrator 전용: 현재 autobook 루프 상태 복원
-CURRICULUM=$(find 교재/ -maxdepth 2 -name "curriculum.json" 2>/dev/null | head -1)
+CURRICULUM=$(find 02_Books/ -maxdepth 2 -name "curriculum.json" 2>/dev/null | head -1)
 if [ -n "$CURRICULUM" ]; then
-  BOOK_NAME=$(echo "$CURRICULUM" | sed 's|교재/||;s|/curriculum.json||')
+  BOOK_NAME=$(echo "$CURRICULUM" | sed 's|02_Books/||;s|/curriculum.json||')
   echo ""
   echo "=== AutoBook 루프 상태 ==="
   echo "책이름: $BOOK_NAME"
@@ -32,7 +32,7 @@ if [ -n "$CURRICULUM" ]; then
   echo "브랜치: $BRANCH"
 
   # 완료/전체 토픽 수
-  PAGES_DIR="교재/${BOOK_NAME}/wikidocs/pages"
+  PAGES_DIR="02_Books/${BOOK_NAME}/wikidocs/pages"
   if [ -d "$PAGES_DIR" ]; then
     DONE=$(find "$PAGES_DIR" -name "[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.md" 2>/dev/null | wc -l)
     echo "작성 완료 토픽: ${DONE}개"

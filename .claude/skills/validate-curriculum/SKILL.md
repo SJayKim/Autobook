@@ -7,7 +7,7 @@ allowed-tools: Read, Glob, Grep, Bash
 
 # 커리큘럼 검증
 
-대상: **$ARGUMENTS** (비어있으면 `교재/*/curriculum.json`을 자동 탐지)
+대상: **$ARGUMENTS** (비어있으면 `02_Books/*/curriculum.json`을 자동 탐지)
 
 ## 검증 절차
 

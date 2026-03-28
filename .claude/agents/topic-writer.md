@@ -79,6 +79,19 @@ prompt에 다음 정보가 포함된다:
 - **WebSearch/WebFetch 사용 금지** — 추가 리서치를 차단하여 context 오염 방지. 모든 자료는 findings에 이미 있어야 한다.
 - findings에 없는 내용을 추측으로 작성하지 않는다.
 
+## findings 부족 프로토콜
+
+learning_content 키워드 중 findings에서 충분한 정보를 찾을 수 없는 항목이 있으면:
+
+1. 해당 키워드를 본문에서 최소한으로 언급하되, 심층 설명은 생략한다.
+2. 파일 최하단에 아래 마커를 남긴다:
+   ```
+   <!-- INCOMPLETE: {누락 키워드1}, {누락 키워드2} -->
+   ```
+3. 반환 메시지를 "Wrote {경로} (INCOMPLETE: {누락 키워드})"로 변경한다.
+
+orchestrator는 INCOMPLETE를 감지하면 누락 키워드에 대해 researcher를 재호출하고, 보강된 findings로 reviser를 호출하여 해당 부분만 보완한다.
+
 ## 완료 전 자가 점검
 
 파일을 저장하기 전에 다음을 확인한다:

@@ -11,12 +11,14 @@ allowed-tools: Read, Glob, Grep
 
 ### 1단계: 데이터 수집
 
-1. `교재/` 하위에서 curriculum.json을 찾아 로드한다.
+1. `02_Books/` 하위에서 curriculum.json을 찾아 로드한다.
    - 여러 개 있으면 목록을 보여주고 사용자에게 선택 요청.
    - 없으면 "커리큘럼이 아직 없습니다. `/curriculum {책이름}`으로 시작하세요." 안내.
 2. curriculum.json에서 전체 Phase/섹션/토픽 구조를 파싱한다.
-3. `교재/{책이름}/wikidocs/pages/` 디렉토리를 스캔하여 존재하는 토픽 .md 파일을 수집한다.
+3. `02_Books/{책이름}/wikidocs/pages/` 디렉토리를 스캔하여 존재하는 토픽 .md 파일을 수집한다.
 4. 파일명의 `{pp}-{ss}-{tt}-` 접두사에서 토픽 ID를 파싱한다 (pp → phase, ss → section 두 번째 숫자, tt → topic 세 번째 숫자). 커리큘럼 토픽 ID와 매칭한다.
+5. `02_Books/{책이름}/results.tsv`가 존재하면 파싱한다.
+   - 토픽별 최종 점수, 시도 횟수, 상태(pass/revise/fail/skip) 매핑
 
 ### 2단계: 통계 계산
 
@@ -51,6 +53,16 @@ allowed-tools: Read, Glob, Grep
 | 0.1 | [제목] | [N] | [M] | 완료/진행중/미시작 |
 | ... | ... | ... | ... | ... |
 ```
+
+### 품질 통계 (autobook 실행 시)
+
+results.tsv가 존재하면 아래를 추가 표시한다:
+
+- 평균 점수: {avg}/10
+- 1회 통과: {N}개 ({%}%)
+- 수정 후 통과: {N}개 ({%}%)
+- skip: {N}개 ({%}%)
+- 재작성 후보 (8점 이하): {토픽 목록}
 
 ### 4단계: 이상 감지
 

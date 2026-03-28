@@ -10,11 +10,14 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 
 대상 토픽: **$ARGUMENTS** (비어있으면 다음 미작성 토픽을 자동 감지)
 
+> 이 스킬은 **수동 모드**로 동작한다. Rules/5 "사람-AI 협업 절차"를 그대로 따른다.
+> 사용자가 이해 완료를 확인할 때까지 다음 토픽으로 넘어가지 않는다.
+
 ## 절차
 
 ### 1단계: 대상 토픽 확정
 
-1. `교재/` 하위에서 curriculum.json을 찾는다.
+1. `02_Books/` 하위에서 curriculum.json을 찾는다.
 2. `$ARGUMENTS`가 토픽 ID(예: `1.2.3`)이면 해당 토픽을 선택.
 3. `$ARGUMENTS`가 비어있으면: `wikidocs/pages/`에서 `{pp}-{ss}-{tt}-*.md` 패턴으로 기존 토픽 파일들을 스캔하여 순서상 첫 미작성 토픽을 선택.
 4. 해당 토픽의 `learning_objectives`, `learning_content`, `prerequisites`, `lab`을 읽는다.
@@ -22,7 +25,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 6. 토픽 메타데이터를 추출한다:
    - 선수 토픽 .md 파일 경로 목록 (`wikidocs/pages/{pp}-{ss}-{tt}-*.md`)
    - 다음 토픽 정보 (ID, 제목)
-   - 출력 파일 경로: `교재/{책이름}/wikidocs/pages/{pp}-{ss}-{tt}-{토픽제목}.md`
+   - 출력 파일 경로: `02_Books/{책이름}/wikidocs/pages/{pp}-{ss}-{tt}-{토픽제목}.md`
    - 책이름
 
 ### 2단계: 조사 — Agent "topic-researcher" 호출
@@ -39,7 +42,7 @@ learning_objectives: {objectives 배열}
 prerequisites: {prereq IDs}
 
 자료 기지: 01_Research/
-출력 경로: 교재/{책이름}/._research/{a.b.c}_findings.md
+출력 경로: 02_Books/{책이름}/._research/{a.b.c}_findings.md
 
 위 출력 경로에 findings 파일을 작성하라.
 ```
@@ -53,8 +56,8 @@ Agent 도구로 `topic-writer` agent를 호출한다.
 토픽 {a.b.c} "{title}" 단원을 작성하라.
 
 책이름: {책이름}
-findings 경로: 교재/{책이름}/._research/{a.b.c}_findings.md
-출력 경로: 교재/{책이름}/wikidocs/pages/{pp}-{ss}-{tt}-{토픽제목}.md
+findings 경로: 02_Books/{책이름}/._research/{a.b.c}_findings.md
+출력 경로: 02_Books/{책이름}/wikidocs/pages/{pp}-{ss}-{tt}-{토픽제목}.md
 
 curriculum 메타데이터:
 - learning_objectives: {objectives}
@@ -69,6 +72,20 @@ curriculum 메타데이터:
 반드시 Rules/3, Rules/4를 읽고 준수하라.
 ```
 
+### 3.5단계: INCOMPLETE 감지
+
+WRITE 결과에서 "INCOMPLETE"를 감지한다.
+
+INCOMPLETE이면:
+1. 누락 키워드를 파싱한다.
+2. topic-researcher를 해당 키워드 한정으로 재호출한다.
+   prompt에 "보강 조사: {누락 키워드만}"을 명시한다.
+3. 보강 findings를 기존 findings에 append한다.
+4. topic-reviser를 호출하여 INCOMPLETE 부분만 보완한다.
+5. INCOMPLETE 마커를 제거한다.
+
+INCOMPLETE가 아니면 4단계로 진행한다.
+
 ### 4단계: 자동 평가 — Agent "topic-evaluator" 호출
 
 Agent 도구로 `topic-evaluator` agent를 호출한다. Fresh context에서 평가.
@@ -78,7 +95,7 @@ Agent 도구로 `topic-evaluator` agent를 호출한다. Fresh context에서 평
 토픽 {a.b.c} "{title}" 단원을 10점 기준으로 평가하라.
 
 파일 경로: {출력 경로}
-curriculum.json 경로: 교재/{책이름}/curriculum.json
+curriculum.json 경로: 02_Books/{책이름}/curriculum.json
 
 해당 토픽의 curriculum 메타데이터:
 - learning_objectives: {objectives}
@@ -107,17 +124,35 @@ DETAILS:
 > {FAIL 항목이 있으면 FAIL 목록과 사유 표시}
 
 **사용자가 이해 완료를 확인할 때까지 다음 토픽으로 넘어가지 않는다.**
-피드백이 있으면 Agent "topic-reviser"를 호출하여 targeted edit으로 수정한다 (추측으로 문장만 덧붙이지 않음).
+
+피드백이 있으면 Agent "topic-reviser"를 호출하여 targeted edit으로 수정한다.
+
+**reviser prompt:**
+```
+토픽 {a.b.c} "{title}" 단원을 수정하라.
+
+파일 경로: {출력 경로}
+findings 경로: 02_Books/{책이름}/._research/{a.b.c}_findings.md
+
+사용자 피드백:
+{피드백 내용}
+
+curriculum 메타데이터:
+- learning_objectives: {objectives}
+- learning_content: {keywords}
+
+피드백 내용을 반영하여 targeted edit으로 수정하라.
+```
 
 ### 5.5단계: TOC 갱신
 
-`교재/{책이름}/wikidocs/TOC.md`를 curriculum.json 기반으로 재생성한다.
+`02_Books/{책이름}/wikidocs/TOC.md`를 curriculum.json 기반으로 재생성한다.
 - 존재하는 페이지만 링크로 연결한다.
 - 미작성 토픽은 제목만 표시한다 (링크 없음).
 
 ### 6단계: 정리
 
-findings 파일을 삭제한다:
+**5단계의 모든 수정이 완료된 후에만** findings 파일을 삭제한다:
 ```
-rm 교재/{책이름}/._research/{a.b.c}_findings.md
+rm 02_Books/{책이름}/._research/{a.b.c}_findings.md
 ```

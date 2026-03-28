@@ -1,6 +1,6 @@
 ---
 name: autoresearch
-description: 자연어 입력(주제, URL, 키워드)을 받아 웹 자료를 자동 수집하고, 01_Research/{topic}/ 에 토픽별로 정리하여 저장한다.
+description: 자연어 입력(주제, URL, 키워드)을 받아 웹+논문 자료를 자동 수집하고, 01_Research/{topic}/ 에 토픽별로 정리하여 저장한다.
 user-invocable: true
 disable-model-invocation: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
@@ -10,8 +10,20 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 
 입력: **$ARGUMENTS**
 
-> 이 스킬은 thin orchestrator로서, 키워드 확장·웹 수집·종합 분석을 각각 격리된 subagent에 위임한다.
+> 이 스킬은 thin orchestrator로서, 키워드 확장·웹 수집·논문 수집·종합 분석을 각각 격리된 subagent에 위임한다.
 > context 오염을 방지하여 대량 소스 수집이 가능하다.
+
+---
+
+## ⚠️ Agent 호출 규칙
+
+**반드시 전용 agent를 사용한다. `topic-researcher` 등 다른 agent로 대체하지 않는다.**
+
+| Phase | Agent 도구 호출 시 `subagent_type` | 모델 |
+|-------|-------------------------------------|------|
+| Phase 1 | `research-planner` | sonnet |
+| Phase 2 | `web-collector` | sonnet |
+| Phase 3 | `source-synthesizer` | sonnet |
 
 ---
 
@@ -102,6 +114,8 @@ AutoResearch 시작
 
 Agent 도구로 `research-planner` agent를 호출한다.
 
+> **`subagent_type: "research-planner"`** — 다른 agent를 사용하지 않는다.
+
 **prompt:**
 ```
 "{주제}" 주제에 대한 키워드 맵과 검색 전략을 수립하라.
@@ -124,6 +138,10 @@ config.json의 keywords.seed/expanded를 업데이트하라.
 
 ## Phase 2: COLLECT — Agent "web-collector" 반복 호출
 
+> **`subagent_type: "web-collector"`** — 다른 agent를 사용하지 않는다.
+
+이 Phase에서는 **웹 자료와 논문 자료를 모두 수집**한다. web-collector agent가 두 가지를 병행 처리한다.
+
 ### 수집 루프
 
 ```
@@ -144,10 +162,10 @@ WHILE NOT stop_condition:
 ### web-collector 호출 prompt
 
 ```
-클러스터 "{cluster_name}" ({cluster_id})의 웹 자료를 수집하라.
+클러스터 "{cluster_name}" ({cluster_id})의 웹+논문 자료를 수집하라.
 
 대상 키워드:
-{keyword별 primary + variants + search_queries 목록}
+{keyword별 primary + variants + search_queries + paper_queries 목록}
 
 직접 수집 URL: {있으면 목록, 없으면 "없음"}
 출력 디렉토리: 01_Research/{topic_name}/
@@ -155,6 +173,8 @@ WHILE NOT stop_condition:
 
 sources/{NNN}_{name}.md 형식으로 저장하라.
 _meta/progress.tsv에 로그를 추가하라.
+
+웹 자료와 논문 자료를 모두 수집하라.
 ```
 
 ### Stop 조건
@@ -168,7 +188,7 @@ _meta/progress.tsv에 로그를 추가하라.
 ### 중간 상태 출력
 
 ```
-수집 진행: {N}개 소스, 커버리지 {X}%, 남은 클러스터 {M}개
+수집 진행: {N}개 소스 (웹 {W}개 / 논문 {P}개), 커버리지 {X}%, 남은 클러스터 {M}개
 ```
 
 ---
@@ -177,13 +197,18 @@ _meta/progress.tsv에 로그를 추가하라.
 
 Agent 도구로 `source-synthesizer` agent를 호출한다.
 
+> **`subagent_type: "source-synthesizer"`** — 다른 agent를 사용하지 않는다.
+
 **prompt:**
 ```
 "{주제}" 주제의 수집 자료를 종합 분석하라.
 
 출력 디렉토리: 01_Research/{topic_name}/
 
-sources/ 하위의 모든 소스를 읽고:
+소스가 50개를 초과하면 클러스터별 중간 종합(Phase A)을 먼저 수행한 뒤 최종 종합(Phase B)을 작성하라.
+소스가 50개 이하이면 바로 최종 종합을 작성하라.
+
+출력물:
 1. keyword_findings.md — 키워드별 발견 사항
 2. topic_overview.md — 전체 주제 종합 요약 + 교재 챕터 구조 제안
 3. gap_analysis.md — 미충족 영역 분석
@@ -200,6 +225,7 @@ config.json status를 "completed"로 업데이트하라.
 수집 결과 요약:
   주제: {topic}
   소스: {total_sources}개 수집 / {valid_sources}개 유효
+    웹: {web_count}개, 논문: {paper_count}개
   키워드 커버리지: {coverage}%
   미충족 영역: {uncovered keywords 리스트}
 
@@ -219,6 +245,8 @@ config.json status를 "completed"로 업데이트하라.
 
 1. **Orchestrator는 메타데이터만 관리**: config.json, keyword_map.json만 읽고 쓴다. 소스 본문은 subagent가 처리.
 2. **Context 격리**: 무거운 본문 처리는 전부 subagent에 위임. agent 간 데이터 교환은 파일 시스템 경유.
-3. **Resume 지원**: 중단 후 재실행 시 미수집 키워드부터 이어서 수집.
-4. **Fallback**: firecrawl 실패 시 WebSearch/WebFetch로 대체.
-5. **품질 기준**: 소스당 500자 이상, 키워드 커버리지 80% 이상.
+3. **전용 Agent 사용**: 반드시 `research-planner`, `web-collector`, `source-synthesizer`를 subagent_type으로 지정한다.
+4. **웹+논문 병행 수집**: web-collector가 공식 문서/블로그와 학술 논문을 모두 수집한다.
+5. **Resume 지원**: 중단 후 재실행 시 미수집 키워드부터 이어서 수집.
+6. **Fallback**: firecrawl 실패 시 WebSearch/WebFetch로 대체.
+7. **품질 기준**: 소스당 500자 이상, 키워드 커버리지 80% 이상.
