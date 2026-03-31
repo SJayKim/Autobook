@@ -4,6 +4,7 @@ description: 수집된 소스를 종합하여 키워드별 발견 사항, 주제
 model: opus
 color: magenta
 allowed-tools: Read, Write, Glob, Grep
+maxTurns: 20
 ---
 
 # Source Synthesizer

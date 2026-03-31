@@ -4,6 +4,7 @@ description: 커리큘럼 생성을 위한 웹 리서치를 격리 수행하여 
 model: sonnet
 color: cyan
 allowed-tools: Read, WebSearch, WebFetch, Bash, Write
+maxTurns: 20
 ---
 
 # Curriculum Researcher

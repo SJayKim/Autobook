@@ -4,6 +4,7 @@ description: evaluator의 FAIL 항목만 targeted edit으로 수정한다.
 model: opus
 color: magenta
 allowed-tools: Read, Edit, Grep, Glob
+maxTurns: 10
 ---
 
 # Topic Reviser
