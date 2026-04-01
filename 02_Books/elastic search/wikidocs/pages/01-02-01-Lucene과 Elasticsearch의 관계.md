@@ -4,7 +4,11 @@
 
 **Apache Lucene**은 Java로 작성된 오픈소스 전문 검색(full-text search) 라이브러리입니다. 여기서 '라이브러리'라는 점이 중요합니다. Lucene은 독립적으로 실행할 수 있는 서버가 아닙니다. 다른 애플리케이션이 Lucene의 Java 클래스를 호출해야 비로소 검색 기능이 작동합니다. 다시 말해, Lucene은 검색 엔진 그 자체가 아니라 검색 기능을 만들기 위한 부품 상자에 해당합니다.
 
-이 부품 상자 안에는 검색에 필요한 핵심 기능이 모두 들어 있습니다. 1.1.1에서 책 뒤의 찾아보기에 비유했던 **역색인**(Inverted Index)이 대표적입니다. 역색인은 단어를 키로, 그 단어가 등장하는 문서 ID 목록을 값으로 저장하는 자료구조입니다. Lucene의 역색인은 내부적으로 두 가지 핵심 구성 요소로 나뉩니다. 첫째는 **Term Dictionary**로, 인덱싱된 모든 고유 단어를 정렬하여 보관합니다. 이때 FST(Finite State Transducer)라는 자료구조를 사용해 메모리를 절약하면서도 빠른 조회를 가능하게 합니다. 둘째는 **Posting List**로, 각 단어에 대해 그 단어가 등장하는 문서 ID, 등장 횟수(Term Frequency), 위치 정보, 오프셋 등을 기록합니다. Posting List는 델타 인코딩(delta encoding)으로 압축하여 디스크와 메모리 사용량을 줄이고, 스킵 리스트(skip list)를 활용하여 여러 Posting List 간의 교집합과 합집합 연산을 빠르게 처리합니다.
+이 부품 상자 안에는 검색에 필요한 핵심 기능이 모두 들어 있습니다. 1.1.1에서 책 뒤의 찾아보기에 비유했던 **역색인**(Inverted Index)이 대표적입니다. 역색인은 단어를 키로, 그 단어가 등장하는 문서 ID 목록을 값으로 저장하는 자료구조입니다.
+
+Lucene의 역색인은 내부적으로 두 가지 핵심 구성 요소로 나뉩니다. 첫째는 **Term Dictionary**입니다. 인덱싱된 모든 고유 단어를 정렬하여 보관하며, FST(Finite State Transducer)라는 자료구조를 사용해 메모리를 절약하면서도 빠른 조회를 가능하게 합니다.
+
+둘째는 **Posting List**입니다. 각 단어에 대해 그 단어가 등장하는 문서 ID, 등장 횟수(Term Frequency), 위치 정보, 오프셋 등을 기록합니다. Posting List는 델타 인코딩(delta encoding)으로 압축하여 디스크와 메모리 사용량을 줄이고, 스킵 리스트(skip list)를 활용하여 여러 Posting List 간의 교집합과 합집합 연산을 빠르게 처리합니다.
 
 역색인 외에도 Lucene은 **쿼리 파서**(Query Parser)를 제공합니다. 사용자가 입력한 텍스트 형태의 검색어를 분석하여 내부 Query 객체로 변환하는 역할입니다. 예를 들어 "무선 키보드"라는 검색어가 들어오면, Lucene의 쿼리 파서는 이를 TermQuery나 BooleanQuery 같은 내부 객체로 바꿉니다. Elasticsearch의 Query DSL은 이 과정을 JSON 형태의 API로 감싼 것입니다. 즉 사용자가 JSON으로 작성한 쿼리는 최종적으로 Lucene의 Query 객체로 변환되어 실행됩니다.
 
