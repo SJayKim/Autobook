@@ -1,0 +1,11 @@
+topic	score	attempt	status	issues
+1.1.1	9/10	1	revise	마지막 줄 objectives 중복 제거
+1.1.2	9/10	1	revise	green/yellow/red 용어 문단 분리
+1.1.3	10/10	1	pass	-
+1.2.1	9/10	1	revise	역색인/Term Dict/Posting List 문단 분리
+1.2.2	10/10	1	pass	-
+1.2.3	10/10	1	pass	-
+1.2.4	10/10	1	pass	-
+1.3.1	10/10	1	pass	-
+1.3.2	10/10	1	pass	-
+1.3.3	9/10	1	revise	중복 objectives 문장 제거
