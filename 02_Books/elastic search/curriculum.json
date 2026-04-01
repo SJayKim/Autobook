@@ -1,0 +1,2282 @@
+{
+  "schema_version": "1.0.0",
+  "curriculum_id": "elasticsearch",
+  "title": "Elasticsearch 완벽 가이드",
+  "locale": "ko-KR",
+  "numbering": { "phase_base": 1 },
+  "prerequisite_shorthand": "none",
+  "prerequisite_ordering": { "mode": "id_numeric_tuple" },
+  "phases": [
+    {
+      "id": "1",
+      "title": "기초 (Foundation)",
+      "order": 1,
+      "exit_capability": "Elasticsearch를 로컬에 설치하고, 문서를 인덱싱·검색하며, 역색인과 세그먼트 구조를 설명할 수 있다.",
+      "sections": [
+        {
+          "id": "1.1",
+          "phase_id": "1",
+          "title": "Elasticsearch 소개",
+          "order": 1,
+          "topics": [
+            {
+              "id": "1.1.1",
+              "section_id": "1.1",
+              "title": "Elasticsearch란 무엇인가",
+              "order": 1,
+              "learning_objectives": [
+                "Elasticsearch의 정의와 핵심 특징을 설명할 수 있다",
+                "검색 엔진과 분석 엔진으로서의 역할을 구분할 수 있다",
+                "ELK Stack 구성요소를 나열하고 각 역할을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Elasticsearch 정의",
+                "검색 엔진과 분석 엔진 이중 역할",
+                "ELK Stack (Elasticsearch + Logstash + Kibana)",
+                "OpenSearch와의 관계",
+                "RESTful API 기반 인터페이스",
+                "JSON 문서 저장 방식",
+                "수평 확장성과 고가용성",
+                "실시간 검색(Near Real-Time)"
+              ],
+              "prerequisites": [],
+              "lab": null
+            },
+            {
+              "id": "1.1.2",
+              "section_id": "1.1",
+              "title": "설치 및 환경 구성",
+              "order": 2,
+              "learning_objectives": [
+                "Elasticsearch를 로컬 환경에 설치하고 정상 기동을 확인할 수 있다",
+                "Docker Compose로 단일 노드 클러스터를 구성할 수 있다",
+                "elasticsearch.yml 핵심 설정 항목을 조작할 수 있다"
+              ],
+              "learning_content": [
+                "Elasticsearch 다운로드 및 압축 해제",
+                "Docker 단일 노드 구성",
+                "Docker Compose 다중 노드 구성",
+                "elasticsearch.yml 핵심 파라미터 (cluster.name, node.name, network.host)",
+                "JVM heap 설정 (jvm.options)",
+                "Kibana 연결 설정",
+                "클러스터 상태 확인 (_cluster/health)",
+                "xpack.security 기본 비활성화 개발 환경"
+              ],
+              "prerequisites": ["1.1.1"],
+              "lab": {
+                "description": "Docker Compose로 Elasticsearch + Kibana 단일 노드 클러스터를 기동하고 _cluster/health API로 상태를 확인한다.",
+                "commands": [
+                  "docker-compose up -d",
+                  "curl -X GET 'http://localhost:9200/_cluster/health?pretty'"
+                ]
+              }
+            },
+            {
+              "id": "1.1.3",
+              "section_id": "1.1",
+              "title": "첫 번째 문서 인덱싱과 검색",
+              "order": 3,
+              "learning_objectives": [
+                "PUT/GET API로 문서를 인덱싱하고 조회할 수 있다",
+                "_search API로 기본 전문 검색을 실행할 수 있다",
+                "응답 JSON의 hits, _score 필드를 해석할 수 있다"
+              ],
+              "learning_content": [
+                "PUT /{index}/_doc/{id} 문서 인덱싱",
+                "GET /{index}/_doc/{id} 문서 조회",
+                "POST /{index}/_search 검색 실행",
+                "match 쿼리 기본 사용법",
+                "응답 구조 (took, hits.total, hits.hits, _score)",
+                "_source 필드",
+                "자동 ID 생성 (POST 방식)",
+                "인덱스 자동 생성"
+              ],
+              "prerequisites": ["1.1.2"],
+              "lab": {
+                "description": "books 인덱스에 도서 3건을 인덱싱하고 제목으로 match 검색을 수행한다.",
+                "commands": [
+                  "curl -X PUT 'localhost:9200/books/_doc/1' -H 'Content-Type: application/json' -d '{\"title\": \"Elasticsearch 완벽 가이드\", \"author\": \"홍길동\"}'",
+                  "curl -X GET 'localhost:9200/books/_search?q=title:Elasticsearch&pretty'"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "phase_id": "1",
+          "title": "핵심 원리: Lucene과 역색인",
+          "order": 2,
+          "topics": [
+            {
+              "id": "1.2.1",
+              "section_id": "1.2",
+              "title": "Lucene과 Elasticsearch의 관계",
+              "order": 1,
+              "learning_objectives": [
+                "Lucene이 Elasticsearch의 핵심 검색 엔진임을 설명할 수 있다",
+                "Elasticsearch가 Lucene 위에 추가한 기능 계층을 열거할 수 있다"
+              ],
+              "learning_content": [
+                "Apache Lucene 라이브러리",
+                "Lucene 인덱스와 ES 샤드의 1:1 관계",
+                "Lucene이 제공하는 기능 (역색인, 쿼리 파서, 스코어링)",
+                "Elasticsearch가 추가한 기능 (분산 처리, REST API, 클러스터 관리)",
+                "샤드 = Lucene 인스턴스",
+                "Lucene 버전과 ES 버전 대응"
+              ],
+              "prerequisites": ["1.1.1"],
+              "lab": null
+            },
+            {
+              "id": "1.2.2",
+              "section_id": "1.2",
+              "title": "역색인 동작 원리",
+              "order": 2,
+              "learning_objectives": [
+                "역색인(inverted index)의 구조와 구축 과정을 다이어그램으로 설명할 수 있다",
+                "전방 색인과 역색인의 차이를 비교할 수 있다"
+              ],
+              "learning_content": [
+                "전방 색인(forward index) vs 역색인(inverted index)",
+                "토큰화(tokenization) 과정",
+                "텀 딕셔너리(term dictionary)",
+                "포스팅 리스트(posting list)",
+                "도큐먼트 빈도(DF)와 텀 빈도(TF)",
+                "역색인 빌드 시점",
+                "역색인 불변성(immutability)"
+              ],
+              "prerequisites": ["1.2.1"],
+              "lab": null
+            },
+            {
+              "id": "1.2.3",
+              "section_id": "1.2",
+              "title": "세그먼트 계층 구조",
+              "order": 3,
+              "learning_objectives": [
+                "세그먼트가 생성되고 병합되는 과정을 설명할 수 있다",
+                "세그먼트 수가 검색 성능에 미치는 영향을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Lucene 세그먼트 개념",
+                "세그먼트 불변성",
+                "세그먼트 병합(merge) 정책",
+                "삭제 마킹과 .del 파일",
+                "force merge API",
+                "세그먼트 수와 검색 성능 트레이드오프",
+                "인메모리 버퍼와 디스크 플러시"
+              ],
+              "prerequisites": ["1.2.2"],
+              "lab": null
+            },
+            {
+              "id": "1.2.4",
+              "section_id": "1.2",
+              "title": "NRT 검색과 Translog",
+              "order": 4,
+              "learning_objectives": [
+                "Near Real-Time 검색의 동작 원리를 설명할 수 있다",
+                "Translog의 역할과 내구성 보장 방식을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "NRT(Near Real-Time) 개념",
+                "refresh 주기 (index.refresh_interval)",
+                "인메모리 세그먼트와 파일시스템 캐시",
+                "Translog 개념과 WAL(Write-Ahead Log)",
+                "flush와 fsync",
+                "Translog 크기와 복구 시간 트레이드오프",
+                "index.translog.durability 설정"
+              ],
+              "prerequisites": ["1.2.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "phase_id": "1",
+          "title": "데이터 모델: 문서/인덱스/샤드",
+          "order": 3,
+          "topics": [
+            {
+              "id": "1.3.1",
+              "section_id": "1.3",
+              "title": "JSON 문서 구조",
+              "order": 1,
+              "learning_objectives": [
+                "Elasticsearch 문서의 메타데이터 필드를 설명할 수 있다",
+                "중첩 JSON 구조를 올바르게 인덱싱할 수 있다"
+              ],
+              "learning_content": [
+                "_index, _id, _version 메타데이터 필드",
+                "_source 원본 저장",
+                "중첩 객체 (nested object)",
+                "배열 필드 처리",
+                "null 값 처리",
+                "문서 버전 관리",
+                "_seq_no와 _primary_term",
+                "문서 크기 제한 (http.max_content_length)"
+              ],
+              "prerequisites": ["1.1.3"],
+              "lab": null
+            },
+            {
+              "id": "1.3.2",
+              "section_id": "1.3",
+              "title": "인덱스 개념과 RDBMS 비교",
+              "order": 2,
+              "learning_objectives": [
+                "Elasticsearch 인덱스를 RDBMS 테이블과 비교하여 차이점을 설명할 수 있다",
+                "인덱스 설정(settings)과 매핑(mappings)의 역할을 구분할 수 있다"
+              ],
+              "learning_content": [
+                "인덱스 = 논리적 문서 컨테이너",
+                "RDBMS 테이블 vs ES 인덱스 비교",
+                "인덱스 settings (샤드 수, 레플리카 수, refresh_interval)",
+                "인덱스 mappings 개요",
+                "인덱스 생성 PUT API",
+                "인덱스 목록 조회 (_cat/indices)",
+                "인덱스 삭제와 주의사항"
+              ],
+              "prerequisites": ["1.3.1"],
+              "lab": null
+            },
+            {
+              "id": "1.3.3",
+              "section_id": "1.3",
+              "title": "샤드와 레플리카",
+              "order": 3,
+              "learning_objectives": [
+                "프라이머리 샤드와 레플리카 샤드의 역할을 설명할 수 있다",
+                "샤드 수와 레플리카 수 결정 기준을 제시할 수 있다"
+              ],
+              "learning_content": [
+                "프라이머리 샤드(primary shard)",
+                "레플리카 샤드(replica shard)",
+                "샤드 라우팅 공식 (hash(_id) % number_of_shards)",
+                "레플리카를 통한 고가용성",
+                "레플리카를 통한 읽기 처리량 향상",
+                "샤드 수 변경 불가 제약",
+                "레플리카 수 동적 변경",
+                "샤드 크기 권장 범위 (10~50GB)"
+              ],
+              "prerequisites": ["1.3.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "데이터 모델링 (Data Modeling)",
+      "order": 2,
+      "exit_capability": "인덱스 매핑을 설계하고, 텍스트 분석기를 커스터마이징하며, 한국어 형태소 분석을 적용할 수 있다.",
+      "sections": [
+        {
+          "id": "2.1",
+          "phase_id": "2",
+          "title": "매핑 기초",
+          "order": 1,
+          "topics": [
+            {
+              "id": "2.1.1",
+              "section_id": "2.1",
+              "title": "동적 매핑 vs 명시적 매핑",
+              "order": 1,
+              "learning_objectives": [
+                "동적 매핑과 명시적 매핑의 차이를 설명할 수 있다",
+                "동적 매핑이 추론하는 타입 규칙을 열거할 수 있다"
+              ],
+              "learning_content": [
+                "동적 매핑(dynamic mapping) 개념",
+                "JSON 타입 → ES 타입 자동 추론 규칙",
+                "dynamic: true/false/strict 설정",
+                "명시적 매핑(explicit mapping) PUT 방법",
+                "GET /{index}/_mapping API",
+                "매핑 확인 및 검증 방법",
+                "동적 매핑의 장단점"
+              ],
+              "prerequisites": ["1.3.2"],
+              "lab": null
+            },
+            {
+              "id": "2.1.2",
+              "section_id": "2.1",
+              "title": "매핑 설정과 업데이트 제약",
+              "order": 2,
+              "learning_objectives": [
+                "기존 필드 타입 변경이 불가능한 이유를 역색인 관점에서 설명할 수 있다",
+                "reindex API를 사용해 매핑을 변경하는 절차를 수행할 수 있다"
+              ],
+              "learning_content": [
+                "필드 타입 변경 불가 제약",
+                "새 필드 추가는 가능 (additive 변경)",
+                "PUT mapping API로 새 필드 추가",
+                "reindex API 워크플로",
+                "인덱스 별칭을 활용한 무중단 재매핑",
+                "_source 비활성화 주의사항",
+                "copy_to 활용 패턴"
+              ],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            },
+            {
+              "id": "2.1.3",
+              "section_id": "2.1",
+              "title": "매핑 폭발 방지",
+              "order": 3,
+              "learning_objectives": [
+                "매핑 폭발(mapping explosion)이 발생하는 원인과 위험을 설명할 수 있다",
+                "flattened 타입과 dynamic: strict로 매핑 폭발을 방지할 수 있다"
+              ],
+              "learning_content": [
+                "매핑 폭발 개념과 클러스터 메모리 영향",
+                "index.mapping.total_fields.limit 설정",
+                "flattened 필드 타입",
+                "dynamic: strict 설정",
+                "와일드카드 동적 매핑 템플릿",
+                "구조화되지 않은 로그 데이터 처리 전략"
+              ],
+              "prerequisites": ["2.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "phase_id": "2",
+          "title": "필드 타입",
+          "order": 2,
+          "topics": [
+            {
+              "id": "2.2.1",
+              "section_id": "2.2",
+              "title": "text vs keyword",
+              "order": 1,
+              "learning_objectives": [
+                "text와 keyword 타입의 분석 여부 차이를 설명할 수 있다",
+                "각 타입에 적합한 사용 사례를 구분하여 적용할 수 있다"
+              ],
+              "learning_content": [
+                "text 타입: 분석기 적용, 전문 검색용",
+                "keyword 타입: 분석 없음, 정렬·집계·exact match용",
+                "text 필드에서 집계 불가 이유",
+                "keyword 필드에서 match 쿼리 사용 시 주의",
+                "fielddata 활성화 (레거시 방식, 비권장)",
+                "doc_values 구조와 역할",
+                "index: false 옵션으로 검색 비활성화"
+              ],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            },
+            {
+              "id": "2.2.2",
+              "section_id": "2.2",
+              "title": "숫자/날짜/불리언 타입",
+              "order": 2,
+              "learning_objectives": [
+                "integer, long, float, double 타입의 선택 기준을 설명할 수 있다",
+                "date 타입의 포맷 설정과 ISO 8601 형식을 적용할 수 있다"
+              ],
+              "learning_content": [
+                "integer, long, short, byte 정수 타입",
+                "float, double, half_float, scaled_float 실수 타입",
+                "date 타입과 포맷 문자열",
+                "epoch_millis, strict_date_optional_time",
+                "boolean 타입",
+                "숫자 타입 선택 기준 (범위, 정밀도)",
+                "범위 타입 (integer_range, date_range 등)"
+              ],
+              "prerequisites": ["2.2.1"],
+              "lab": null
+            },
+            {
+              "id": "2.2.3",
+              "section_id": "2.2",
+              "title": "특수 타입: dense_vector, geo_point, nested, join",
+              "order": 3,
+              "learning_objectives": [
+                "dense_vector 타입으로 벡터 임베딩을 저장할 수 있다",
+                "nested와 join 타입의 사용 목적을 비교할 수 있다"
+              ],
+              "learning_content": [
+                "dense_vector 타입과 dims 설정",
+                "geo_point 타입과 위도/경도 표현",
+                "nested 타입: 객체 배열 독립 색인",
+                "join 타입: parent-child 관계",
+                "IP 타입 (ip)",
+                "binary 타입",
+                "completion 타입 (자동완성용)"
+              ],
+              "prerequisites": ["2.2.2"],
+              "lab": null
+            },
+            {
+              "id": "2.2.4",
+              "section_id": "2.2",
+              "title": "멀티필드 패턴",
+              "order": 4,
+              "learning_objectives": [
+                "fields 파라미터로 text+keyword 멀티필드를 설정할 수 있다",
+                "멀티필드를 활용한 전문 검색과 정렬 동시 지원 패턴을 구현할 수 있다"
+              ],
+              "learning_content": [
+                "fields 파라미터 문법",
+                "title.keyword 패턴",
+                "멀티필드에 다른 분석기 지정",
+                "멀티필드 쿼리 대상 지정 방법",
+                "동적 매핑의 기본 멀티필드 생성 동작",
+                "멀티필드 추가 시 reindex 필요 여부"
+              ],
+              "prerequisites": ["2.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "phase_id": "2",
+          "title": "텍스트 분석",
+          "order": 3,
+          "topics": [
+            {
+              "id": "2.3.1",
+              "section_id": "2.3",
+              "title": "분석기 파이프라인",
+              "order": 1,
+              "learning_objectives": [
+                "분석기의 3단계(character filter → tokenizer → token filter)를 설명할 수 있다",
+                "_analyze API로 분석 결과를 확인할 수 있다"
+              ],
+              "learning_content": [
+                "analyzer 구성요소: character filter, tokenizer, token filter",
+                "character filter 역할 (html_strip, mapping)",
+                "tokenizer 역할 (standard, whitespace, ngram)",
+                "token filter 역할 (lowercase, stop, synonym)",
+                "_analyze API 사용법",
+                "인덱스 시 분석기 vs 검색 시 분석기",
+                "search_analyzer 별도 지정"
+              ],
+              "prerequisites": ["2.2.1"],
+              "lab": null
+            },
+            {
+              "id": "2.3.2",
+              "section_id": "2.3",
+              "title": "내장 분석기",
+              "order": 2,
+              "learning_objectives": [
+                "standard, simple, whitespace, language 분석기의 차이를 설명할 수 있다",
+                "각 분석기의 적합한 사용 사례를 선택할 수 있다"
+              ],
+              "learning_content": [
+                "standard 분석기 (기본값)",
+                "simple 분석기",
+                "whitespace 분석기",
+                "stop 분석기",
+                "keyword 분석기 (분석 없음)",
+                "fingerprint 분석기",
+                "english, french 등 언어별 분석기",
+                "snowball 어간 추출기"
+              ],
+              "prerequisites": ["2.3.1"],
+              "lab": null
+            },
+            {
+              "id": "2.3.3",
+              "section_id": "2.3",
+              "title": "커스텀 분석기 구성",
+              "order": 3,
+              "learning_objectives": [
+                "인덱스 settings에서 커스텀 분석기를 정의하고 매핑에 연결할 수 있다",
+                "동의어(synonym) 필터를 적용한 분석기를 구성할 수 있다"
+              ],
+              "learning_content": [
+                "index.analysis.analyzer 설정 블록",
+                "커스텀 tokenizer 정의",
+                "커스텀 token filter 정의",
+                "synonym token filter와 동의어 파일",
+                "synonym_graph와 인덱스 시 사용 주의",
+                "ngram tokenizer와 edge_ngram tokenizer",
+                "분석기 업데이트와 reindex 필요성"
+              ],
+              "prerequisites": ["2.3.2"],
+              "lab": {
+                "description": "동의어 사전을 포함한 커스텀 분석기를 정의하고 _analyze API로 검증한다.",
+                "commands": [
+                  "curl -X PUT 'localhost:9200/my_index' -H 'Content-Type: application/json' -d @custom_analyzer.json",
+                  "curl -X POST 'localhost:9200/my_index/_analyze' -H 'Content-Type: application/json' -d '{\"analyzer\": \"my_analyzer\", \"text\": \"검색 엔진\"}'"
+                ]
+              }
+            },
+            {
+              "id": "2.3.4",
+              "section_id": "2.3",
+              "title": "한국어 분석: Nori",
+              "order": 4,
+              "learning_objectives": [
+                "Nori 플러그인을 설치하고 한국어 형태소 분석을 적용할 수 있다",
+                "nori_tokenizer의 decompound_mode 옵션을 상황에 맞게 선택할 수 있다"
+              ],
+              "learning_content": [
+                "Nori 플러그인 설치 (elasticsearch-plugin install)",
+                "nori_tokenizer 설정",
+                "decompound_mode: none/discard/mixed",
+                "nori_part_of_speech 토큰 필터",
+                "nori_readingform 토큰 필터 (한자→한글)",
+                "사용자 정의 사전(user_dictionary)",
+                "Nori 분석 결과 검증 예시"
+              ],
+              "prerequisites": ["2.3.3"],
+              "lab": {
+                "description": "Nori 분석기를 적용한 인덱스를 생성하고 한국어 문장의 형태소 분석 결과를 확인한다.",
+                "commands": [
+                  "elasticsearch-plugin install analysis-nori",
+                  "curl -X POST 'localhost:9200/korean_index/_analyze' -H 'Content-Type: application/json' -d '{\"analyzer\": \"nori\", \"text\": \"아버지가방에들어가신다\"}'"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "2.4",
+          "phase_id": "2",
+          "title": "고급 데이터 모델링",
+          "order": 4,
+          "topics": [
+            {
+              "id": "2.4.1",
+              "section_id": "2.4",
+              "title": "런타임 필드",
+              "order": 1,
+              "learning_objectives": [
+                "런타임 필드를 정의하고 검색 시 동적으로 계산된 값을 조회할 수 있다",
+                "런타임 필드의 성능 트레이드오프를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "런타임 필드(runtime field) 개념",
+                "매핑에 runtime 섹션 추가",
+                "Painless 스크립트로 필드 값 계산",
+                "검색 요청 시 runtime_mappings 임시 정의",
+                "런타임 필드 vs 인덱스 시 계산 필드 성능 비교",
+                "런타임 필드를 인덱스 필드로 전환하는 전략"
+              ],
+              "prerequisites": ["2.1.2"],
+              "lab": null
+            },
+            {
+              "id": "2.4.2",
+              "section_id": "2.4",
+              "title": "중첩 문서 vs Parent-Child 조인",
+              "order": 2,
+              "learning_objectives": [
+                "nested 타입과 join 타입의 저장 방식 차이를 설명할 수 있다",
+                "각 방식의 쿼리 성능 특성을 비교하여 적합한 방식을 선택할 수 있다"
+              ],
+              "learning_content": [
+                "nested 타입 저장 방식 (숨겨진 문서)",
+                "nested 쿼리 구조",
+                "join 타입 설정 (relations)",
+                "has_child 쿼리, has_parent 쿼리",
+                "parent_id 쿼리",
+                "nested vs join 성능 비교",
+                "join 타입의 동일 샤드 라우팅 필요성",
+                "사용 권장 시나리오"
+              ],
+              "prerequisites": ["2.2.3"],
+              "lab": null
+            },
+            {
+              "id": "2.4.3",
+              "section_id": "2.4",
+              "title": "인덱스 템플릿과 Component Template",
+              "order": 3,
+              "learning_objectives": [
+                "인덱스 템플릿으로 인덱스 자동 설정을 구성할 수 있다",
+                "Component Template을 조합하여 재사용 가능한 매핑 블록을 관리할 수 있다"
+              ],
+              "learning_content": [
+                "레거시 _template vs 현행 _index_template",
+                "인덱스 패턴(index_patterns) 매칭",
+                "우선순위(priority) 설정",
+                "Component Template (_component_template API)",
+                "composed_of 필드로 컴포넌트 조합",
+                "data stream과 인덱스 템플릿 연계",
+                "시뮬레이션 API (_index_template/_simulate)"
+              ],
+              "prerequisites": ["2.1.2"],
+              "lab": null
+            },
+            {
+              "id": "2.4.4",
+              "section_id": "2.4",
+              "title": "인덱스 별칭",
+              "order": 4,
+              "learning_objectives": [
+                "인덱스 별칭을 생성하고 원자적 교체(atomic swap)를 수행할 수 있다",
+                "필터 별칭을 활용한 가상 인덱스 뷰를 구성할 수 있다"
+              ],
+              "learning_content": [
+                "인덱스 별칭(alias) 개념",
+                "별칭 생성 및 삭제 (_aliases API)",
+                "원자적 add/remove swap 패턴",
+                "필터 별칭 (alias filter)",
+                "라우팅 별칭 (routing alias)",
+                "write 별칭과 is_write_index",
+                "무중단 인덱스 교체 시나리오"
+              ],
+              "prerequisites": ["2.4.3"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "검색 (Search)",
+      "order": 3,
+      "exit_capability": "Query DSL로 복합 검색을 작성하고, 자동완성·하이라이팅·페이지네이션을 구현하며, 관련성 스코어를 튜닝할 수 있다.",
+      "sections": [
+        {
+          "id": "3.1",
+          "phase_id": "3",
+          "title": "REST API와 CRUD",
+          "order": 1,
+          "topics": [
+            {
+              "id": "3.1.1",
+              "section_id": "3.1",
+              "title": "REST API 구조",
+              "order": 1,
+              "learning_objectives": [
+                "Elasticsearch REST API의 URL 패턴과 HTTP 메서드 의미를 설명할 수 있다",
+                "Kibana Dev Tools Console로 API를 실행할 수 있다"
+              ],
+              "learning_content": [
+                "URL 구조: /{index}/{endpoint}",
+                "HTTP 메서드 의미 (GET/POST/PUT/DELETE/HEAD)",
+                "Content-Type: application/json 헤더",
+                "요청 바디 JSON 구조",
+                "응답 상태 코드 해석",
+                "Kibana Dev Tools Console 사용법",
+                "curl 기본 사용법",
+                "pretty 파라미터"
+              ],
+              "prerequisites": ["1.1.2"],
+              "lab": null
+            },
+            {
+              "id": "3.1.2",
+              "section_id": "3.1",
+              "title": "문서 CRUD",
+              "order": 2,
+              "learning_objectives": [
+                "문서의 생성, 조회, 수정, 삭제 API를 올바르게 사용할 수 있다",
+                "upsert와 partial update의 차이를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "PUT /{index}/_doc/{id} 인덱싱",
+                "POST /{index}/_doc 자동 ID 생성",
+                "GET /{index}/_doc/{id} 조회",
+                "DELETE /{index}/_doc/{id} 삭제",
+                "POST /{index}/_update/{id} 부분 업데이트",
+                "upsert 패턴 (doc_as_upsert)",
+                "optimistic concurrency control (_if_seq_no, _if_primary_term)",
+                "DELETE by Query"
+              ],
+              "prerequisites": ["3.1.1"],
+              "lab": null
+            },
+            {
+              "id": "3.1.3",
+              "section_id": "3.1",
+              "title": "Bulk API",
+              "order": 3,
+              "learning_objectives": [
+                "Bulk API의 NDJSON 형식을 이해하고 대량 인덱싱을 수행할 수 있다",
+                "Bulk API 응답에서 오류 항목을 식별할 수 있다"
+              ],
+              "learning_content": [
+                "Bulk API NDJSON 형식 (action + source 쌍)",
+                "index, create, update, delete 액션",
+                "배치 크기 최적화 (5~15MB 권장)",
+                "errors 필드와 items 배열 응답 파싱",
+                "재시도 전략",
+                "_bulk 엔드포인트",
+                "클라이언트 라이브러리의 bulk helper"
+              ],
+              "prerequisites": ["3.1.2"],
+              "lab": {
+                "description": "1000건의 상품 데이터를 Bulk API로 인덱싱하고 응답에서 오류 건수를 집계한다.",
+                "commands": [
+                  "curl -X POST 'localhost:9200/_bulk' -H 'Content-Type: application/x-ndjson' --data-binary @products.ndjson"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "phase_id": "3",
+          "title": "Query DSL 기초",
+          "order": 2,
+          "topics": [
+            {
+              "id": "3.2.1",
+              "section_id": "3.2",
+              "title": "Query context vs Filter context",
+              "order": 1,
+              "learning_objectives": [
+                "query context와 filter context의 차이를 설명하고 적절히 선택할 수 있다",
+                "filter context의 캐싱 이점을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "query context: 관련성 스코어(_score) 계산",
+                "filter context: 이진 매칭, 스코어 없음",
+                "filter 캐싱(bitset cache) 메커니즘",
+                "bool 쿼리의 must/filter/should/must_not",
+                "filter에 적합한 조건 (날짜, 카테고리, 상태)",
+                "query에 적합한 조건 (텍스트 유사도)",
+                "성능 최적화 관점에서의 선택 기준"
+              ],
+              "prerequisites": ["1.1.3"],
+              "lab": null
+            },
+            {
+              "id": "3.2.2",
+              "section_id": "3.2",
+              "title": "match와 term 쿼리",
+              "order": 2,
+              "learning_objectives": [
+                "match 쿼리와 term 쿼리의 분석기 적용 여부 차이를 설명할 수 있다",
+                "match_phrase로 구문 검색을 수행할 수 있다"
+              ],
+              "learning_content": [
+                "match 쿼리: 분석기 적용 후 검색",
+                "term 쿼리: 분석 없는 exact 매칭",
+                "terms 쿼리: 복수 값 매칭",
+                "match_phrase 쿼리: 어순 보장",
+                "match_phrase_prefix 쿼리",
+                "operator: and/or 설정",
+                "minimum_should_match 설정",
+                "fuzziness 파라미터"
+              ],
+              "prerequisites": ["3.2.1", "2.3.1"],
+              "lab": null
+            },
+            {
+              "id": "3.2.3",
+              "section_id": "3.2",
+              "title": "bool 쿼리",
+              "order": 3,
+              "learning_objectives": [
+                "bool 쿼리의 must/filter/should/must_not 절을 조합하여 복합 조건 검색을 작성할 수 있다"
+              ],
+              "learning_content": [
+                "must 절: 필수 조건 + 스코어 기여",
+                "filter 절: 필수 조건, 스코어 기여 없음",
+                "should 절: 선택적 조건 + 스코어 부스트",
+                "must_not 절: 제외 조건",
+                "minimum_should_match와 should 절",
+                "중첩 bool 쿼리",
+                "boost 파라미터로 가중치 조정"
+              ],
+              "prerequisites": ["3.2.2"],
+              "lab": null
+            },
+            {
+              "id": "3.2.4",
+              "section_id": "3.2",
+              "title": "range, exists, prefix, wildcard 쿼리",
+              "order": 4,
+              "learning_objectives": [
+                "range 쿼리로 날짜/숫자 범위 검색을 수행할 수 있다",
+                "prefix, wildcard, regexp 쿼리의 성능 위험을 인식하고 적절히 사용할 수 있다"
+              ],
+              "learning_content": [
+                "range 쿼리: gte, lte, gt, lt",
+                "날짜 범위 math (now-7d/d)",
+                "exists 쿼리: null/누락 필드 처리",
+                "prefix 쿼리",
+                "wildcard 쿼리 (* 와 ? 패턴)",
+                "regexp 쿼리",
+                "wildcard/regexp 성능 위험 (leading wildcard)",
+                "ids 쿼리"
+              ],
+              "prerequisites": ["3.2.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "phase_id": "3",
+          "title": "고급 검색 기법",
+          "order": 3,
+          "topics": [
+            {
+              "id": "3.3.1",
+              "section_id": "3.3",
+              "title": "multi_match와 cross-field 검색",
+              "order": 1,
+              "learning_objectives": [
+                "multi_match 쿼리의 type 옵션을 비교하여 적합한 방식을 선택할 수 있다",
+                "cross_fields 타입으로 여러 필드에 분산된 키워드를 효과적으로 검색할 수 있다"
+              ],
+              "learning_content": [
+                "multi_match 쿼리 기본 구조",
+                "best_fields 타입 (기본값)",
+                "most_fields 타입",
+                "cross_fields 타입",
+                "phrase 타입",
+                "phrase_prefix 타입",
+                "tie_breaker 파라미터",
+                "필드별 boost (^N 표기법)"
+              ],
+              "prerequisites": ["3.2.2"],
+              "lab": null
+            },
+            {
+              "id": "3.3.2",
+              "section_id": "3.3",
+              "title": "자동완성 구현",
+              "order": 2,
+              "learning_objectives": [
+                "completion suggester로 실시간 자동완성을 구현할 수 있다",
+                "search_as_you_type 필드 타입을 적용할 수 있다"
+              ],
+              "learning_content": [
+                "completion 필드 타입과 FST 구조",
+                "suggest API 사용법",
+                "completion suggester weight 설정",
+                "search_as_you_type 필드 타입",
+                "edge_ngram 기반 자동완성 패턴",
+                "match_phrase_prefix 기반 자동완성",
+                "자동완성 방식 성능 비교"
+              ],
+              "prerequisites": ["3.2.2", "2.2.4"],
+              "lab": null
+            },
+            {
+              "id": "3.3.3",
+              "section_id": "3.3",
+              "title": "하이라이팅",
+              "order": 3,
+              "learning_objectives": [
+                "highlight 파라미터로 검색 결과에 하이라이팅을 적용할 수 있다",
+                "unified, plain, fvh 하이라이터의 차이를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "highlight 파라미터 구조",
+                "pre_tags, post_tags 커스터마이징",
+                "unified 하이라이터 (기본값)",
+                "plain 하이라이터",
+                "fvh(fast vector highlighter)와 term_vector 설정",
+                "fragment_size, number_of_fragments 설정",
+                "require_field_match 옵션"
+              ],
+              "prerequisites": ["3.2.2"],
+              "lab": null
+            },
+            {
+              "id": "3.3.4",
+              "section_id": "3.3",
+              "title": "페이지네이션",
+              "order": 4,
+              "learning_objectives": [
+                "from/size, search_after, scroll API의 차이와 적합한 사용 사례를 설명할 수 있다",
+                "search_after로 deep pagination 문제를 해결할 수 있다"
+              ],
+              "learning_content": [
+                "from/size 페이지네이션과 deep pagination 한계",
+                "index.max_result_window 설정 (기본 10000)",
+                "search_after 파라미터",
+                "PIT(Point In Time) API",
+                "search_after + PIT 조합",
+                "scroll API (배치 처리용)",
+                "scroll 컨텍스트 메모리 비용"
+              ],
+              "prerequisites": ["3.2.1"],
+              "lab": null
+            },
+            {
+              "id": "3.3.5",
+              "section_id": "3.3",
+              "title": "지리 검색",
+              "order": 5,
+              "learning_objectives": [
+                "geo_distance 쿼리로 반경 내 문서를 검색할 수 있다",
+                "geo_bounding_box 쿼리로 직사각형 범위 검색을 수행할 수 있다"
+              ],
+              "learning_content": [
+                "geo_point 타입 매핑",
+                "geo_distance 쿼리",
+                "geo_bounding_box 쿼리",
+                "geo_polygon 쿼리",
+                "geo_shape 타입과 쿼리",
+                "거리 단위 (km, mi, m)",
+                "sort by geo_distance",
+                "geohash와 geotile grid 집계"
+              ],
+              "prerequisites": ["3.2.4", "2.2.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.4",
+          "phase_id": "3",
+          "title": "관련성 튜닝",
+          "order": 4,
+          "topics": [
+            {
+              "id": "3.4.1",
+              "section_id": "3.4",
+              "title": "BM25 알고리즘",
+              "order": 1,
+              "learning_objectives": [
+                "BM25 스코어링 공식의 구성 요소를 설명할 수 있다",
+                "TF-IDF와 BM25의 차이를 비교할 수 있다"
+              ],
+              "learning_content": [
+                "TF-IDF 기반 스코어링 역사",
+                "BM25 공식 구조 (TF 포화, 문서 길이 정규화)",
+                "IDF(역문서 빈도) 계산",
+                "TF 포화(saturation) 개념",
+                "문서 길이 정규화",
+                "Elasticsearch 기본 유사도로 BM25 사용",
+                "similarity 설정으로 변경 방법",
+                "DFR, DFI, LMDirichlet 대안 유사도"
+              ],
+              "prerequisites": ["1.2.2"],
+              "lab": null
+            },
+            {
+              "id": "3.4.2",
+              "section_id": "3.4",
+              "title": "k1/b 파라미터 튜닝",
+              "order": 2,
+              "learning_objectives": [
+                "BM25의 k1, b 파라미터가 스코어에 미치는 영향을 설명할 수 있다",
+                "도메인 특성에 맞는 k1, b 값을 조정할 수 있다"
+              ],
+              "learning_content": [
+                "k1 파라미터: TF 포화 속도 조절 (기본값 1.2)",
+                "b 파라미터: 문서 길이 정규화 강도 (기본값 0.75)",
+                "b=0: 문서 길이 무시",
+                "b=1: 완전 길이 정규화",
+                "짧은 필드(제목)에서의 b 조정 전략",
+                "매핑 similarity 설정으로 인덱스별 파라미터 적용",
+                "Explain API로 스코어 검증"
+              ],
+              "prerequisites": ["3.4.1"],
+              "lab": null
+            },
+            {
+              "id": "3.4.3",
+              "section_id": "3.4",
+              "title": "function_score 쿼리",
+              "order": 3,
+              "learning_objectives": [
+                "function_score 쿼리로 비즈니스 로직을 스코어에 반영할 수 있다",
+                "gauss, linear, exp decay 함수를 적용할 수 있다"
+              ],
+              "learning_content": [
+                "function_score 쿼리 구조",
+                "weight 함수",
+                "field_value_factor 함수",
+                "gauss/linear/exp decay 함수",
+                "random_score 함수",
+                "script_score 함수",
+                "score_mode: sum/avg/max/min/multiply",
+                "boost_mode: replace/multiply/sum/avg/max/min"
+              ],
+              "prerequisites": ["3.4.2"],
+              "lab": null
+            },
+            {
+              "id": "3.4.4",
+              "section_id": "3.4",
+              "title": "Painless 스크립팅",
+              "order": 4,
+              "learning_objectives": [
+                "Painless 스크립트로 커스텀 스코어 계산과 필드 변환을 구현할 수 있다",
+                "스크립트 캐싱과 파라미터화로 성능을 최적화할 수 있다"
+              ],
+              "learning_content": [
+                "Painless 언어 특징 (Java 유사, 샌드박스)",
+                "script_score 쿼리에서 Painless 사용",
+                "doc['field'].value 접근 방식",
+                "params 파라미터화로 컴파일 캐시 활용",
+                "스크립트 필드 (script_fields)",
+                "update 스크립트에서 ctx._source 사용",
+                "Painless 디버깅 방법"
+              ],
+              "prerequisites": ["3.4.3"],
+              "lab": null
+            },
+            {
+              "id": "3.4.5",
+              "section_id": "3.4",
+              "title": "Explain API와 스코어 디버깅",
+              "order": 5,
+              "learning_objectives": [
+                "Explain API로 특정 문서의 스코어 계산 과정을 추적할 수 있다",
+                "스코어 이상 원인을 진단하고 수정 방향을 제시할 수 있다"
+              ],
+              "learning_content": [
+                "GET /{index}/_explain/{id} API",
+                "explain: true 파라미터",
+                "explanation 객체 구조 해석",
+                "IDF 값이 낮게 나오는 원인 (샤드별 통계)",
+                "search_type: dfs_query_then_fetch",
+                "스코어 정규화 문제 진단",
+                "관련성 튜닝 반복 프로세스"
+              ],
+              "prerequisites": ["3.4.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "집계 및 분석 (Aggregations)",
+      "order": 4,
+      "exit_capability": "Bucket/Metric/Pipeline 집계를 중첩하여 복합 분석 쿼리를 작성하고, Kibana Dashboard로 시각화할 수 있다.",
+      "sections": [
+        {
+          "id": "4.1",
+          "phase_id": "4",
+          "title": "집계 기초",
+          "order": 1,
+          "topics": [
+            {
+              "id": "4.1.1",
+              "section_id": "4.1",
+              "title": "집계 구문 구조",
+              "order": 1,
+              "learning_objectives": [
+                "aggs 파라미터의 기본 구조를 작성할 수 있다",
+                "쿼리와 집계를 결합한 필터링 집계를 수행할 수 있다"
+              ],
+              "learning_content": [
+                "aggs / aggregations 키워드",
+                "집계 이름 (사용자 정의)",
+                "집계 타입 지정",
+                "size: 0으로 검색 결과 제외",
+                "쿼리와 집계 조합",
+                "집계 응답 구조 (aggregations 객체)",
+                "집계 정확도와 doc_count_error_upper_bound"
+              ],
+              "prerequisites": ["3.2.1"],
+              "lab": null
+            },
+            {
+              "id": "4.1.2",
+              "section_id": "4.1",
+              "title": "Bucket 집계",
+              "order": 2,
+              "learning_objectives": [
+                "terms, date_histogram, range, filter 집계로 문서를 그룹화할 수 있다"
+              ],
+              "learning_content": [
+                "terms 집계: 상위 N개 버킷",
+                "date_histogram 집계: 시계열 그룹화",
+                "calendar_interval vs fixed_interval",
+                "range 집계: 숫자/날짜 범위 버킷",
+                "filter 집계: 단일 필터 버킷",
+                "filters 집계: 복수 명명 필터 버킷",
+                "histogram 집계",
+                "missing 집계"
+              ],
+              "prerequisites": ["4.1.1"],
+              "lab": null
+            },
+            {
+              "id": "4.1.3",
+              "section_id": "4.1",
+              "title": "Metric 집계",
+              "order": 3,
+              "learning_objectives": [
+                "avg, sum, min, max, stats, cardinality 집계로 수치를 계산할 수 있다"
+              ],
+              "learning_content": [
+                "avg, sum, min, max 집계",
+                "stats 집계 (한번에 통계량 반환)",
+                "extended_stats 집계 (분산, 표준편차)",
+                "cardinality 집계 (HyperLogLog++ 근사)",
+                "value_count 집계",
+                "percentiles 집계",
+                "top_hits 집계",
+                "geo_centroid 집계"
+              ],
+              "prerequisites": ["4.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "phase_id": "4",
+          "title": "고급 집계",
+          "order": 2,
+          "topics": [
+            {
+              "id": "4.2.1",
+              "section_id": "4.2",
+              "title": "중첩 집계",
+              "order": 1,
+              "learning_objectives": [
+                "Bucket 집계 내부에 Metric 집계를 중첩하여 그룹별 통계를 계산할 수 있다"
+              ],
+              "learning_content": [
+                "집계 내부에 하위 집계 정의",
+                "terms + avg 중첩 패턴",
+                "date_histogram + sum 중첩 패턴",
+                "3단계 중첩 집계",
+                "중첩 집계의 메모리 사용",
+                "nested 타입 문서에서의 nested 집계",
+                "reverse_nested 집계"
+              ],
+              "prerequisites": ["4.1.2", "4.1.3"],
+              "lab": null
+            },
+            {
+              "id": "4.2.2",
+              "section_id": "4.2",
+              "title": "Pipeline 집계",
+              "order": 2,
+              "learning_objectives": [
+                "Pipeline 집계로 집계 결과를 입력으로 재계산하는 이중 집계를 구현할 수 있다"
+              ],
+              "learning_content": [
+                "Pipeline 집계 개념 (집계의 집계)",
+                "avg_bucket, sum_bucket, min_bucket, max_bucket",
+                "derivative 집계 (증분 변화)",
+                "cumulative_sum 집계 (누적 합)",
+                "moving_avg / moving_fn 집계",
+                "bucket_script 집계",
+                "buckets_path 문법"
+              ],
+              "prerequisites": ["4.2.1"],
+              "lab": null
+            },
+            {
+              "id": "4.2.3",
+              "section_id": "4.2",
+              "title": "composite 집계",
+              "order": 3,
+              "learning_objectives": [
+                "composite 집계로 대용량 다차원 집계를 페이지네이션하며 처리할 수 있다"
+              ],
+              "learning_content": [
+                "composite 집계 개념",
+                "sources 배열 정의",
+                "after_key를 이용한 페이지네이션",
+                "terms, date_histogram, histogram, geotile_grid 소스",
+                "composite 집계와 terms 집계 비교",
+                "Kibana 사용 사례 (대시보드 집계)"
+              ],
+              "prerequisites": ["4.2.1"],
+              "lab": null
+            },
+            {
+              "id": "4.2.4",
+              "section_id": "4.2",
+              "title": "집계 성능 최적화",
+              "order": 4,
+              "learning_objectives": [
+                "집계 성능 저하 원인을 진단하고 최적화 방법을 적용할 수 있다"
+              ],
+              "learning_content": [
+                "doc_values 기반 집계 성능",
+                "eager global ordinals (terms 집계 최적화)",
+                "shard_size 파라미터 조정",
+                "execution_hint: global_ordinals vs map",
+                "집계 캐시 (request cache)",
+                "index.number_of_replicas와 집계 병렬성",
+                "샤드 크기와 집계 정확도 트레이드오프"
+              ],
+              "prerequisites": ["4.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.3",
+          "phase_id": "4",
+          "title": "Kibana 시각화",
+          "order": 3,
+          "topics": [
+            {
+              "id": "4.3.1",
+              "section_id": "4.3",
+              "title": "Kibana Lens",
+              "order": 1,
+              "learning_objectives": [
+                "Kibana Lens로 드래그앤드롭 방식으로 시각화를 생성할 수 있다"
+              ],
+              "learning_content": [
+                "Kibana Lens UI 구성",
+                "데이터 뷰(Data View) 생성",
+                "X축/Y축 필드 매핑",
+                "차트 타입 선택 (막대, 선, 파이, 히트맵)",
+                "시간 필터 연동",
+                "Breakdown 레이어",
+                "Lens 수식(Formula) 기능"
+              ],
+              "prerequisites": ["4.1.2"],
+              "lab": null
+            },
+            {
+              "id": "4.3.2",
+              "section_id": "4.3",
+              "title": "Kibana Dashboard",
+              "order": 2,
+              "learning_objectives": [
+                "여러 시각화 패널을 조합한 대시보드를 구성하고 공유할 수 있다"
+              ],
+              "learning_content": [
+                "Dashboard 생성 및 패널 추가",
+                "패널 크기 조정 및 배치",
+                "전역 시간 필터와 패널 시간 오버라이드",
+                "Controls 패널 (드롭다운 필터)",
+                "대시보드 URL 공유",
+                "PDF/PNG 내보내기",
+                "Reporting 스케줄링"
+              ],
+              "prerequisites": ["4.3.1"],
+              "lab": null
+            },
+            {
+              "id": "4.3.3",
+              "section_id": "4.3",
+              "title": "KQL (Kibana Query Language)",
+              "order": 3,
+              "learning_objectives": [
+                "KQL로 Kibana 검색 바에서 필터 조건을 작성할 수 있다",
+                "KQL과 Lucene 쿼리 구문의 차이를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "KQL 기본 문법 (field: value)",
+                "AND/OR/NOT 연산자",
+                "와일드카드 사용",
+                "범위 쿼리 (field >= value)",
+                "중첩 필드 쿼리",
+                "KQL vs Lucene 쿼리 구문 비교",
+                "Kibana 필터 패널과 KQL 연동"
+              ],
+              "prerequisites": ["4.3.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "분산 아키텍처 (Distributed Architecture)",
+      "order": 5,
+      "exit_capability": "클러스터 노드 역할을 설계하고, 샤드 전략을 수립하며, Cross-Cluster Search 환경을 구성할 수 있다.",
+      "sections": [
+        {
+          "id": "5.1",
+          "phase_id": "5",
+          "title": "클러스터와 노드",
+          "order": 1,
+          "topics": [
+            {
+              "id": "5.1.1",
+              "section_id": "5.1",
+              "title": "노드 역할",
+              "order": 1,
+              "learning_objectives": [
+                "Elasticsearch 노드 역할 유형을 열거하고 각 역할의 책임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "master-eligible 노드",
+                "data 노드 (data, data_hot, data_warm, data_cold, data_frozen)",
+                "ingest 노드",
+                "coordinating 노드",
+                "machine_learning 노드",
+                "transform 노드",
+                "노드 역할 혼용 vs 전용 설정",
+                "node.roles 설정"
+              ],
+              "prerequisites": ["1.3.3"],
+              "lab": null
+            },
+            {
+              "id": "5.1.2",
+              "section_id": "5.1",
+              "title": "클러스터 아키텍처",
+              "order": 2,
+              "learning_objectives": [
+                "마스터 선출 과정과 split-brain 방지 메커니즘을 설명할 수 있다",
+                "프로덕션 권장 클러스터 토폴로지를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "마스터 선출(master election) 과정",
+                "Quorum 기반 합의",
+                "discovery.seed_hosts 설정",
+                "cluster.initial_master_nodes 부트스트랩",
+                "split-brain 문제와 minimum_master_nodes 역사",
+                "투표 전용 노드 (voting_only)",
+                "dedicated master 노드 3개 권장 구성",
+                "_cluster/state API"
+              ],
+              "prerequisites": ["5.1.1"],
+              "lab": null
+            },
+            {
+              "id": "5.1.3",
+              "section_id": "5.1",
+              "title": "분산 읽기/쓰기 흐름",
+              "order": 3,
+              "learning_objectives": [
+                "인덱싱 요청이 coordinating → primary → replica 경로로 처리되는 과정을 설명할 수 있다",
+                "검색 요청의 scatter/gather 패턴을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "인덱싱 라우팅 (coordinating → primary shard)",
+                "레플리카 복제 흐름",
+                "wait_for_active_shards 설정",
+                "검색 scatter 단계 (coordinating → 각 샤드)",
+                "검색 gather 단계 (결과 병합, 전역 정렬)",
+                "preference 파라미터 (_local, _prefer_nodes)",
+                "adaptive replica selection"
+              ],
+              "prerequisites": ["5.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.2",
+          "phase_id": "5",
+          "title": "샤드 전략",
+          "order": 2,
+          "topics": [
+            {
+              "id": "5.2.1",
+              "section_id": "5.2",
+              "title": "샤드 크기와 수 결정",
+              "order": 1,
+              "learning_objectives": [
+                "인덱스 샤드 수를 결정하는 기준(데이터 크기, 쿼리 처리량)을 적용할 수 있다"
+              ],
+              "learning_content": [
+                "샤드 크기 권장 범위 10~50GB",
+                "과도한 샤드 수의 오버헤드",
+                "힙 메모리당 샤드 수 권장 기준",
+                "인덱스 크기 예측 방법",
+                "샤드 수 변경 불가와 사전 계획의 중요성",
+                "_cat/shards API로 현황 확인",
+                "단일 인덱스 vs 시계열 인덱스 전략"
+              ],
+              "prerequisites": ["1.3.3"],
+              "lab": null
+            },
+            {
+              "id": "5.2.2",
+              "section_id": "5.2",
+              "title": "Rollover, Shrink, Split, Clone",
+              "order": 2,
+              "learning_objectives": [
+                "Rollover API로 인덱스를 자동 롤오버하는 조건을 설정할 수 있다",
+                "Shrink API로 샤드 수를 줄이는 전제 조건과 절차를 수행할 수 있다"
+              ],
+              "learning_content": [
+                "Rollover API와 조건 (max_age, max_size, max_docs)",
+                "Shrink API와 read-only 전환 전제 조건",
+                "Shrink 후 샤드 수 규칙 (약수)",
+                "Split API로 샤드 수 증가",
+                "Clone API로 인덱스 복사",
+                "ILM과 Rollover 연동",
+                "별칭과 Rollover 연동 패턴"
+              ],
+              "prerequisites": ["5.2.1", "2.4.4"],
+              "lab": null
+            },
+            {
+              "id": "5.2.3",
+              "section_id": "5.2",
+              "title": "Allocation Awareness",
+              "order": 3,
+              "learning_objectives": [
+                "Allocation Awareness로 샤드를 특정 속성 기준으로 분산 배치할 수 있다",
+                "Forced Awareness로 단일 장애 영역 격리를 구성할 수 있다"
+              ],
+              "learning_content": [
+                "node.attr.* 커스텀 속성 설정",
+                "cluster.routing.allocation.awareness.attributes",
+                "Forced Awareness 설정",
+                "가용 영역(AZ) 분산 패턴",
+                "랙 인식(rack awareness) 구성",
+                "shard allocation filtering (_include/_exclude/_require)",
+                "allocation explain API"
+              ],
+              "prerequisites": ["5.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.3",
+          "phase_id": "5",
+          "title": "Cross-Cluster Search",
+          "order": 3,
+          "topics": [
+            {
+              "id": "5.3.1",
+              "section_id": "5.3",
+              "title": "CCS 설정",
+              "order": 1,
+              "learning_objectives": [
+                "원격 클러스터를 등록하고 cross-cluster search 쿼리를 실행할 수 있다"
+              ],
+              "learning_content": [
+                "원격 클러스터 등록 (cluster.remote 설정)",
+                "cluster_uuid와 식별",
+                "CCS 쿼리 문법 ({cluster}:{index})",
+                "skip_unavailable 설정",
+                "CCS 응답의 _clusters 필드 해석",
+                "CCS 권한 설정 (Remote Cluster API Key)",
+                "CCS와 스코어 정규화 주의"
+              ],
+              "prerequisites": ["5.1.2"],
+              "lab": null
+            },
+            {
+              "id": "5.3.2",
+              "section_id": "5.3",
+              "title": "Sniff 모드 vs Proxy 모드",
+              "order": 2,
+              "learning_objectives": [
+                "Sniff 모드와 Proxy 모드의 네트워크 접근 방식 차이를 설명할 수 있다",
+                "방화벽 환경에서 Proxy 모드를 적용할 수 있다"
+              ],
+              "learning_content": [
+                "Sniff 모드: 노드 목록 자동 발견",
+                "Proxy 모드: 고정 게이트웨이",
+                "Sniff 모드 방화벽 문제",
+                "Proxy 모드 설정 (proxy_address, server_name)",
+                "TLS와 CCS 연동",
+                "CCS 성능 고려사항 (네트워크 레이턴시)"
+              ],
+              "prerequisites": ["5.3.1"],
+              "lab": null
+            },
+            {
+              "id": "5.3.3",
+              "section_id": "5.3",
+              "title": "멀티 리전 시나리오",
+              "order": 3,
+              "learning_objectives": [
+                "멀티 리전 데이터 아키텍처에서 CCS 활용 패턴을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "리전별 클러스터 분리 이유 (레이턴시, 규제)",
+                "CCS 기반 중앙 집계 패턴",
+                "CCR(Cross-Cluster Replication)과 CCS 비교",
+                "Active-Passive DR 구성",
+                "멀티 리전 인덱싱 전략",
+                "CCS 지연 시간 SLA 고려사항"
+              ],
+              "prerequisites": ["5.3.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "운영 및 관리 (Operations)",
+      "order": 6,
+      "exit_capability": "ILM 정책을 설계하고, 데이터 수집 파이프라인을 구성하며, 보안·스냅샷·모니터링을 포함한 프로덕션 클러스터를 운영할 수 있다.",
+      "sections": [
+        {
+          "id": "6.1",
+          "phase_id": "6",
+          "title": "인덱스 수명주기",
+          "order": 1,
+          "topics": [
+            {
+              "id": "6.1.1",
+              "section_id": "6.1",
+              "title": "ILM 정책",
+              "order": 1,
+              "learning_objectives": [
+                "ILM 정책을 생성하고 인덱스에 연결하여 단계별 전환을 자동화할 수 있다"
+              ],
+              "learning_content": [
+                "ILM(Index Lifecycle Management) 개념",
+                "Hot → Warm → Cold → Frozen → Delete 단계",
+                "단계별 전환 조건 (min_age, rollover)",
+                "ILM 정책 생성 API",
+                "인덱스 템플릿에 ILM 연결",
+                "ILM 상태 확인 (_ilm/explain)",
+                "ILM 재시도 및 수동 이동"
+              ],
+              "prerequisites": ["5.2.2"],
+              "lab": null
+            },
+            {
+              "id": "6.1.2",
+              "section_id": "6.1",
+              "title": "Data Streams",
+              "order": 2,
+              "learning_objectives": [
+                "Data Stream을 생성하고 시계열 데이터를 인덱싱할 수 있다",
+                "Data Stream의 backing index 구조를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Data Stream 개념과 시계열 데이터 적합성",
+                "@timestamp 필수 필드",
+                "backing index 자동 롤오버",
+                "Data Stream 생성 (인덱스 템플릿 기반)",
+                "Data Stream 검색과 인덱싱",
+                "Data Stream과 ILM 연동",
+                "Data Stream 삭제와 backing index 관리"
+              ],
+              "prerequisites": ["6.1.1", "2.4.3"],
+              "lab": null
+            },
+            {
+              "id": "6.1.3",
+              "section_id": "6.1",
+              "title": "Searchable Snapshots",
+              "order": 3,
+              "learning_objectives": [
+                "Searchable Snapshot으로 Cold/Frozen 티어를 구성하여 스토리지 비용을 절감할 수 있다"
+              ],
+              "learning_content": [
+                "Searchable Snapshot 개념",
+                "Cold 티어 vs Frozen 티어",
+                "스냅샷 저장소 등록 (S3, GCS, Azure)",
+                "mount API로 스냅샷 마운트",
+                "부분 마운트 vs 전체 마운트",
+                "Frozen 티어 캐시 설정",
+                "ILM cold/frozen 단계 설정"
+              ],
+              "prerequisites": ["6.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.2",
+          "phase_id": "6",
+          "title": "데이터 수집 파이프라인",
+          "order": 2,
+          "topics": [
+            {
+              "id": "6.2.1",
+              "section_id": "6.2",
+              "title": "Logstash",
+              "order": 1,
+              "learning_objectives": [
+                "Logstash 파이프라인의 input → filter → output 구조를 설명할 수 있다",
+                "Grok 필터로 비정형 로그를 파싱할 수 있다"
+              ],
+              "learning_content": [
+                "Logstash 파이프라인 구조",
+                "input 플러그인 (file, beats, kafka)",
+                "filter 플러그인 (grok, mutate, date, geoip)",
+                "Grok 패턴 문법",
+                "output 플러그인 (elasticsearch)",
+                "Dead Letter Queue",
+                "Logstash 파이프라인 다중화",
+                "Persistent Queue"
+              ],
+              "prerequisites": ["3.1.3"],
+              "lab": null
+            },
+            {
+              "id": "6.2.2",
+              "section_id": "6.2",
+              "title": "Beats",
+              "order": 2,
+              "learning_objectives": [
+                "Filebeat, Metricbeat, Packetbeat의 역할을 구분하고 기본 설정을 적용할 수 있다"
+              ],
+              "learning_content": [
+                "Beats 경량 에이전트 개념",
+                "Filebeat: 로그 파일 수집",
+                "Metricbeat: 시스템/서비스 메트릭",
+                "Packetbeat: 네트워크 패킷",
+                "Heartbeat: 가용성 모니터링",
+                "Auditbeat: 보안 감사",
+                "Beats → Logstash → ES vs Beats → ES 직접",
+                "filebeat.yml 기본 설정"
+              ],
+              "prerequisites": ["6.2.1"],
+              "lab": null
+            },
+            {
+              "id": "6.2.3",
+              "section_id": "6.2",
+              "title": "인제스트 파이프라인",
+              "order": 3,
+              "learning_objectives": [
+                "인제스트 파이프라인으로 문서 인덱싱 전 전처리를 구성할 수 있다",
+                "grok, date, rename, set 프로세서를 활용할 수 있다"
+              ],
+              "learning_content": [
+                "인제스트 파이프라인 개념",
+                "PUT _ingest/pipeline API",
+                "grok 프로세서",
+                "date 프로세서",
+                "rename, set, remove 프로세서",
+                "foreach 프로세서",
+                "pipeline 프로세서 (파이프라인 체이닝)",
+                "on_failure 오류 처리",
+                "simulate API로 파이프라인 테스트"
+              ],
+              "prerequisites": ["6.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.3",
+          "phase_id": "6",
+          "title": "성능 최적화",
+          "order": 3,
+          "topics": [
+            {
+              "id": "6.3.1",
+              "section_id": "6.3",
+              "title": "인덱싱 성능 최적화",
+              "order": 1,
+              "learning_objectives": [
+                "대량 인덱싱 시 처리량을 높이는 설정과 기법을 적용할 수 있다"
+              ],
+              "learning_content": [
+                "refresh_interval 증가 (-1 비활성화)",
+                "index.number_of_replicas 일시 0 설정",
+                "Bulk API 배치 크기 최적화",
+                "index.translog.durability: async",
+                "mapping 최적화 (불필요한 _all 비활성화)",
+                "인덱싱 스레드 풀 설정",
+                "OS 페이지 캐시 활용",
+                "force merge 후 최적화"
+              ],
+              "prerequisites": ["1.2.4"],
+              "lab": null
+            },
+            {
+              "id": "6.3.2",
+              "section_id": "6.3",
+              "title": "검색 성능 최적화",
+              "order": 2,
+              "learning_objectives": [
+                "슬로우 로그를 분석하여 검색 성능 병목을 찾고 최적화할 수 있다"
+              ],
+              "learning_content": [
+                "슬로우 로그 설정 (index.search.slowlog.threshold)",
+                "request cache 활성화와 무효화",
+                "fielddata cache 설정",
+                "routing으로 샤드 대상 축소",
+                "_source 필드 필터링",
+                "store: true vs doc_values 선택",
+                "쿼리 캐시 활용 (filter context)",
+                "profile API로 쿼리 실행 계획 분석"
+              ],
+              "prerequisites": ["3.4.5"],
+              "lab": null
+            },
+            {
+              "id": "6.3.3",
+              "section_id": "6.3",
+              "title": "JVM/파일시스템 최적화",
+              "order": 3,
+              "learning_objectives": [
+                "JVM heap 크기와 GC 설정을 올바르게 조정할 수 있다",
+                "OS 레벨 파일시스템 설정 최적화를 수행할 수 있다"
+              ],
+              "learning_content": [
+                "JVM heap 크기 설정 (물리 메모리의 50%, 최대 31GB)",
+                "Compressed OOP와 31GB 경계",
+                "G1GC vs ZGC 선택 기준",
+                "bootstrap.memory_lock 설정",
+                "파일 디스크립터 제한 (ulimit -n 65535)",
+                "vm.max_map_count 설정",
+                "SSD vs HDD와 io 스케줄러",
+                "NUMA 설정"
+              ],
+              "prerequisites": ["6.3.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.4",
+          "phase_id": "6",
+          "title": "보안 및 운영",
+          "order": 4,
+          "topics": [
+            {
+              "id": "6.4.1",
+              "section_id": "6.4",
+              "title": "TLS/RBAC/API Key 보안",
+              "order": 1,
+              "learning_objectives": [
+                "Transport/HTTP TLS를 활성화하고 RBAC으로 사용자 권한을 관리할 수 있다",
+                "API Key를 생성하고 애플리케이션 인증에 적용할 수 있다"
+              ],
+              "learning_content": [
+                "xpack.security.enabled 활성화",
+                "Transport TLS 설정 (transport.ssl)",
+                "HTTP TLS 설정 (http.ssl)",
+                "elasticsearch-certutil 도구",
+                "내장 사용자 (elastic, kibana_system) 비밀번호 설정",
+                "RBAC 역할(role) 정의",
+                "역할 매핑(role mapping)",
+                "API Key 생성 및 사용",
+                "필드 수준 보안(FLS)과 도큐먼트 수준 보안(DLS)"
+              ],
+              "prerequisites": ["5.1.2"],
+              "lab": null
+            },
+            {
+              "id": "6.4.2",
+              "section_id": "6.4",
+              "title": "스냅샷과 복구",
+              "order": 2,
+              "learning_objectives": [
+                "스냅샷 저장소를 등록하고 스냅샷을 생성·복구하는 절차를 수행할 수 있다",
+                "SLM(Snapshot Lifecycle Management)으로 자동 스냅샷을 스케줄링할 수 있다"
+              ],
+              "learning_content": [
+                "스냅샷 저장소 등록 (S3, shared filesystem)",
+                "스냅샷 생성 (_snapshot API)",
+                "증분 스냅샷 메커니즘",
+                "스냅샷 복구 (_restore API)",
+                "부분 복구 (indices 필터)",
+                "SLM 정책 생성",
+                "스냅샷 상태 모니터링",
+                "재해 복구(DR) 시나리오"
+              ],
+              "prerequisites": ["6.4.1"],
+              "lab": null
+            },
+            {
+              "id": "6.4.3",
+              "section_id": "6.4",
+              "title": "클러스터 모니터링",
+              "order": 3,
+              "learning_objectives": [
+                "Kibana Stack Monitoring으로 클러스터 상태와 성능을 모니터링할 수 있다",
+                "주요 지표를 해석하여 이상을 감지할 수 있다"
+              ],
+              "learning_content": [
+                "Stack Monitoring UI",
+                "클러스터 상태 (green/yellow/red) 의미",
+                "노드 JVM heap 사용률 지표",
+                "인덱싱/검색 처리량 지표",
+                "스레드 풀 거부(rejected) 지표",
+                "디스크 워터마크 경보",
+                "Metricbeat 기반 모니터링 설정",
+                "Watcher 알림 설정"
+              ],
+              "prerequisites": ["6.4.1"],
+              "lab": null
+            },
+            {
+              "id": "6.4.4",
+              "section_id": "6.4",
+              "title": "롤링 업그레이드",
+              "order": 4,
+              "learning_objectives": [
+                "무중단 롤링 업그레이드 절차를 단계별로 수행할 수 있다"
+              ],
+              "learning_content": [
+                "롤링 업그레이드 vs 풀 클러스터 재시작",
+                "업그레이드 전 체크리스트",
+                "샤드 할당 비활성화 (cluster.routing.allocation.enable)",
+                "노드 순서별 업그레이드 절차",
+                "클러스터 상태 확인 후 다음 노드 진행",
+                "업그레이드 후 샤드 재활성화",
+                "Kibana 업그레이드 순서",
+                "브레이킹 체인지 마이그레이션 가이드 확인"
+              ],
+              "prerequisites": ["6.4.3"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "title": "AI 검색 (Modern AI Search)",
+      "order": 7,
+      "exit_capability": "벡터 검색, ELSER 시맨틱 검색, BM25+kNN 하이브리드 검색을 구현하고 RAG 파이프라인을 통합할 수 있다.",
+      "sections": [
+        {
+          "id": "7.1",
+          "phase_id": "7",
+          "title": "벡터 검색",
+          "order": 1,
+          "topics": [
+            {
+              "id": "7.1.1",
+              "section_id": "7.1",
+              "title": "dense_vector와 HNSW",
+              "order": 1,
+              "learning_objectives": [
+                "dense_vector 매핑을 설정하고 HNSW 인덱스 파라미터를 조정할 수 있다"
+              ],
+              "learning_content": [
+                "dense_vector 타입 dims 설정",
+                "index: true로 HNSW 인덱스 활성화",
+                "similarity 메트릭 (cosine, dot_product, l2_norm)",
+                "HNSW(Hierarchical Navigable Small World) 알고리즘",
+                "m 파라미터 (연결 수)",
+                "ef_construction 파라미터 (빌드 품질)",
+                "벡터 차원 수와 메모리 사용량",
+                "byte 양자화 dense_vector (8비트)"
+              ],
+              "prerequisites": ["2.2.3"],
+              "lab": null
+            },
+            {
+              "id": "7.1.2",
+              "section_id": "7.1",
+              "title": "kNN 검색",
+              "order": 2,
+              "learning_objectives": [
+                "knn 파라미터로 근사 최근접 이웃 검색을 수행할 수 있다",
+                "exact kNN과 approximate kNN의 차이를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "knn 쿼리 파라미터 (k, num_candidates)",
+                "query_vector vs query_vector_builder",
+                "exact kNN (script_score 기반)",
+                "approximate kNN (HNSW 기반)",
+                "num_candidates와 recall 트레이드오프",
+                "pre-filter와 post-filter 차이",
+                "kNN 검색 응답 구조"
+              ],
+              "prerequisites": ["7.1.1"],
+              "lab": null
+            },
+            {
+              "id": "7.1.3",
+              "section_id": "7.1",
+              "title": "임베딩 모델 배포",
+              "order": 3,
+              "learning_objectives": [
+                "Elasticsearch ML 노드에 외부 임베딩 모델을 배포하고 인제스트 파이프라인에 연결할 수 있다"
+              ],
+              "learning_content": [
+                "Elasticsearch ML 모델 저장소",
+                "eland 라이브러리로 모델 업로드",
+                "PUT _ml/trained_models API",
+                "모델 배포 (_deploy API)",
+                "inference 프로세서로 인제스트 파이프라인 통합",
+                "text_embedding 태스크 타입",
+                "모델 성능 모니터링"
+              ],
+              "prerequisites": ["7.1.2", "6.2.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "7.2",
+          "phase_id": "7",
+          "title": "시맨틱 검색",
+          "order": 2,
+          "topics": [
+            {
+              "id": "7.2.1",
+              "section_id": "7.2",
+              "title": "ELSER 작동 원리",
+              "order": 1,
+              "learning_objectives": [
+                "ELSER의 희소 벡터 표현 방식과 BM25와의 차이를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "ELSER(Elastic Learned Sparse EncodeR) 개념",
+                "희소 벡터(sparse vector) 표현",
+                "learned token expansion 메커니즘",
+                "ELSER가 생성하는 확장 토큰 예시",
+                "rank_features 타입과 ELSER 연동",
+                "ELSER 모델 버전 (ELSER v1 vs v2)",
+                "쿼리 시 text_expansion 쿼리"
+              ],
+              "prerequisites": ["7.1.1"],
+              "lab": null
+            },
+            {
+              "id": "7.2.2",
+              "section_id": "7.2",
+              "title": "ELSER vs dense 벡터 비교",
+              "order": 2,
+              "learning_objectives": [
+                "ELSER와 dense 벡터 검색의 성능, 정확도, 리소스 트레이드오프를 비교할 수 있다"
+              ],
+              "learning_content": [
+                "ELSER 장점: 다국어 없이 영어 out-of-box",
+                "dense 벡터 장점: 다국어, 도메인 파인튜닝",
+                "인덱싱 속도 비교",
+                "검색 레이턴시 비교",
+                "메모리/스토리지 사용량 비교",
+                "재현율(recall) 벤치마크",
+                "사용 사례별 선택 가이드"
+              ],
+              "prerequisites": ["7.2.1"],
+              "lab": null
+            },
+            {
+              "id": "7.2.3",
+              "section_id": "7.2",
+              "title": "ELSER 배포와 시맨틱 검색 구현",
+              "order": 3,
+              "learning_objectives": [
+                "ELSER 모델을 배포하고 semantic_text 필드로 시맨틱 검색을 구현할 수 있다"
+              ],
+              "learning_content": [
+                "ELSER 모델 다운로드 (Kibana ML UI)",
+                "semantic_text 필드 타입 (8.x)",
+                "semantic 쿼리 타입",
+                "text_expansion 쿼리 (저수준)",
+                "인제스트 파이프라인의 sparse_encoding 프로세서",
+                "ELSER 추론 지연과 배포 수 조정",
+                "ELSER 인덱싱 파이프라인 최적화"
+              ],
+              "prerequisites": ["7.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "7.3",
+          "phase_id": "7",
+          "title": "하이브리드 검색",
+          "order": 3,
+          "topics": [
+            {
+              "id": "7.3.1",
+              "section_id": "7.3",
+              "title": "RRF 원리",
+              "order": 1,
+              "learning_objectives": [
+                "Reciprocal Rank Fusion의 수식과 rank_constant 파라미터를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "RRF(Reciprocal Rank Fusion) 공식",
+                "rank_constant 파라미터 (기본값 60)",
+                "다중 순위 목록 병합 방식",
+                "스코어 정규화 불필요 이점",
+                "RRF vs 선형 결합(linear combination) 비교",
+                "ES 8.8+에서 rrf retriever 지원",
+                "Kibana에서 RRF 시각화"
+              ],
+              "prerequisites": ["7.1.2", "3.2.2"],
+              "lab": null
+            },
+            {
+              "id": "7.3.2",
+              "section_id": "7.3",
+              "title": "BM25+kNN 결합 구현",
+              "order": 2,
+              "learning_objectives": [
+                "retriever API로 BM25와 kNN을 결합한 하이브리드 검색을 구현할 수 있다"
+              ],
+              "learning_content": [
+                "retriever API 구조 (ES 8.9+)",
+                "standard retriever (BM25)",
+                "knn retriever",
+                "rrf retriever로 두 결과 병합",
+                "sub_searches 기반 구현 (레거시)",
+                "하이브리드 검색 응답 구조",
+                "explain으로 하이브리드 스코어 분석"
+              ],
+              "prerequisites": ["7.3.1", "7.2.3"],
+              "lab": null
+            },
+            {
+              "id": "7.3.3",
+              "section_id": "7.3",
+              "title": "하이브리드 검색 튜닝",
+              "order": 3,
+              "learning_objectives": [
+                "하이브리드 검색의 rank_constant와 num_candidates를 조정하여 검색 품질을 최적화할 수 있다"
+              ],
+              "learning_content": [
+                "rank_constant 값에 따른 순위 변화",
+                "num_candidates 증가와 recall 향상",
+                "하이브리드 검색 평가 지표 (NDCG, MAP)",
+                "오프라인 평가와 온라인 A/B 테스트",
+                "검색 품질 평가 데이터셋 구성",
+                "Rank Evaluation API (_rank_eval)"
+              ],
+              "prerequisites": ["7.3.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "7.4",
+          "phase_id": "7",
+          "title": "RAG 통합",
+          "order": 4,
+          "topics": [
+            {
+              "id": "7.4.1",
+              "section_id": "7.4",
+              "title": "RAG 파이프라인 구성",
+              "order": 1,
+              "learning_objectives": [
+                "Elasticsearch를 벡터 저장소로 사용하는 RAG 파이프라인을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "RAG(Retrieval-Augmented Generation) 아키텍처",
+                "청킹(chunking) 전략 (고정 크기, 문장, 단락)",
+                "임베딩 생성과 인덱싱",
+                "컨텍스트 검색 (kNN 또는 하이브리드)",
+                "LLM 프롬프트에 검색 결과 삽입",
+                "LangChain/LlamaIndex와 ES 통합",
+                "답변 품질 평가 방법"
+              ],
+              "prerequisites": ["7.3.2"],
+              "lab": null
+            },
+            {
+              "id": "7.4.2",
+              "section_id": "7.4",
+              "title": "ML Inference 파이프라인",
+              "order": 2,
+              "learning_objectives": [
+                "ML Inference 프로세서로 인덱싱 시 자동 임베딩 생성 파이프라인을 구성할 수 있다"
+              ],
+              "learning_content": [
+                "inference 인제스트 프로세서",
+                "model_id 지정",
+                "input_output 필드 매핑",
+                "파이프라인 체이닝으로 임베딩 + 메타데이터 처리",
+                "batch inference 성능",
+                "ML Inference 모니터링",
+                "Elastic AI Assistant 연동 개요"
+              ],
+              "prerequisites": ["7.4.1", "7.1.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "7.5",
+          "phase_id": "7",
+          "title": "ML 이상 감지",
+          "order": 5,
+          "topics": [
+            {
+              "id": "7.5.1",
+              "section_id": "7.5",
+              "title": "이상 감지 Job 설정",
+              "order": 1,
+              "learning_objectives": [
+                "Kibana에서 이상 감지 Job을 생성하고 결과를 해석할 수 있다"
+              ],
+              "learning_content": [
+                "ML Anomaly Detection 개념",
+                "단일 메트릭 Job vs 다중 메트릭 Job",
+                "detector 함수 (mean, sum, count, rare 등)",
+                "bucket_span 설정",
+                "influencer 필드",
+                "anomaly score 해석 (0~100)",
+                "결과 인덱스 (.ml-anomalies-*)",
+                "Job 스케줄러와 실시간 분석"
+              ],
+              "prerequisites": ["4.1.2", "6.4.3"],
+              "lab": null
+            },
+            {
+              "id": "7.5.2",
+              "section_id": "7.5",
+              "title": "보안 모니터링 활용",
+              "order": 2,
+              "learning_objectives": [
+                "이상 감지 결과를 Kibana SIEM과 연동하여 보안 이상을 탐지할 수 있다"
+              ],
+              "learning_content": [
+                "Elastic Security와 ML 통합",
+                "SIEM 탐지 규칙과 이상 감지 연동",
+                "Entity Analytics 개요",
+                "이상 징후 알림 설정 (Watcher 또는 Alerting)",
+                "위협 헌팅(threat hunting) 시나리오",
+                "로그인 이상 탐지 예시"
+              ],
+              "prerequisites": ["7.5.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "title": "실전 활용 (Use Cases)",
+      "order": 8,
+      "exit_capability": "전자상거래 검색, ELK 로그 분석, Observability 시스템을 Elasticsearch로 구축할 수 있다.",
+      "sections": [
+        {
+          "id": "8.1",
+          "phase_id": "8",
+          "title": "전자상거래 검색",
+          "order": 1,
+          "topics": [
+            {
+              "id": "8.1.1",
+              "section_id": "8.1",
+              "title": "상품 인덱스 설계",
+              "order": 1,
+              "learning_objectives": [
+                "전자상거래 상품 검색을 위한 인덱스 매핑과 분석기를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "상품 인덱스 필드 설계 (이름, 설명, 카테고리, 가격, 재고)",
+                "text+keyword 멀티필드 패턴 적용",
+                "카테고리 필드 keyword 타입",
+                "가격/재고 숫자 타입",
+                "nested 타입으로 상품 옵션 표현",
+                "dense_vector로 이미지 임베딩 저장",
+                "한국어 상품명 분석기 설계",
+                "동의어 사전 (동의어 매핑)"
+              ],
+              "prerequisites": ["2.2.4", "2.3.4"],
+              "lab": null
+            },
+            {
+              "id": "8.1.2",
+              "section_id": "8.1",
+              "title": "자동완성, 오타교정, 동의어 검색",
+              "order": 2,
+              "learning_objectives": [
+                "자동완성, 오타교정, 동의어 확장을 통합한 검색 서비스를 구현할 수 있다"
+              ],
+              "learning_content": [
+                "search_as_you_type 기반 자동완성",
+                "fuzziness: AUTO 오타교정",
+                "prefix 쿼리 기반 자동완성 비교",
+                "동의어 필터로 유사어 확장",
+                "스팸 필터링과 불용어 처리",
+                "검색 결과 function_score 부스팅 (판매량, 평점)",
+                "전체 검색 UX 플로우 설계"
+              ],
+              "prerequisites": ["3.3.2", "3.4.3", "8.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "8.2",
+          "phase_id": "8",
+          "title": "ELK 로그 분석",
+          "order": 2,
+          "topics": [
+            {
+              "id": "8.2.1",
+              "section_id": "8.2",
+              "title": "로그 수집 파이프라인",
+              "order": 1,
+              "learning_objectives": [
+                "Filebeat → Logstash → Elasticsearch 로그 수집 파이프라인을 구성할 수 있다"
+              ],
+              "learning_content": [
+                "Filebeat 설정과 로그 파일 모니터링",
+                "Filebeat modules (nginx, apache, system)",
+                "Logstash grok 파싱 파이프라인",
+                "ECS(Elastic Common Schema) 필드 정규화",
+                "타임스탬프 파싱과 시간대 설정",
+                "인덱스 네이밍 규칙 (logs-{service}-{date})",
+                "Data Stream 기반 로그 적재",
+                "ILM과 로그 보존 정책"
+              ],
+              "prerequisites": ["6.2.1", "6.1.2"],
+              "lab": null
+            },
+            {
+              "id": "8.2.2",
+              "section_id": "8.2",
+              "title": "Kibana 로그 분석 대시보드",
+              "order": 2,
+              "learning_objectives": [
+                "Kibana에서 에러율, 응답시간, 트래픽 분석 대시보드를 구성할 수 있다"
+              ],
+              "learning_content": [
+                "Kibana Logs UI 활용",
+                "에러 로그 필터링 (KQL)",
+                "시간별 요청 수 date_histogram",
+                "상위 에러 코드 terms 집계",
+                "응답 시간 percentiles 집계",
+                "지역별 트래픽 geo 시각화",
+                "Kibana Alerting으로 에러율 임계치 알림"
+              ],
+              "prerequisites": ["4.3.2", "8.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "8.3",
+          "phase_id": "8",
+          "title": "Observability",
+          "order": 3,
+          "topics": [
+            {
+              "id": "8.3.1",
+              "section_id": "8.3",
+              "title": "Logs + Metrics + APM 통합",
+              "order": 1,
+              "learning_objectives": [
+                "Elastic Observability에서 Logs, Metrics, APM 데이터를 통합 분석할 수 있다"
+              ],
+              "learning_content": [
+                "Elastic Observability 구성요소",
+                "APM(Application Performance Monitoring) 에이전트",
+                "분산 추적 (trace_id, span_id)",
+                "서비스 맵(Service Map)",
+                "Metricbeat로 인프라 메트릭 수집",
+                "Logs 탐색기와 APM 트레이스 연계",
+                "SLO(Service Level Objective) 설정",
+                "Uptime 모니터링"
+              ],
+              "prerequisites": ["6.2.2", "8.2.1"],
+              "lab": null
+            },
+            {
+              "id": "8.3.2",
+              "section_id": "8.3",
+              "title": "Observability 데이터 스트림 설계",
+              "order": 2,
+              "learning_objectives": [
+                "Observability 워크로드를 위한 Data Stream 네이밍 규칙과 ILM 정책을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "ECS 기반 데이터 스트림 네이밍 ({type}-{dataset}-{namespace})",
+                "logs-*, metrics-*, traces-* 패턴",
+                "Observability 데이터 보존 정책",
+                "Hot-Warm-Cold 티어링 설계",
+                "샤드 크기와 롤오버 조건 설정",
+                "대용량 메트릭 다운샘플링(downsampling)",
+                "Kibana Observability Overview 대시보드"
+              ],
+              "prerequisites": ["8.3.1", "6.1.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
