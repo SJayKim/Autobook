@@ -194,10 +194,67 @@ POST _scripts/my_scoring_script
 
 저장 스크립트는 두 가지 이점이 있습니다. 첫째, 스크립트 코드가 클러스터에 한 번만 저장되므로 여러 쿼리에서 동일한 로직을 재사용할 때 일관성을 유지할 수 있습니다. 둘째, 저장 시점에 컴파일이 완료되므로 쿼리 실행 시 컴파일 지연이 발생하지 않습니다.
 
-정리하면, Painless는 Elasticsearch 전용 스크립팅 언어로, 샌드박스 보안, 정적 타입, JVM 바이트코드 컴파일이라는 세 가지 특징을 갖추고 있습니다. script_score 쿼리에서 커스텀 점수를 계산하고, update 작업에서 ctx._source를 통해 문서를 변경하며, 변할 수 있는 값은 params로 분리하여 컴파일 캐시를 활용합니다. 필드 값을 읽을 때는 doc['field'].value를, 문서를 변경할 때는 ctx._source를 사용합니다. 스크립트는 Lucene 최적화를 우회하므로 반드시 필터로 대상을 좁힌 뒤 적용해야 합니다.
+검색 결과에 인덱스에 없는 계산 값을 함께 돌려받고 싶을 때는 **script_fields**를 사용합니다. _search 요청 본문에 "script_fields" 블록을 추가하고, 그 안에 Painless 스크립트를 정의하면 됩니다. _source에는 존재하지 않는 가공된 값을 응답의 fields 항목으로 받을 수 있습니다. 앞서 도입부에서 들었던 세금 포함 가격 예시를 script_fields로 구현하면 다음과 같습니다.
+
+```json
+{
+  "query": {
+    "match_all": {}
+  },
+  "script_fields": {
+    "price_with_tax": {
+      "script": {
+        "source": "doc['price'].value * params.tax_rate",
+        "params": {
+          "tax_rate": 1.1
+        }
+      }
+    }
+  }
+}
+```
+
+"script_fields" 안에 "price_with_tax"라는 이름으로 새 필드를 선언했습니다. 이 이름은 응답에서 해당 계산 값의 키가 됩니다. "script" 안의 Painless 코드가 문서마다 실행되어, price 필드 값에 1.1을 곱한 결과를 반환합니다. 세율이 바뀌면 params.tax_rate만 수정하면 됩니다. script_fields는 여러 개를 동시에 선언할 수 있으므로, 세금 포함 가격과 할인 가격을 한 번의 검색으로 함께 받는 것도 가능합니다.
+
+Painless 스크립트를 작성하다 보면 기대한 결과가 나오지 않는 경우가 있습니다. 이때 활용할 수 있는 디버깅 기법을 알아둡니다.
+
+첫 번째 방법은 **Debug.explain()** 메서드입니다. 스크립트 안에서 확인하고 싶은 변수나 표현식을 Debug.explain()에 넣으면, Elasticsearch가 해당 값의 타입과 내용을 에러 메시지 형태로 알려줍니다. 예를 들어 doc['price']의 실제 타입이 궁금할 때 다음과 같이 작성합니다.
+
+```json
+{
+  "script_fields": {
+    "debug_test": {
+      "script": {
+        "source": "Debug.explain(doc['price'])"
+      }
+    }
+  }
+}
+```
+
+이 스크립트를 실행하면 정상 결과 대신 에러 응답이 돌아오는데, 에러 메시지 안에 doc['price']의 클래스명과 값이 포함되어 있습니다. 정상 실행이 아니라 의도적으로 에러를 발생시키는 방식이므로, 값을 확인한 뒤에는 Debug.explain()을 제거해야 합니다.
+
+두 번째 방법은 에러 메시지 자체를 활용하는 것입니다. Painless에서 타입 오류나 문법 오류가 발생하면, 에러 메시지에 줄 번호와 관련 변수의 타입이 표시됩니다. "ClassCastException"이 발생했다면 변수의 타입이 예상과 다르다는 뜻이고, 메시지에 포함된 타입 정보를 보고 doc['field'].value의 반환 타입을 확인하면 원인을 파악할 수 있습니다.
+
+세 번째 방법은 **_scripts/painless/_execute API**입니다. 이 API를 사용하면 실제 인덱스의 문서를 대상으로 하지 않고도 Painless 스크립트를 독립적으로 실행해 볼 수 있습니다.
+
+```json
+POST _scripts/painless/_execute
+{
+  "script": {
+    "source": "params.x * params.y + 10",
+    "params": {
+      "x": 3,
+      "y": 5
+    }
+  }
+}
+```
+
+이 요청은 3 * 5 + 10 = 25를 반환합니다. 스크립트의 계산 로직이 맞는지 간단한 입력값으로 먼저 검증할 수 있어서, 복잡한 스크립트를 작성할 때 단계적으로 테스트하기에 유용합니다.
+
+정리하면, Painless는 Elasticsearch 전용 스크립팅 언어로, 샌드박스 보안, 정적 타입, JVM 바이트코드 컴파일이라는 세 가지 특징을 갖추고 있습니다. script_score 쿼리에서 커스텀 점수를 계산하고, script_fields로 검색 응답에 계산 필드를 추가하며, update 작업에서 ctx._source를 통해 문서를 변경합니다. 변할 수 있는 값은 params로 분리하여 컴파일 캐시를 활용합니다. 필드 값을 읽을 때는 doc['field'].value를, 문서를 변경할 때는 ctx._source를 사용합니다. 스크립트가 기대와 다르게 동작하면 Debug.explain()으로 중간값을 확인하거나 _scripts/painless/_execute API로 독립 테스트할 수 있습니다. 스크립트는 Lucene 최적화를 우회하므로 반드시 필터로 대상을 좁힌 뒤 적용해야 합니다.
 
 다음 단원인 3.4.5에서는 Explain API와 스코어 디버깅을 다룹니다. 스크립트가 적용된 점수가 기대와 다를 때, Explain API로 점수 산출 과정을 단계별로 확인하는 방법을 살펴봅니다.
 
-이 단원을 마치면 Painless 스크립트로 커스텀 스코어 계산과 필드 변환을 구현할 수 있고, 스크립트 캐싱과 파라미터화로 성능을 최적화할 수 있습니다.
-
-<!-- INCOMPLETE: script_fields, Painless 디버깅 방법 -->
+이 단원을 마치면 Painless 스크립트로 커스텀 스코어 계산과 필드 변환을 구현할 수 있고, script_fields로 계산 필드를 검색 결과에 포함시킬 수 있으며, 스크립트 캐싱과 파라미터화로 성능을 최적화할 수 있습니다.
