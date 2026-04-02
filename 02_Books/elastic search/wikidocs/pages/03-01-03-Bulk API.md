@@ -176,10 +176,74 @@ PUT /my_index/_settings
 
 대부분의 프로그래밍 언어에서는 Elasticsearch 클라이언트 라이브러리가 Bulk API를 더 편리하게 사용할 수 있도록 **bulk helper** 함수를 제공합니다. bulk helper는 문서 목록을 받아 NDJSON 형식으로 변환하고, 배치 크기에 맞게 나누어 보내고, 실패한 항목을 자동으로 재시도하는 기능을 갖추고 있습니다. 직접 NDJSON 문자열을 조립하고 재시도 로직을 구현하는 수고를 줄여 줍니다.
 
+Python의 elasticsearch-py 라이브러리는 helpers.bulk() 함수를 제공합니다. 이 함수는 generator나 리스트 같은 iterable을 받아 내부적으로 배치를 나누어 _bulk 엔드포인트로 전송합니다. chunk_size 파라미터로 한 번에 보낼 문서 수를 지정할 수 있습니다.
+
+```python
+from elasticsearch import Elasticsearch
+from elasticsearch.helpers import bulk
+
+es = Elasticsearch("http://localhost:9200")
+
+actions = [
+    {"_index": "products", "_id": str(i), "_source": {"name": f"item_{i}", "price": i * 1000}}
+    for i in range(10000)
+]
+
+success, errors = bulk(es, actions, chunk_size=1000)
+```
+
+actions 리스트에 만 건의 문서를 담았지만, helpers.bulk()가 chunk_size=1000에 따라 1,000건씩 열 번의 Bulk 요청으로 나누어 보냅니다. 반환값의 success는 성공 건수, errors는 실패 항목 목록입니다.
+
+Java의 Elasticsearch Client는 BulkRequest 객체를 사용합니다. 여러 개의 IndexRequest를 add() 메서드로 추가한 뒤, client.bulk()를 호출하여 한 번에 실행합니다.
+
+```java
+BulkRequest bulkRequest = new BulkRequest();
+for (int i = 0; i < 1000; i++) {
+    bulkRequest.add(new IndexRequest("products")
+        .id(String.valueOf(i))
+        .source("name", "item_" + i, "price", i * 1000));
+}
+BulkResponse response = client.bulk(bulkRequest, RequestOptions.DEFAULT);
+```
+
+BulkResponse의 hasFailures() 메서드로 실패 여부를 확인하고, 실패한 항목만 골라 재시도할 수 있습니다.
+
+JavaScript의 @elastic/elasticsearch 라이브러리는 helpers.bulk() 함수를 제공합니다. 배열이나 readable stream을 데이터 소스로 받아 자동으로 배치를 나누어 전송합니다.
+
+```javascript
+const { Client } = require("@elastic/elasticsearch");
+const client = new Client({ node: "http://localhost:9200" });
+
+const documents = [
+  { name: "item_1", price: 1000 },
+  { name: "item_2", price: 2000 },
+  // ...
+];
+
+const result = await client.helpers.bulk({
+  datasource: documents,
+  onDocument(doc) {
+    return { index: { _index: "products" } };
+  },
+});
+```
+
+datasource에 문서 배열을 넘기고, onDocument 콜백에서 각 문서에 적용할 액션을 반환합니다. 라이브러리가 NDJSON 변환, 배치 분할, 전송을 모두 처리합니다.
+
+세 라이브러리 모두 공통적인 장점을 가집니다. NDJSON 문자열을 직접 조립할 필요가 없고, 재시도와 오류 처리 로직이 내장되어 있으며, 스트리밍 방식으로 동작하여 전체 데이터를 메모리에 올리지 않아도 됩니다.
+
+```
+클라이언트 라이브러리 bulk helper 비교
+
+라이브러리                데이터 입력         배치 제어            오류 처리
+---------------------------------------------------------------------
+Python elasticsearch-py   generator/list     chunk_size 파라미터  (success, errors) 반환
+Java Elasticsearch Client BulkRequest.add()  수동 분할 필요       hasFailures() 확인
+JavaScript @elastic/es    배열/stream         자동 분할            result 객체 반환
+```
+
 정리하면, Bulk API는 여러 건의 인덱싱, 수정, 삭제를 하나의 HTTP 요청에 묶어 처리하는 기능입니다. _bulk 엔드포인트에 NDJSON 형식으로 액션 줄과 소스 줄 쌍을 보내며, index, create, update, delete 네 가지 액션을 지원합니다. 응답의 errors 필드로 실패 여부를 확인하고, items 배열에서 개별 결과를 파싱합니다. 실패한 항목은 지수 백오프 방식으로 재시도합니다. 배치 크기는 5MB에서 15MB 사이에서 시작하여 환경에 맞게 조정합니다.
 
 다음 단원인 3.2.1에서는 Query context vs Filter context를 다룹니다. 검색 요청에서 점수 계산이 필요한 경우와 단순 필터링만 하면 되는 경우를 구분하는 방법을 살펴봅니다.
 
 이 단원을 마치면 Bulk API의 NDJSON 형식을 이해하고 대량 인덱싱을 수행할 수 있으며, Bulk API 응답에서 오류 항목을 식별할 수 있습니다.
-
-<!-- INCOMPLETE: 클라이언트 라이브러리의 bulk helper -->
