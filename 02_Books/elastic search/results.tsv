@@ -31,3 +31,23 @@ topic	score	attempt	status	issues
 3.2.2	9/10	1	revise	minimum_should_match 보강
 3.2.3	10/10	1	pass	-
 3.2.4	10/10	1	pass	-
+3.3.1	9/10	1	revise	phrase/phrase_prefix/tie_breaker 보강
+3.3.2	10/10	1	pass	-
+3.3.3	10/10	1	pass	-
+3.3.4	10/10	1	pass	-
+3.3.5	10/10	1	pass	-
+3.4.1	9/10	1	revise	INCOMPLETE 마커 제거
+3.4.2	10/10	1	pass	-
+3.4.3	9/10	1	revise	INCOMPLETE 마커 제거
+3.4.4	9/10	1	revise	script_fields/디버깅 보강
+3.4.5	10/10	1	pass	-
+4.1.1	9/10	1	revise	doc_count_error 보강
+4.1.2	9/10	1	revise	INCOMPLETE 마커 제거
+4.1.3	9/10	1	revise	top_hits/geo_centroid 보강
+4.2.1	10/10	1	pass	-
+4.2.2	10/10	1	pass	-
+4.2.3	10/10	1	pass	-
+4.2.4	10/10	1	pass	-
+4.3.1	10/10	1	pass	-
+4.3.2	10/10	1	pass	-
+4.3.3	10/10	1	pass	-
