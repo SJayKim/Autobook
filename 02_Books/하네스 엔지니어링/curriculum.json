@@ -1,0 +1,1421 @@
+{
+  "schema_version": "1.0.0",
+  "curriculum_id": "harness-engineering",
+  "title": "하네스 엔지니어링: AI 에이전트를 위한 외부 시스템 설계",
+  "locale": "ko-KR",
+  "numbering": { "phase_base": 1 },
+  "prerequisite_shorthand": "none",
+  "prerequisite_ordering": { "mode": "id_numeric_tuple" },
+  "phases": [
+    {
+      "id": "1",
+      "title": "하네스 엔지니어링 기초",
+      "order": 1,
+      "exit_capability": "하네스 엔지니어링의 정의와 범위를 설명하고, 프롬프트 엔지니어링과의 차이를 구분하며, AI 에이전트의 동작 루프 속에서 하네스가 수행하는 역할을 설명할 수 있다.",
+      "sections": [
+        {
+          "id": "1.1",
+          "phase_id": "1",
+          "title": "개요와 정의",
+          "order": 1,
+          "topics": [
+            {
+              "id": "1.1.1",
+              "section_id": "1.1",
+              "title": "하네스 엔지니어링이란 무엇인가",
+              "order": 1,
+              "learning_objectives": [
+                "하네스 엔지니어링의 정의와 다섯 가지 핵심 축을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "하네스(Harness)의 어원과 비유 (말의 마구)",
+                "하네스 엔지니어링의 정의",
+                "외부 시스템 설계, 통제, 피드백, 오케스트레이션, 신뢰성 다섯 축",
+                "모델 내부 개입과 외부 환경 설계의 구분",
+                "하네스 엔지니어링이 주목받는 이유 (에이전트 시대의 도래)"
+              ],
+              "prerequisites": [],
+              "lab": null
+            },
+            {
+              "id": "1.1.2",
+              "section_id": "1.1",
+              "title": "프롬프트 엔지니어링과 하네스 엔지니어링의 차이",
+              "order": 2,
+              "learning_objectives": [
+                "프롬프트 엔지니어링과 하네스 엔지니어링의 대상, 범위, 효과를 비교하여 구분할 수 있다"
+              ],
+              "learning_content": [
+                "프롬프트 엔지니어링의 정의와 한계",
+                "하네스 엔지니어링의 대상 범위 (프롬프트 외 도구, 환경, 피드백)",
+                "한 번의 입력 대 장기 실행 루프의 관점 차이",
+                "두 접근의 상호 보완 관계",
+                "실무에서 두 기법을 결합하는 일반적 패턴"
+              ],
+              "prerequisites": ["1.1.1"],
+              "lab": null
+            },
+            {
+              "id": "1.1.3",
+              "section_id": "1.1",
+              "title": "하네스 엔지니어링이 등장한 배경",
+              "order": 3,
+              "learning_objectives": [
+                "하네스 엔지니어링이 주목받게 된 기술적·산업적 배경을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "LLM 능력의 한계와 환각 문제",
+                "도구 사용(tool use) 기능의 등장",
+                "에이전틱 코딩 도구의 확산 (Cursor, Claude Code, Copilot)",
+                "동일 모델에서도 하네스 차이가 만드는 성능 격차",
+                "벤치마크(SWE-bench 등)에서 드러난 하네스의 중요성"
+              ],
+              "prerequisites": ["1.1.2"],
+              "lab": null
+            },
+            {
+              "id": "1.1.4",
+              "section_id": "1.1",
+              "title": "하네스 엔지니어링의 다섯 가지 축 조감도",
+              "order": 4,
+              "learning_objectives": [
+                "외부 환경, 통제, 피드백, 오케스트레이션, 신뢰성 다섯 축이 서로 어떻게 맞물리는지 도식으로 설명할 수 있다"
+              ],
+              "learning_content": [
+                "다섯 축의 개별 정의 요약",
+                "축 간 의존 관계 도식",
+                "하나의 축만 강화할 때 생기는 편향",
+                "하네스 전체를 평가하는 관점",
+                "본 책의 Phase 2 이후 구성과 축의 대응"
+              ],
+              "prerequisites": ["1.1.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "phase_id": "1",
+          "title": "AI 에이전트 기본 모델",
+          "order": 2,
+          "topics": [
+            {
+              "id": "1.2.1",
+              "section_id": "1.2",
+              "title": "AI 에이전트의 정의와 구성요소",
+              "order": 1,
+              "learning_objectives": [
+                "AI 에이전트를 모델, 도구, 메모리, 루프 네 구성요소로 분해하여 설명할 수 있다"
+              ],
+              "learning_content": [
+                "에이전트의 일반적 정의",
+                "모델(두뇌)과 하네스(몸)의 비유",
+                "도구(tool)와 액션 공간",
+                "단기 메모리와 장기 메모리",
+                "에이전트 루프의 기본 골격"
+              ],
+              "prerequisites": ["1.1.4"],
+              "lab": null
+            },
+            {
+              "id": "1.2.2",
+              "section_id": "1.2",
+              "title": "에이전트 루프와 ReAct 패턴",
+              "order": 2,
+              "learning_objectives": [
+                "관찰-추론-행동 루프와 ReAct 패턴의 각 단계를 순서대로 설명할 수 있다"
+              ],
+              "learning_content": [
+                "관찰(Observation), 추론(Reasoning), 행동(Action)의 정의",
+                "ReAct 패턴의 동작 순서",
+                "각 단계에서 하네스가 개입하는 지점",
+                "루프 종료 조건",
+                "Plan-and-Execute 등 변형 패턴 개요"
+              ],
+              "prerequisites": ["1.2.1"],
+              "lab": null
+            },
+            {
+              "id": "1.2.3",
+              "section_id": "1.2",
+              "title": "하네스가 에이전트 성능에 미치는 영향",
+              "order": 3,
+              "learning_objectives": [
+                "동일 모델에서 하네스 차이가 만드는 성능 격차의 원인을 세 가지 이상 설명할 수 있다"
+              ],
+              "learning_content": [
+                "실제 벤치마크에서 관찰된 격차 사례",
+                "도구 설계 품질이 정답률에 미치는 영향",
+                "컨텍스트 관리가 효율에 미치는 영향",
+                "피드백 루프가 오류 복구율에 미치는 영향",
+                "하네스의 레버리지 효과와 투자 대비 효과"
+              ],
+              "prerequisites": ["1.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "phase_id": "1",
+          "title": "하네스 엔지니어링 설계 원칙",
+          "order": 3,
+          "topics": [
+            {
+              "id": "1.3.1",
+              "section_id": "1.3",
+              "title": "최소 권한과 명시적 경계",
+              "order": 1,
+              "learning_objectives": [
+                "최소 권한 원칙과 명시적 경계가 하네스 설계에서 갖는 의미를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "최소 권한 원칙의 정의",
+                "에이전트에게 부여하는 기본 권한을 좁게 유지하는 이유",
+                "명시적 허용(allowlist)과 암시적 금지의 차이",
+                "경계(boundary)가 실패의 영향 반경을 제한하는 원리",
+                "설계 단계에서 권한을 단계적으로 확장하는 전략"
+              ],
+              "prerequisites": ["1.2.3"],
+              "lab": null
+            },
+            {
+              "id": "1.3.2",
+              "section_id": "1.3",
+              "title": "가역성과 되돌리기 가능한 설계",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트 행동의 가역성이 하네스 설계에 주는 제약과 이점을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "가역적 행동과 비가역적 행동의 구분",
+                "되돌리기(undo) 메커니즘을 하네스에 내장하는 기법",
+                "스냅샷, 드라이런, 트랜잭션 경계",
+                "비가역 행동 직전의 확인 절차",
+                "가역성이 장기 실행 루프의 안정성에 주는 영향"
+              ],
+              "prerequisites": ["1.3.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "외부 환경 설계",
+      "order": 2,
+      "exit_capability": "에이전트의 실행 샌드박스, 파일 시스템, 네트워크 계층, 상호작용 인터페이스를 독립적으로 설계할 수 있고, 각 계층의 격리 수준과 확장 포인트를 구분할 수 있다.",
+      "sections": [
+        {
+          "id": "2.1",
+          "phase_id": "2",
+          "title": "실행 샌드박스",
+          "order": 1,
+          "topics": [
+            {
+              "id": "2.1.1",
+              "section_id": "2.1",
+              "title": "샌드박싱의 원칙과 유형",
+              "order": 1,
+              "learning_objectives": [
+                "샌드박싱의 세 가지 격리 수준과 각 수준의 보안·성능 트레이드오프를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "프로세스, 컨테이너, VM 수준 격리의 정의",
+                "syscall 필터링과 seccomp, capabilities",
+                "리소스 제한 (CPU, 메모리, 파일 핸들)",
+                "격리 수준별 보안 강도와 오버헤드 비교",
+                "에이전트용 샌드박스 선택 기준"
+              ],
+              "prerequisites": ["1.3.2"],
+              "lab": null
+            },
+            {
+              "id": "2.1.2",
+              "section_id": "2.1",
+              "title": "컨테이너 기반 실행 환경",
+              "order": 2,
+              "learning_objectives": [
+                "Docker 기반 에이전트 실행 환경을 이미지, 볼륨, 네트워크 관점에서 설계할 수 있다"
+              ],
+              "learning_content": [
+                "Docker 이미지 설계 원칙",
+                "rootless 컨테이너와 user namespace",
+                "볼륨 마운트 정책과 쓰기 권한",
+                "네트워크 네임스페이스와 외부 접근 제어",
+                "Claude Code, Cursor 등이 쓰는 컨테이너 패턴"
+              ],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            },
+            {
+              "id": "2.1.3",
+              "section_id": "2.1",
+              "title": "마이크로 VM과 경량 격리",
+              "order": 3,
+              "learning_objectives": [
+                "Firecracker 등 마이크로 VM의 특성과 컨테이너 대비 장단점을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "마이크로 VM의 정의와 등장 배경",
+                "Firecracker, Kata Containers의 아키텍처",
+                "Serverless 환경에서의 격리 모델",
+                "에이전트 대량 병렬 실행 시나리오",
+                "보안과 콜드 스타트 성능의 균형"
+              ],
+              "prerequisites": ["2.1.2"],
+              "lab": null
+            },
+            {
+              "id": "2.1.4",
+              "section_id": "2.1",
+              "title": "리소스 쿼터와 제한",
+              "order": 4,
+              "learning_objectives": [
+                "에이전트 실행에 적용하는 리소스 쿼터를 CPU, 메모리, I/O, 시간 네 축으로 설계할 수 있다"
+              ],
+              "learning_content": [
+                "cgroup 기반 CPU, 메모리 제한",
+                "디스크 I/O와 네트워크 대역폭 제한",
+                "실행 시간 타임아웃과 데드라인",
+                "OOM 및 타임아웃 발생 시 회수 정책",
+                "쿼터 초과 시 에이전트에게 전달되는 신호"
+              ],
+              "prerequisites": ["2.1.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "phase_id": "2",
+          "title": "파일 시스템과 작업 공간",
+          "order": 2,
+          "topics": [
+            {
+              "id": "2.2.1",
+              "section_id": "2.2",
+              "title": "작업 공간 구조 설계",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트 작업 공간의 디렉토리 구조와 경로 정책을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "작업 공간(workspace)의 정의",
+                "루트 디렉토리와 chroot 경계",
+                "읽기 전용, 쓰기 가능 영역 분리",
+                "임시 영역과 영속 영역",
+                "작업 공간 초기화와 재사용 전략"
+              ],
+              "prerequisites": ["2.1.4"],
+              "lab": null
+            },
+            {
+              "id": "2.2.2",
+              "section_id": "2.2",
+              "title": "파일 접근 제어와 경로 화이트리스트",
+              "order": 2,
+              "learning_objectives": [
+                "화이트리스트 기반 경로 제어와 심볼릭 링크 공격 방어 방법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "경로 화이트리스트와 블랙리스트",
+                "경로 정규화(canonicalization)와 검증",
+                "심볼릭 링크를 통한 탈출 공격",
+                "TOCTOU(Time-of-Check to Time-of-Use) 문제",
+                "쓰기 가능 경로 범위를 좁게 유지하는 설계"
+              ],
+              "prerequisites": ["2.2.1"],
+              "lab": null
+            },
+            {
+              "id": "2.2.3",
+              "section_id": "2.2",
+              "title": "버전 관리 통합",
+              "order": 3,
+              "learning_objectives": [
+                "에이전트 변경을 Git 브랜치와 커밋 단위로 관리하는 하네스 설계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "에이전트 전용 브랜치와 원자적 커밋",
+                "변경 스냅샷과 복구 지점",
+                "커밋 메시지 자동화와 감사 로그",
+                "worktree를 이용한 격리된 작업 공간",
+                "PR 기반 변경 검토 워크플로"
+              ],
+              "prerequisites": ["2.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "phase_id": "2",
+          "title": "네트워크 계층",
+          "order": 3,
+          "topics": [
+            {
+              "id": "2.3.1",
+              "section_id": "2.3",
+              "title": "아웃바운드 허용 목록과 프록시",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트 아웃바운드 트래픽을 허용 목록과 프록시로 통제하는 설계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "도메인 기반 허용 목록 구조",
+                "포워드 프록시와 투명 프록시",
+                "TLS 인터셉션의 장단점과 정책",
+                "DNS 필터링과 스플릿 호라이즌",
+                "데이터 유출 경로 차단 관점"
+              ],
+              "prerequisites": ["2.2.3"],
+              "lab": null
+            },
+            {
+              "id": "2.3.2",
+              "section_id": "2.3",
+              "title": "API 게이트웨이와 인증",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트가 외부 API를 호출할 때 통과하는 게이트웨이의 역할과 인증 처리를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "API 게이트웨이의 기능 (인증, 라우팅, 변환)",
+                "토큰 저장소와 자격증명 주입",
+                "단기 토큰과 교체 주기",
+                "호출 감사 로그",
+                "에이전트에 원본 자격증명을 노출하지 않는 패턴"
+              ],
+              "prerequisites": ["2.3.1"],
+              "lab": null
+            },
+            {
+              "id": "2.3.3",
+              "section_id": "2.3",
+              "title": "속도 제한과 쿼터",
+              "order": 3,
+              "learning_objectives": [
+                "속도 제한과 쿼터가 에이전트의 비용과 안정성에 주는 영향을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "요청/초, 토큰/분 단위 제한",
+                "토큰 버킷과 누출 버킷 알고리즘",
+                "공용 쿼터와 에이전트별 할당",
+                "429 응답에 대한 백오프 전략",
+                "쿼터 초과가 에이전트 루프에 주는 신호"
+              ],
+              "prerequisites": ["2.3.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.4",
+          "phase_id": "2",
+          "title": "상호작용 인터페이스",
+          "order": 4,
+          "topics": [
+            {
+              "id": "2.4.1",
+              "section_id": "2.4",
+              "title": "터미널과 셸 환경 설계",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트가 사용할 셸 환경을 명령어 집합, 환경변수, PATH 관점에서 설계할 수 있다"
+              ],
+              "learning_content": [
+                "셸 선택과 버전 고정",
+                "PATH와 실행 가능한 명령 제한",
+                "환경변수 주입과 비밀 관리",
+                "PTY와 출력 캡처",
+                "대화형 명령에 대한 타임아웃과 입력 차단"
+              ],
+              "prerequisites": ["2.3.3"],
+              "lab": null
+            },
+            {
+              "id": "2.4.2",
+              "section_id": "2.4",
+              "title": "IDE와 에디터 통합",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트가 IDE와 상호작용할 때 필요한 편집 단위, 진단, 언어 서버 통합을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "파일 전체 편집 대 변경 영역(diff) 편집",
+                "LSP(Language Server Protocol) 기반 진단",
+                "편집 직후 재검증 루프",
+                "디버거 연동과 런타임 관찰",
+                "Cursor, VS Code의 에이전트 통합 패턴"
+              ],
+              "prerequisites": ["2.4.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "통제 시스템과 가드레일",
+      "order": 3,
+      "exit_capability": "에이전트 권한 모델, 입출력 검증, 정책 엔진, Human-in-the-loop 워크플로를 설계하여 신뢰 경계를 명확히 분리할 수 있다.",
+      "sections": [
+        {
+          "id": "3.1",
+          "phase_id": "3",
+          "title": "권한 모델",
+          "order": 1,
+          "topics": [
+            {
+              "id": "3.1.1",
+              "section_id": "3.1",
+              "title": "권한 모델의 기초",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트에 적용하는 권한 모델을 RBAC, ABAC, ReBAC 관점으로 구분하여 설명할 수 있다"
+              ],
+              "learning_content": [
+                "RBAC(역할 기반) 권한 모델",
+                "ABAC(속성 기반) 권한 모델",
+                "ReBAC(관계 기반) 권한 모델",
+                "에이전트 주체에 권한을 부여하는 방식",
+                "사용자 권한과 에이전트 권한의 위임 관계"
+              ],
+              "prerequisites": ["2.4.2"],
+              "lab": null
+            },
+            {
+              "id": "3.1.2",
+              "section_id": "3.1",
+              "title": "도구 허용 목록과 거부 목록",
+              "order": 2,
+              "learning_objectives": [
+                "도구 수준 허용 목록과 거부 목록을 조합하여 에이전트의 액션 공간을 정의할 수 있다"
+              ],
+              "learning_content": [
+                "도구 단위 허용/거부의 기본 규칙",
+                "인자 수준 패턴 매칭 (예: rm -rf 금지)",
+                "확장 가능한 정책 파일 형식",
+                "Claude Code settings.json의 permissions 예시",
+                "허용 목록을 좁게 유지하는 운영 원칙"
+              ],
+              "prerequisites": ["3.1.1"],
+              "lab": null
+            },
+            {
+              "id": "3.1.3",
+              "section_id": "3.1",
+              "title": "최소 권한 원칙의 실전 적용",
+              "order": 3,
+              "learning_objectives": [
+                "에이전트에 최소 권한을 적용하는 단계적 전략과 권한 확장 절차를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "초기 권한을 극도로 좁게 잡는 이유",
+                "실행 중 권한 요청 패턴",
+                "일회성 권한과 영속 권한 구분",
+                "감사 로그와 권한 남용 탐지",
+                "권한 축소 주기와 회수 절차"
+              ],
+              "prerequisites": ["3.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "phase_id": "3",
+          "title": "입출력 검증",
+          "order": 2,
+          "topics": [
+            {
+              "id": "3.2.1",
+              "section_id": "3.2",
+              "title": "프롬프트 인젝션 방어",
+              "order": 1,
+              "learning_objectives": [
+                "프롬프트 인젝션의 경로와 하네스 수준 방어 기법을 세 가지 이상 설명할 수 있다"
+              ],
+              "learning_content": [
+                "직접 인젝션과 간접 인젝션",
+                "외부 데이터(웹, 문서)를 경계 데이터로 취급",
+                "신뢰 경계 표시와 태그 기반 구분",
+                "도구 인자에 외부 입력을 그대로 넣지 않는 원칙",
+                "인젝션 탐지 휴리스틱과 한계"
+              ],
+              "prerequisites": ["3.1.3"],
+              "lab": null
+            },
+            {
+              "id": "3.2.2",
+              "section_id": "3.2",
+              "title": "출력 필터링과 민감정보 마스킹",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트 출력에서 민감정보를 탐지하고 마스킹하는 파이프라인을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "PII, 비밀번호, 토큰 패턴 탐지",
+                "정규식 기반 탐지와 분류기 기반 탐지",
+                "마스킹 대 차단 정책",
+                "출력 파이프라인의 단계 구성",
+                "로깅 시점에서 2차 마스킹"
+              ],
+              "prerequisites": ["3.2.1"],
+              "lab": null
+            },
+            {
+              "id": "3.2.3",
+              "section_id": "3.2",
+              "title": "스키마 기반 출력 강제",
+              "order": 3,
+              "learning_objectives": [
+                "JSON 스키마와 같은 구조화된 출력 강제 기법이 하네스 안정성에 기여하는 방식을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Function calling과 tool use의 구조화 출력",
+                "JSON Schema, Pydantic 검증",
+                "제약 해독(constrained decoding) 기초",
+                "스키마 위반 시 재시도 전략",
+                "자유 텍스트 대 구조화 출력의 트레이드오프"
+              ],
+              "prerequisites": ["3.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "phase_id": "3",
+          "title": "정책 엔진",
+          "order": 3,
+          "topics": [
+            {
+              "id": "3.3.1",
+              "section_id": "3.3",
+              "title": "정책 언어와 규칙 표현",
+              "order": 1,
+              "learning_objectives": [
+                "OPA/Rego, Cedar 등 정책 언어가 에이전트 하네스에서 수행하는 역할을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "정책 언어의 필요성",
+                "OPA와 Rego의 기본 문법",
+                "Cedar, Casbin 등 대안 정책 엔진",
+                "정책과 코드 경로의 분리",
+                "정책 테스트와 버전 관리"
+              ],
+              "prerequisites": ["3.2.3"],
+              "lab": null
+            },
+            {
+              "id": "3.3.2",
+              "section_id": "3.3",
+              "title": "런타임 정책 평가",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트 행동 직전 정책을 평가하고 결과를 반영하는 런타임 통합을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "행동 이전(pre-action) 정책 훅",
+                "행동 이후(post-action) 감사 훅",
+                "정책 평가 지연과 캐싱",
+                "거부 사유를 에이전트에게 되돌리는 패턴",
+                "정책 변경의 핫 리로드"
+              ],
+              "prerequisites": ["3.3.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.4",
+          "phase_id": "3",
+          "title": "Human-in-the-loop",
+          "order": 4,
+          "topics": [
+            {
+              "id": "3.4.1",
+              "section_id": "3.4",
+              "title": "승인 워크플로 설계",
+              "order": 1,
+              "learning_objectives": [
+                "사람의 승인이 필요한 행동을 분류하고 승인 워크플로를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "승인이 필요한 행동의 분류 (비가역, 고비용, 외부 영향)",
+                "동기 승인과 비동기 승인",
+                "승인 요청 UI와 컨텍스트 제공",
+                "승인 타임아웃과 기본 동작",
+                "승인 기록과 감사"
+              ],
+              "prerequisites": ["3.3.2"],
+              "lab": null
+            },
+            {
+              "id": "3.4.2",
+              "section_id": "3.4",
+              "title": "중단점과 검토 게이트",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트 루프 안에 중단점과 검토 게이트를 삽입하여 장기 실행의 안전성을 높이는 설계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "중단점(checkpoint)의 정의",
+                "단계별 검토 게이트 배치",
+                "중단 후 재개(resume) 메커니즘",
+                "체크포인트별 상태 직렬화",
+                "다중 세션 간 핸드오프"
+              ],
+              "prerequisites": ["3.4.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "피드백 루프 설계",
+      "order": 4,
+      "exit_capability": "린터, 테스트, CI/CD 결과를 에이전트 센서로 통합하고, 오류 감지·자가 수정·관측성 세 축을 결합한 피드백 루프를 설계할 수 있다.",
+      "sections": [
+        {
+          "id": "4.1",
+          "phase_id": "4",
+          "title": "센서 설계",
+          "order": 1,
+          "topics": [
+            {
+              "id": "4.1.1",
+              "section_id": "4.1",
+              "title": "린터와 정적 분석 통합",
+              "order": 1,
+              "learning_objectives": [
+                "린터와 정적 분석기를 에이전트 센서로 통합하는 실행 시점과 결과 반영 방법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "린터 결과의 구조 (파일, 줄, 규칙 ID)",
+                "저장 시, 편집 시, 커밋 시 실행 시점",
+                "에이전트에게 전달하는 요약 포맷",
+                "노이즈가 많은 경고의 필터링",
+                "자동 수정 가능한 규칙과 제안만 하는 규칙 구분"
+              ],
+              "prerequisites": ["3.4.2"],
+              "lab": null
+            },
+            {
+              "id": "4.1.2",
+              "section_id": "4.1",
+              "title": "자동화된 테스트 피드백",
+              "order": 2,
+              "learning_objectives": [
+                "단위 테스트와 통합 테스트 결과를 에이전트 루프에 주입하는 설계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "테스트 러너 연동과 JUnit/TAP 출력 파싱",
+                "실패 테스트의 스택 트레이스 축약",
+                "선택적 테스트 실행(impact analysis)",
+                "플레이키 테스트 필터링",
+                "테스트 실패를 작업 지시로 변환"
+              ],
+              "prerequisites": ["4.1.1"],
+              "lab": null
+            },
+            {
+              "id": "4.1.3",
+              "section_id": "4.1",
+              "title": "CI/CD 결과 흡수",
+              "order": 3,
+              "learning_objectives": [
+                "CI/CD 파이프라인 결과를 에이전트가 다음 행동에 반영하는 피드백 구조를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "CI 훅과 웹훅을 이용한 이벤트 구독",
+                "빌드 로그의 핵심 추출",
+                "배포 실패와 롤백 트리거",
+                "파이프라인 단계별 실패 유형 분류",
+                "장시간 CI에 대한 비동기 대기 전략"
+              ],
+              "prerequisites": ["4.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "phase_id": "4",
+          "title": "오류 감지와 자가 수정",
+          "order": 2,
+          "topics": [
+            {
+              "id": "4.2.1",
+              "section_id": "4.2",
+              "title": "오류 감지 패턴",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트 루프에서 발생하는 오류를 문법, 실행, 논리 세 범주로 감지하는 패턴을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "문법 오류와 파서 피드백",
+                "런타임 예외와 스택 트레이스",
+                "논리 오류와 가정 위반",
+                "어서션과 불변조건 체크",
+                "감지된 오류의 구조화 포맷"
+              ],
+              "prerequisites": ["4.1.3"],
+              "lab": null
+            },
+            {
+              "id": "4.2.2",
+              "section_id": "4.2",
+              "title": "재시도와 수정 전략",
+              "order": 2,
+              "learning_objectives": [
+                "오류 유형별 재시도, 백오프, 수정 시도 한도를 조합한 전략을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "고정 재시도와 지수 백오프",
+                "동일 오류 반복 시 중단 임계치",
+                "컨텍스트에 실패 이력을 누적하는 방법",
+                "부분 성공 유지와 재시도 범위 축소",
+                "순환 오류의 탐지와 탈출 조건"
+              ],
+              "prerequisites": ["4.2.1"],
+              "lab": null
+            },
+            {
+              "id": "4.2.3",
+              "section_id": "4.2",
+              "title": "실패 학습과 에피소드 메모리",
+              "order": 3,
+              "learning_objectives": [
+                "실패 사례를 에피소드 메모리로 축적하여 향후 유사 상황에서 재활용하는 설계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "에피소드 메모리의 정의",
+                "실패 요약과 교훈 추출",
+                "유사 상황 검색(유사도 기반)",
+                "프로젝트 수준 규칙으로의 승격",
+                "CLAUDE.md 같은 영속 규칙 파일 활용"
+              ],
+              "prerequisites": ["4.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.3",
+          "phase_id": "4",
+          "title": "관측성",
+          "order": 3,
+          "topics": [
+            {
+              "id": "4.3.1",
+              "section_id": "4.3",
+              "title": "에이전트 로깅 표준",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트 실행 로그에 포함해야 할 필수 필드와 구조화 원칙을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "턴(turn), 도구 호출, 결과의 단위",
+                "구조화 로깅(JSON) 필수 필드",
+                "민감정보 필터링과의 연계",
+                "세션 ID와 트레이스 ID",
+                "로그 보존 기간과 아카이빙"
+              ],
+              "prerequisites": ["4.2.3"],
+              "lab": null
+            },
+            {
+              "id": "4.3.2",
+              "section_id": "4.3",
+              "title": "분산 트레이싱",
+              "order": 2,
+              "learning_objectives": [
+                "OpenTelemetry 기반 분산 트레이싱을 에이전트 루프와 도구 호출에 적용하는 방법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "스팬(span)과 트레이스의 개념",
+                "에이전트 턴을 스팬으로 매핑",
+                "도구 호출 간 부모-자식 관계",
+                "속성(attribute)과 이벤트 기록",
+                "시각화 도구(Jaeger, Tempo) 연동"
+              ],
+              "prerequisites": ["4.3.1"],
+              "lab": null
+            },
+            {
+              "id": "4.3.3",
+              "section_id": "4.3",
+              "title": "메트릭과 대시보드",
+              "order": 3,
+              "learning_objectives": [
+                "하네스 품질을 평가하는 핵심 메트릭 집합과 대시보드 구성을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "성공률, 평균 턴 수, 평균 토큰 사용량",
+                "도구별 호출 빈도와 실패율",
+                "타임아웃 발생률과 루프 이탈률",
+                "비용 지표(토큰 비용, 인프라 비용)",
+                "SLO와 알림 임계치 설정"
+              ],
+              "prerequisites": ["4.3.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "도구 오케스트레이션",
+      "order": 5,
+      "exit_capability": "도구 스키마를 설계하고, MCP 기반 도구 서버를 구축하며, 멀티 에이전트 오케스트레이션 패턴을 선택·구현할 수 있다.",
+      "sections": [
+        {
+          "id": "5.1",
+          "phase_id": "5",
+          "title": "도구 정의",
+          "order": 1,
+          "topics": [
+            {
+              "id": "5.1.1",
+              "section_id": "5.1",
+              "title": "도구 스키마 설계 원칙",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트 도구 스키마의 네이밍, 파라미터 그룹핑, 기본값 설정 원칙을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "도구 이름의 명확성과 일관성",
+                "파라미터 수를 줄이는 그룹핑",
+                "필수/선택 파라미터의 구분",
+                "기본값이 에이전트 추론에 주는 영향",
+                "버전 관리와 하위 호환성"
+              ],
+              "prerequisites": ["4.3.3"],
+              "lab": null
+            },
+            {
+              "id": "5.1.2",
+              "section_id": "5.1",
+              "title": "도구 설명문 작성법",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트에게 제공하는 도구 설명문(description)에 포함해야 할 요소와 길이 기준을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "언제 사용하고 언제 사용하지 말아야 하는지",
+                "인자 예시와 반환값 형태",
+                "유사 도구와의 비교와 선택 기준",
+                "오용 방지 주의사항",
+                "짧은 설명과 상세 설명의 계층화"
+              ],
+              "prerequisites": ["5.1.1"],
+              "lab": null
+            },
+            {
+              "id": "5.1.3",
+              "section_id": "5.1",
+              "title": "파라미터 검증과 타입 시스템",
+              "order": 3,
+              "learning_objectives": [
+                "도구 파라미터에 적용하는 타입 검증, 범위 검증, 상호 의존 검증을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "JSON Schema와 Pydantic의 역할",
+                "열거형과 패턴 검증",
+                "파라미터 간 상호 의존 규칙",
+                "검증 실패 시 에이전트에게 주는 피드백 포맷",
+                "검증과 런타임 정책의 역할 분담"
+              ],
+              "prerequisites": ["5.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.2",
+          "phase_id": "5",
+          "title": "Model Context Protocol",
+          "order": 2,
+          "topics": [
+            {
+              "id": "5.2.1",
+              "section_id": "5.2",
+              "title": "MCP 개념과 등장 배경",
+              "order": 1,
+              "learning_objectives": [
+                "MCP의 정의와 기존 플러그인 모델 대비 차별점을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Model Context Protocol의 정의",
+                "클라이언트-서버 모델",
+                "기존 플러그인·함수 호출 대비 이점",
+                "리소스, 프롬프트, 도구 세 기본 요소",
+                "MCP를 도입한 주요 제품 개요"
+              ],
+              "prerequisites": ["5.1.3"],
+              "lab": null
+            },
+            {
+              "id": "5.2.2",
+              "section_id": "5.2",
+              "title": "MCP 서버 구축 기초",
+              "order": 2,
+              "learning_objectives": [
+                "MCP 서버의 최소 구성 요소와 등록 절차를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "서버 수명주기(초기화, 통신, 종료)",
+                "stdio와 HTTP 전송 방식",
+                "도구/리소스/프롬프트 선언",
+                "클라이언트 설정 파일에 등록하는 방법",
+                "로컬 개발과 배포 구분"
+              ],
+              "prerequisites": ["5.2.1"],
+              "lab": null
+            },
+            {
+              "id": "5.2.3",
+              "section_id": "5.2",
+              "title": "MCP 생태계와 상호운용성",
+              "order": 3,
+              "learning_objectives": [
+                "MCP 생태계의 주요 서버와 상호운용성을 유지하기 위한 설계 고려사항을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "공개된 MCP 서버 예시",
+                "동일 기능의 여러 서버 간 네이밍 충돌",
+                "버전 협상과 기능 탐지",
+                "보안 경계(서명, 감사)",
+                "조직 내부 공용 MCP 레지스트리 운영"
+              ],
+              "prerequisites": ["5.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.3",
+          "phase_id": "5",
+          "title": "멀티 에이전트 오케스트레이션",
+          "order": 3,
+          "topics": [
+            {
+              "id": "5.3.1",
+              "section_id": "5.3",
+              "title": "오케스트레이터 패턴",
+              "order": 1,
+              "learning_objectives": [
+                "중앙 오케스트레이터 패턴과 탈중앙 패턴의 차이와 선택 기준을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "중앙 오케스트레이터(supervisor) 구조",
+                "탈중앙(peer) 구조와 메시지 버스",
+                "작업 분할과 병합",
+                "에이전트 간 책임 분리",
+                "장애 전파와 격리"
+              ],
+              "prerequisites": ["5.2.3"],
+              "lab": null
+            },
+            {
+              "id": "5.3.2",
+              "section_id": "5.3",
+              "title": "에이전트 간 통신과 핸드오프",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트 간 작업 핸드오프에 필요한 메시지 구조와 상태 전달 방식을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "핸드오프 메시지의 최소 필드",
+                "공유 메모리와 메시지 큐",
+                "대화 기록과 요약 기반 전달",
+                "루프 방지(에이전트 간 순환 호출)",
+                "AutoGen, CrewAI 등의 구현 비교"
+              ],
+              "prerequisites": ["5.3.1"],
+              "lab": null
+            },
+            {
+              "id": "5.3.3",
+              "section_id": "5.3",
+              "title": "작업 분해와 계획 수립",
+              "order": 3,
+              "learning_objectives": [
+                "상위 목표를 하위 작업으로 분해하고 계획을 유지·갱신하는 하네스 설계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Plan-and-Execute 패턴",
+                "할 일 목록(todo list) 자료구조",
+                "계획 갱신 주기와 트리거",
+                "목표 변경에 따른 재계획",
+                "실행자와 계획자의 분리"
+              ],
+              "prerequisites": ["5.3.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "신뢰성과 효율성",
+      "order": 6,
+      "exit_capability": "환각·무한루프·비용 폭주를 억제하고 컨텍스트 관리와 평가 메트릭을 적용하여 하네스를 프로덕션 환경에서 운영 가능한 상태로 만들 수 있다.",
+      "sections": [
+        {
+          "id": "6.1",
+          "phase_id": "6",
+          "title": "실패 방지",
+          "order": 1,
+          "topics": [
+            {
+              "id": "6.1.1",
+              "section_id": "6.1",
+              "title": "환각 방지 전략",
+              "order": 1,
+              "learning_objectives": [
+                "환각을 유발하는 상황과 하네스 수준에서 이를 억제하는 기법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "환각의 정의와 유형(사실, 인용, API)",
+                "근거 자료 첨부(grounding)",
+                "도구 호출을 통한 사실 확인",
+                "출력 전 검증 단계",
+                "환각률 측정과 허용 임계"
+              ],
+              "prerequisites": ["5.3.3"],
+              "lab": null
+            },
+            {
+              "id": "6.1.2",
+              "section_id": "6.1",
+              "title": "무한 루프 감지와 차단",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트 루프에서 발생하는 무한 반복을 감지하고 차단하는 신호와 정책을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "동일 행동 반복 탐지",
+                "턴 수 상한과 토큰 상한",
+                "진척도 기반 종료 조건",
+                "루프 붕괴 시 상태 보존",
+                "재실행을 위한 중단 포인트"
+              ],
+              "prerequisites": ["6.1.1"],
+              "lab": null
+            },
+            {
+              "id": "6.1.3",
+              "section_id": "6.1",
+              "title": "타임아웃과 서킷 브레이커",
+              "order": 3,
+              "learning_objectives": [
+                "도구 호출과 에이전트 전체 실행에 적용하는 타임아웃과 서킷 브레이커 정책을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "호출 단위 타임아웃",
+                "전체 세션 데드라인",
+                "서킷 브레이커의 상태 전이",
+                "반쯤 열린(half-open) 상태 시험",
+                "의존 서비스 장애 전파 차단"
+              ],
+              "prerequisites": ["6.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.2",
+          "phase_id": "6",
+          "title": "컨텍스트 관리",
+          "order": 2,
+          "topics": [
+            {
+              "id": "6.2.1",
+              "section_id": "6.2",
+              "title": "컨텍스트 윈도우 최적화",
+              "order": 1,
+              "learning_objectives": [
+                "컨텍스트 윈도우의 한계 안에서 토큰을 배분하는 우선순위 전략을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "시스템 프롬프트, 도구, 대화, 결과의 비중",
+                "우선순위 기반 잘라내기",
+                "슬라이딩 윈도우와 계층화",
+                "도구 결과의 요약 주입",
+                "컨텍스트 한계 초과 시 동작"
+              ],
+              "prerequisites": ["6.1.3"],
+              "lab": null
+            },
+            {
+              "id": "6.2.2",
+              "section_id": "6.2",
+              "title": "메모리 계층 설계",
+              "order": 2,
+              "learning_objectives": [
+                "단기, 세션, 장기 메모리 계층을 나누어 에이전트에 제공하는 설계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "단기 메모리(대화 창)",
+                "세션 메모리(현재 작업)",
+                "장기 메모리(벡터 DB, 프로젝트 규칙)",
+                "메모리 간 승격과 강등",
+                "조회-주입의 시점과 방식"
+              ],
+              "prerequisites": ["6.2.1"],
+              "lab": null
+            },
+            {
+              "id": "6.2.3",
+              "section_id": "6.2",
+              "title": "압축과 요약 전략",
+              "order": 3,
+              "learning_objectives": [
+                "대화 압축과 도구 결과 요약을 통해 컨텍스트 비용을 관리하는 전략을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "요약 트리거(길이, 턴 수, 명시적)",
+                "요약 품질 유지 기법",
+                "핵심 결정 보존 원칙",
+                "요약 실패 시 폴백",
+                "자동 요약과 수동 핵심 사실 주입의 결합"
+              ],
+              "prerequisites": ["6.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.3",
+          "phase_id": "6",
+          "title": "비용과 성능",
+          "order": 3,
+          "topics": [
+            {
+              "id": "6.3.1",
+              "section_id": "6.3",
+              "title": "토큰 경제와 모델 선택",
+              "order": 1,
+              "learning_objectives": [
+                "작업 유형에 따라 모델을 선택하고 토큰 비용을 관리하는 라우팅 전략을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "입출력 토큰 단가 구조",
+                "계획용 모델과 실행용 모델 분리",
+                "하이브리드 라우팅(간단/복잡 분기)",
+                "스몰 모델 폴백",
+                "비용 상한과 예산 알림"
+              ],
+              "prerequisites": ["6.2.3"],
+              "lab": null
+            },
+            {
+              "id": "6.3.2",
+              "section_id": "6.3",
+              "title": "캐싱과 배칭",
+              "order": 2,
+              "learning_objectives": [
+                "프롬프트 캐시, 결과 캐시, 요청 배칭이 하네스 성능에 주는 효과를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "프롬프트 캐싱의 동작 원리",
+                "캐시 적합한 컨텍스트 구조",
+                "도구 결과 캐시(재사용과 무효화)",
+                "요청 배칭과 병렬 처리",
+                "캐싱이 정합성에 주는 위험"
+              ],
+              "prerequisites": ["6.3.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.4",
+          "phase_id": "6",
+          "title": "평가와 벤치마크",
+          "order": 4,
+          "topics": [
+            {
+              "id": "6.4.1",
+              "section_id": "6.4",
+              "title": "하네스 벤치마크의 이해",
+              "order": 1,
+              "learning_objectives": [
+                "SWE-bench 등 에이전트 벤치마크의 구성과 하네스 의존성을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "SWE-bench, SWE-bench Verified",
+                "HumanEval과 코드 벤치마크의 차이",
+                "벤치마크 환경이 점수에 주는 영향",
+                "동일 모델의 점수 격차 사례",
+                "벤치마크 오염(contamination) 주의"
+              ],
+              "prerequisites": ["6.3.2"],
+              "lab": null
+            },
+            {
+              "id": "6.4.2",
+              "section_id": "6.4",
+              "title": "프로덕션 성능 측정",
+              "order": 2,
+              "learning_objectives": [
+                "프로덕션에서 하네스 성능을 측정하는 지표 집합과 A/B 테스트 설계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "작업 완료율과 사용자 만족도",
+                "재시도율과 중단율",
+                "평균 해결 시간(MTTR)과 처리 시간",
+                "A/B 테스트와 Shadow 실행",
+                "회귀 감지와 롤백"
+              ],
+              "prerequisites": ["6.4.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "title": "실전 사례와 미래",
+      "order": 7,
+      "exit_capability": "대표적인 에이전틱 코딩 하네스와 기업 적용 사례를 분석하고, 조직에 하네스 엔지니어링을 도입·발전시키는 계획을 세울 수 있다.",
+      "sections": [
+        {
+          "id": "7.1",
+          "phase_id": "7",
+          "title": "에이전틱 코딩 하네스 분석",
+          "order": 1,
+          "topics": [
+            {
+              "id": "7.1.1",
+              "section_id": "7.1",
+              "title": "Claude Code 하네스 분석",
+              "order": 1,
+              "learning_objectives": [
+                "Claude Code의 하네스를 도구 구성, 권한, 훅, 메모리 관점에서 분석할 수 있다"
+              ],
+              "learning_content": [
+                "Claude Code의 도구 집합(Read, Edit, Bash 등)",
+                "settings.json 권한 모델",
+                "훅(hooks)을 통한 자동화 개입",
+                "CLAUDE.md와 메모리 계층",
+                "서브에이전트와 스킬 구조"
+              ],
+              "prerequisites": ["6.4.2"],
+              "lab": null
+            },
+            {
+              "id": "7.1.2",
+              "section_id": "7.1",
+              "title": "Cursor와 Windsurf 환경 설계",
+              "order": 2,
+              "learning_objectives": [
+                "Cursor와 Windsurf가 IDE 통합형 하네스에서 채택한 설계 특성을 비교하여 설명할 수 있다"
+              ],
+              "learning_content": [
+                "IDE 내장형 하네스의 특성",
+                "편집 영역(diff) 단위 상호작용",
+                "컨텍스트 자동 수집 방식",
+                "에이전트 모드와 채팅 모드 분리",
+                "두 제품의 도구 구성 차이"
+              ],
+              "prerequisites": ["7.1.1"],
+              "lab": null
+            },
+            {
+              "id": "7.1.3",
+              "section_id": "7.1",
+              "title": "GitHub Copilot Workspace와 Agent 모드",
+              "order": 3,
+              "learning_objectives": [
+                "GitHub Copilot의 Workspace와 Agent 모드가 코드 저장소 중심 하네스로 어떻게 설계되었는지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "이슈-계획-코드-PR의 파이프라인",
+                "저장소 컨텍스트 수집",
+                "CI와의 통합 구조",
+                "리뷰어와의 협업 경계",
+                "기업 환경에서의 거버넌스"
+              ],
+              "prerequisites": ["7.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "7.2",
+          "phase_id": "7",
+          "title": "기업 도입과 미래",
+          "order": 2,
+          "topics": [
+            {
+              "id": "7.2.1",
+              "section_id": "7.2",
+              "title": "기업 환경 하네스 도입 전략",
+              "order": 1,
+              "learning_objectives": [
+                "기업 환경에 하네스 엔지니어링을 단계적으로 도입하는 로드맵을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "파일럿 프로젝트 범위 정의",
+                "플랫폼 팀과 사용 팀의 역할",
+                "내부 도구(MCP) 카탈로그 운영",
+                "표준 하네스 템플릿 제공",
+                "성공 지표와 확장 기준"
+              ],
+              "prerequisites": ["7.1.3"],
+              "lab": null
+            },
+            {
+              "id": "7.2.2",
+              "section_id": "7.2",
+              "title": "보안, 컴플라이언스, 감사",
+              "order": 2,
+              "learning_objectives": [
+                "하네스 수준에서 보안, 컴플라이언스, 감사 요구를 충족하는 설계 요소를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "데이터 분류와 영역 분리",
+                "감사 로그 보존과 조회",
+                "규제 요구사항(개인정보, 금융 등)",
+                "제3자 모델 사용 시 데이터 경로",
+                "사고 대응(incident response) 절차"
+              ],
+              "prerequisites": ["7.2.1"],
+              "lab": null
+            },
+            {
+              "id": "7.2.3",
+              "section_id": "7.2",
+              "title": "하네스 엔지니어링의 미래와 연구 방향",
+              "order": 3,
+              "learning_objectives": [
+                "하네스 엔지니어링 분야의 연구 동향과 향후 발전 방향을 요약하여 설명할 수 있다"
+              ],
+              "learning_content": [
+                "자동화된 하네스 합성",
+                "자율 개선 루프(self-improving agent)",
+                "표준화(프로토콜, 벤치마크)의 움직임",
+                "보안과 형식 검증의 결합",
+                "조직 학습으로 전파되는 하네스 지식"
+              ],
+              "prerequisites": ["7.2.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
