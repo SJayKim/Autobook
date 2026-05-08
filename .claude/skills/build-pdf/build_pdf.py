@@ -82,13 +82,57 @@ def build(args):
     pdf = Book()
 
     # ============== Cover ==============
+    def fit_title_lines(text, max_size, min_size=18.0, max_width_mm=None):
+        """제목이 표지 폭을 넘지 않도록 폰트 크기를 줄이고, 필요하면 두 줄로 쪼갠다."""
+        if max_width_mm is None:
+            max_width_mm = pdf.w - pdf.l_margin - pdf.r_margin
+        # 1) 한 줄로 들어갈 수 있는 최대 폰트 크기 탐색
+        size = max_size
+        while size >= min_size:
+            pdf.set_font('M', 'B', size)
+            if pdf.get_string_width(text) <= max_width_mm:
+                return [text], size
+            size -= 1
+        # 2) 한 줄로 안 되면 분할 후보 (':' 우선, 그다음 공백)
+        candidates = []
+        if ':' in text:
+            head, tail = text.split(':', 1)
+            candidates.append((head.strip(), tail.strip()))
+        if ' ' in text:
+            words = text.split(' ')
+            mid = len(words) // 2
+            candidates.append((' '.join(words[:mid]), ' '.join(words[mid:])))
+        # 후보 중 두 줄 모두 max_size에 가장 잘 맞는 폰트 크기를 채택
+        best = None
+        for line1, line2 in candidates:
+            if not line1 or not line2:
+                continue
+            s = max_size
+            while s >= min_size:
+                pdf.set_font('M', 'B', s)
+                w1 = pdf.get_string_width(line1)
+                w2 = pdf.get_string_width(line2)
+                if w1 <= max_width_mm and w2 <= max_width_mm:
+                    if best is None or s > best[2]:
+                        best = ([line1, line2], s, s)
+                    break
+                s -= 1
+        if best:
+            return best[0], best[1]
+        # 3) 그래도 안 되면 min_size 한 줄 (잘림 감수)
+        return [text], min_size
+
     pdf.add_page()
     pdf.set_y(95)
     pdf.set_font('M', '', 11)
     pdf.cell(0, 10, args.series, align='C')
-    pdf.set_y(110)
-    pdf.set_font('M', 'B', args.title_size)
-    pdf.cell(0, 18, title, align='C')
+    title_lines, title_size = fit_title_lines(title, args.title_size)
+    line_h = title_size * 0.5
+    title_block_h = line_h * len(title_lines)
+    pdf.set_y(120 - title_block_h / 2)
+    pdf.set_font('M', 'B', title_size)
+    for line in title_lines:
+        pdf.cell(0, line_h, line, align='C', new_x='LMARGIN', new_y='NEXT')
     if args.subtitle:
         pdf.set_y(138)
         pdf.set_font('M', '', 14)
