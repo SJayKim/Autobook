@@ -1,0 +1,1991 @@
+{
+  "schema_version": "1.0.0",
+  "curriculum_id": "agentic-ai-engineer-core",
+  "title": "Agentic AI 엔지니어 핵심 역량",
+  "locale": "ko-KR",
+  "numbering": { "phase_base": 1 },
+  "prerequisite_shorthand": "none",
+  "prerequisite_ordering": { "mode": "id_numeric_tuple" },
+  "phases": [
+    {
+      "id": "1",
+      "title": "Agentic AI 엔지니어의 정체성",
+      "order": 1,
+      "exit_capability": "Agentic AI 엔지니어가 다른 백엔드·ML 엔지니어와 어떻게 다른지 설명하고, 11대 핵심 역량 맵을 토대로 자신의 학습 우선순위를 정할 수 있다.",
+      "sections": [
+        {
+          "id": "1.1",
+          "phase_id": "1",
+          "title": "역할의 정의",
+          "order": 1,
+          "topics": [
+            {
+              "id": "1.1.1",
+              "section_id": "1.1",
+              "title": "API 래퍼 개발자와의 결정적 차이",
+              "order": 1,
+              "learning_objectives": [
+                "Agentic AI 엔지니어를 '불안정한 모델 위에 안정적인 시스템을 얹는 사람'으로 정의하고 API 래퍼 개발자와의 차이를 세 가지 이상 들 수 있다"
+              ],
+              "learning_content": [
+                "Agentic AI 엔지니어의 한 줄 정의",
+                "API 호출 코드와 Agent 시스템의 구조적 차이",
+                "도구 사용·상태 관리·장기 작업 안정화의 의미",
+                "시장에서 이 역할이 필요한 이유",
+                "흔한 오해와 자기 진단 체크리스트"
+              ],
+              "prerequisites": [],
+              "lab": null
+            },
+            {
+              "id": "1.1.2",
+              "section_id": "1.1",
+              "title": "11대 핵심 역량 맵",
+              "order": 2,
+              "learning_objectives": [
+                "Coding, System Design, LLM, RAG, Agent, Memory, MCP, Eval, Observability, Security, Prompt Optimization 11개 영역의 목적과 상호 관계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "11개 역량 영역의 한 줄 정의",
+                "각 영역의 목표 수준(Medium 안정, 화이트보드 설계 등)",
+                "영역 간 의존 관계 다이어그램",
+                "역량별 학습 시간 추정",
+                "팀 내 역할 분담 시 매핑"
+              ],
+              "prerequisites": ["1.1.1"],
+              "lab": null
+            },
+            {
+              "id": "1.1.3",
+              "section_id": "1.1",
+              "title": "Agent vs Workflow vs Chatbot",
+              "order": 3,
+              "learning_objectives": [
+                "Agent, Workflow, Chatbot 세 시스템의 의사결정 자율도와 운영 비용 차이를 비교해 사용 시점을 판단할 수 있다"
+              ],
+              "learning_content": [
+                "Chatbot: 단일 응답 시스템",
+                "Workflow: 정해진 DAG 흐름 (LangGraph)",
+                "Agent: 자율적 의사결정 루프",
+                "비결정성과 운영 비용의 trade-off",
+                "Agent가 필요한 시점 판단 체크리스트"
+              ],
+              "prerequisites": ["1.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "phase_id": "1",
+          "title": "학습 우선순위",
+          "order": 2,
+          "topics": [
+            {
+              "id": "1.2.1",
+              "section_id": "1.2",
+              "title": "8단계 학습 로드맵",
+              "order": 1,
+              "learning_objectives": [
+                "Python Backend부터 포트폴리오 완성까지 8단계 로드맵의 순서와 각 단계 산출물을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Python Backend(FastAPI, async, PG, Redis, Docker)",
+                "LeetCode Medium 150~200문제",
+                "System Design(전통 + AI 특화)",
+                "RAG, Agent, Eval, Security 순서의 근거",
+                "포트폴리오 프로젝트 완성 기준"
+              ],
+              "prerequisites": ["1.1.3"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "코딩 인터뷰 패턴 11종",
+      "order": 2,
+      "exit_capability": "DS/Algo 패턴 11종의 적용 시점을 인지하고, LeetCode Medium 문제를 시간·공간 복잡도 설명과 함께 풀이할 수 있다.",
+      "sections": [
+        {
+          "id": "2.1",
+          "phase_id": "2",
+          "title": "자료구조 패턴",
+          "order": 1,
+          "topics": [
+            {
+              "id": "2.1.1",
+              "section_id": "2.1",
+              "title": "Array와 HashMap",
+              "order": 1,
+              "learning_objectives": [
+                "Array 인덱싱과 HashMap O(1) 조회를 결합해 중복·빈도·짝 찾기 문제를 풀 수 있다"
+              ],
+              "learning_content": [
+                "HashMap의 평균 O(1) 보장 조건",
+                "중복 탐지, Two Sum, 빈도 카운팅 패턴",
+                "Set vs Dict 선택 기준",
+                "충돌·재해싱 비용",
+                "Python dict/set 내부 구현 요약"
+              ],
+              "prerequisites": ["1.2.1"],
+              "lab": null
+            },
+            {
+              "id": "2.1.2",
+              "section_id": "2.1",
+              "title": "Two Pointers",
+              "order": 2,
+              "learning_objectives": [
+                "정렬된 배열·문자열에서 양 끝/같은 방향 포인터로 O(n) 풀이를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "양 끝 수렴, 같은 방향 스킵 두 변형",
+                "정렬 전제 조건",
+                "3Sum, Container with Most Water 유형",
+                "Sliding Window와의 경계",
+                "투 포인터로 풀리지 않는 경우"
+              ],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            },
+            {
+              "id": "2.1.3",
+              "section_id": "2.1",
+              "title": "Sliding Window",
+              "order": 3,
+              "learning_objectives": [
+                "고정 윈도우와 가변 윈도우 두 변형을 구분해 부분 배열·문자열 최적화 문제를 풀 수 있다"
+              ],
+              "learning_content": [
+                "고정 윈도우: 평균/합 계산",
+                "가변 윈도우: 조건 만족 최소/최대 길이",
+                "윈도우 확장과 축소 규칙",
+                "Longest Substring without Repeating 유형",
+                "윈도우 상태 자료구조(HashMap, Counter)"
+              ],
+              "prerequisites": ["2.1.2"],
+              "lab": null
+            },
+            {
+              "id": "2.1.4",
+              "section_id": "2.1",
+              "title": "Stack과 Monotonic Stack",
+              "order": 4,
+              "learning_objectives": [
+                "Monotonic Stack을 사용해 Next Greater, 히스토그램 등 O(n) 풀이를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "괄호 검증, 표현식 평가",
+                "Monotonic 증가/감소 스택 정의",
+                "Next Greater Element 패턴",
+                "Largest Rectangle in Histogram",
+                "Stack vs Queue 선택 기준"
+              ],
+              "prerequisites": ["2.1.3"],
+              "lab": null
+            },
+            {
+              "id": "2.1.5",
+              "section_id": "2.1",
+              "title": "Heap과 Top-K",
+              "order": 5,
+              "learning_objectives": [
+                "min-heap·max-heap을 사용해 Top-K, K-way merge, 스트림 중앙값 문제를 풀 수 있다"
+              ],
+              "learning_content": [
+                "Heap 연산의 O(log n) 보장",
+                "Top-K 빈도 패턴",
+                "K-way Merge",
+                "두 heap으로 중앙값 유지",
+                "Python heapq의 한계와 우회"
+              ],
+              "prerequisites": ["2.1.4"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "phase_id": "2",
+          "title": "검색과 재귀 패턴",
+          "order": 2,
+          "topics": [
+            {
+              "id": "2.2.1",
+              "section_id": "2.2",
+              "title": "Binary Search와 답 이분 탐색",
+              "order": 1,
+              "learning_objectives": [
+                "정렬 배열뿐 아니라 답 공간에 대한 이분 탐색으로 최적화 문제를 풀 수 있다"
+              ],
+              "learning_content": [
+                "lower_bound / upper_bound 구현",
+                "답 이분 탐색의 단조성 조건",
+                "Capacity to Ship, Koko Eating Bananas 유형",
+                "회전 정렬 배열 탐색",
+                "off-by-one 디버깅 체크리스트"
+              ],
+              "prerequisites": ["2.1.5"],
+              "lab": null
+            },
+            {
+              "id": "2.2.2",
+              "section_id": "2.2",
+              "title": "Intervals",
+              "order": 2,
+              "learning_objectives": [
+                "구간 정렬과 sweep line으로 병합·삽입·충돌 문제를 풀 수 있다"
+              ],
+              "learning_content": [
+                "Merge Intervals 패턴",
+                "Insert Interval",
+                "Non-overlapping Intervals(그리디)",
+                "Meeting Rooms II와 우선순위 큐",
+                "Sweep line 일반화"
+              ],
+              "prerequisites": ["2.2.1"],
+              "lab": null
+            },
+            {
+              "id": "2.2.3",
+              "section_id": "2.2",
+              "title": "Trie와 Backtracking",
+              "order": 3,
+              "learning_objectives": [
+                "Trie 자료구조와 백트래킹 가지치기로 부분집합·조합·단어 탐색 문제를 풀 수 있다"
+              ],
+              "learning_content": [
+                "Trie 삽입·검색·접두사",
+                "Word Search II",
+                "Backtracking 템플릿",
+                "가지치기와 시간 복잡도 추정",
+                "Subset / Permutation / Combination 차이"
+              ],
+              "prerequisites": ["2.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "phase_id": "2",
+          "title": "트리·그래프·DP",
+          "order": 3,
+          "topics": [
+            {
+              "id": "2.3.1",
+              "section_id": "2.3",
+              "title": "Tree DFS와 BFS",
+              "order": 1,
+              "learning_objectives": [
+                "트리 순회 네 가지를 구분하고, DFS·BFS로 깊이·경로·LCA 문제를 풀 수 있다"
+              ],
+              "learning_content": [
+                "preorder / inorder / postorder / level-order",
+                "재귀 DFS와 반복 DFS",
+                "BFS와 최소 거리",
+                "LCA와 트리 직경",
+                "Serialize / Deserialize 패턴"
+              ],
+              "prerequisites": ["2.2.3"],
+              "lab": null
+            },
+            {
+              "id": "2.3.2",
+              "section_id": "2.3",
+              "title": "Graph DFS·BFS·Union-Find·Topological Sort",
+              "order": 2,
+              "learning_objectives": [
+                "그래프 표현을 선택하고, DFS·BFS·Union-Find·위상 정렬로 연결성·순서·사이클 문제를 풀 수 있다"
+              ],
+              "learning_content": [
+                "인접 리스트 vs 인접 행렬",
+                "DFS로 사이클 탐지",
+                "BFS로 최단 경로",
+                "Union-Find와 경로 압축",
+                "Topological Sort (Kahn, DFS 기반)"
+              ],
+              "prerequisites": ["2.3.1"],
+              "lab": null
+            },
+            {
+              "id": "2.3.3",
+              "section_id": "2.3",
+              "title": "Dynamic Programming",
+              "order": 3,
+              "learning_objectives": [
+                "1D/2D DP, Knapsack, LIS 점화식을 세우고 메모이제이션·타뷸레이션을 선택할 수 있다"
+              ],
+              "learning_content": [
+                "DP의 두 조건: 최적 부분구조, 중복 부분문제",
+                "1D DP: House Robber, Climbing Stairs",
+                "2D DP: Unique Paths, Edit Distance",
+                "0/1 Knapsack과 Unbounded Knapsack",
+                "LIS의 O(n log n) 풀이"
+              ],
+              "prerequisites": ["2.3.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.4",
+          "phase_id": "2",
+          "title": "면접 전달력",
+          "order": 4,
+          "topics": [
+            {
+              "id": "2.4.1",
+              "section_id": "2.4",
+              "title": "복잡도 분석과 엣지 케이스 사고법",
+              "order": 1,
+              "learning_objectives": [
+                "풀이 전 시간·공간 복잡도를 추정하고, 엣지 케이스를 먼저 나열하는 면접 패턴을 익힌다"
+              ],
+              "learning_content": [
+                "amortized·worst·average 구분",
+                "공간 복잡도 자주 빠뜨리는 항목",
+                "엣지 케이스 8종 체크리스트",
+                "변수명·구조 정돈의 중요성",
+                "무리한 최적화의 위험"
+              ],
+              "prerequisites": ["2.3.3"],
+              "lab": null
+            },
+            {
+              "id": "2.4.2",
+              "section_id": "2.4",
+              "title": "학습 경로: NeetCode·Blind75·프로그래머스",
+              "order": 2,
+              "learning_objectives": [
+                "Medium 150~200문제 안정화를 위한 NeetCode 150, Blind 75, 프로그래머스 Lv2~3 학습 경로를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "NeetCode 150 패턴 매핑",
+                "Blind 75 보강",
+                "프로그래머스 카카오 기출",
+                "Take-home Medium 80% / Hard 20% 비중",
+                "일 1~2문제 지속 가능한 루틴"
+              ],
+              "prerequisites": ["2.4.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "전통 시스템 설계 기본기",
+      "order": 3,
+      "exit_capability": "스케일링·일관성·안정성 패턴을 결합해 백엔드 시스템을 화이트보드에서 설계할 수 있다.",
+      "sections": [
+        {
+          "id": "3.1",
+          "phase_id": "3",
+          "title": "스케일링과 데이터",
+          "order": 1,
+          "topics": [
+            {
+              "id": "3.1.1",
+              "section_id": "3.1",
+              "title": "Load Balancer와 트래픽 분산",
+              "order": 1,
+              "learning_objectives": [
+                "L4·L7 로드밸런서의 차이와 분산 알고리즘을 비교해 트래픽 패턴에 맞는 선택을 할 수 있다"
+              ],
+              "learning_content": [
+                "L4 vs L7 로드밸런서",
+                "Round-robin, Least-connections, Consistent hashing",
+                "Session affinity와 sticky session",
+                "Health check와 graceful drain",
+                "Anycast와 GSLB"
+              ],
+              "prerequisites": ["2.4.2"],
+              "lab": null
+            },
+            {
+              "id": "3.1.2",
+              "section_id": "3.1",
+              "title": "Cache 계층: Redis와 CDN",
+              "order": 2,
+              "learning_objectives": [
+                "Cache-aside·Write-through·Write-back 전략과 CDN 캐싱을 구분해 적용할 수 있다"
+              ],
+              "learning_content": [
+                "Cache-aside, Write-through, Write-back",
+                "Redis 데이터 구조 활용",
+                "Cache invalidation 전략",
+                "CDN 정적/동적 자산",
+                "Stale-while-revalidate 패턴"
+              ],
+              "prerequisites": ["3.1.1"],
+              "lab": null
+            },
+            {
+              "id": "3.1.3",
+              "section_id": "3.1",
+              "title": "Sharding과 Replication",
+              "order": 3,
+              "learning_objectives": [
+                "수평 샤딩 키 선택과 복제 토폴로지를 비교해 쓰기·읽기 부하 분산을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "Range, Hash, Directory 기반 샤딩",
+                "Hot partition과 rebalancing",
+                "Primary-Secondary 복제",
+                "Quorum 기반 복제",
+                "Cross-shard 트랜잭션의 한계"
+              ],
+              "prerequisites": ["3.1.2"],
+              "lab": null
+            },
+            {
+              "id": "3.1.4",
+              "section_id": "3.1",
+              "title": "Consistency와 CAP",
+              "order": 4,
+              "learning_objectives": [
+                "Strong·Eventual·Causal consistency를 구분하고 CAP 트레이드오프 기준으로 시스템을 선택할 수 있다"
+              ],
+              "learning_content": [
+                "Strong consistency 비용",
+                "Eventual consistency 안정 패턴",
+                "Read-your-writes, Monotonic reads",
+                "CAP과 PACELC",
+                "CRDT 한 줄 요약"
+              ],
+              "prerequisites": ["3.1.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "phase_id": "3",
+          "title": "API와 메시지 큐",
+          "order": 2,
+          "topics": [
+            {
+              "id": "3.2.1",
+              "section_id": "3.2",
+              "title": "REST·GraphQL·gRPC 선택 기준",
+              "order": 1,
+              "learning_objectives": [
+                "RPC 스타일과 페이로드·스키마·생태계 차이를 들어 세 가지 중 적절한 API 스타일을 선택할 수 있다"
+              ],
+              "learning_content": [
+                "REST 자원 모델",
+                "GraphQL 쿼리 유연성과 N+1 위험",
+                "gRPC와 protobuf 성능",
+                "스키마 진화 비용",
+                "내부·외부 API 선택 기준"
+              ],
+              "prerequisites": ["3.1.4"],
+              "lab": null
+            },
+            {
+              "id": "3.2.2",
+              "section_id": "3.2",
+              "title": "Kafka·RabbitMQ·SQS",
+              "order": 2,
+              "learning_objectives": [
+                "Kafka·RabbitMQ·SQS의 전송 보장과 운영 비용을 비교해 사용 사례별로 선택할 수 있다"
+              ],
+              "learning_content": [
+                "Pub/Sub vs Queue 모델",
+                "Kafka 파티션과 consumer group",
+                "RabbitMQ 라우팅 패턴",
+                "SQS standard vs FIFO",
+                "At-least-once / Exactly-once의 비용"
+              ],
+              "prerequisites": ["3.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "phase_id": "3",
+          "title": "안정성 패턴",
+          "order": 3,
+          "topics": [
+            {
+              "id": "3.3.1",
+              "section_id": "3.3",
+              "title": "Rate Limiter·Circuit Breaker·Idempotency",
+              "order": 1,
+              "learning_objectives": [
+                "트래픽 제어·장애 격리·중복 방지 세 가지 패턴을 결합해 외부 의존성에 강건한 시스템을 만들 수 있다"
+              ],
+              "learning_content": [
+                "Token bucket과 Leaky bucket",
+                "Circuit Breaker 상태 머신",
+                "Idempotency key 설계",
+                "Retry with backoff",
+                "Bulkhead 패턴"
+              ],
+              "prerequisites": ["3.2.2"],
+              "lab": null
+            },
+            {
+              "id": "3.3.2",
+              "section_id": "3.3",
+              "title": "Job Queue·Retry·DLQ",
+              "order": 2,
+              "learning_objectives": [
+                "비동기 작업 큐의 retry 정책과 Dead Letter Queue 운영 설계를 할 수 있다"
+              ],
+              "learning_content": [
+                "Producer-Consumer 구조",
+                "Visibility timeout과 in-flight",
+                "Exponential backoff with jitter",
+                "DLQ 라우팅과 알림",
+                "Poison message 격리"
+              ],
+              "prerequisites": ["3.3.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "LLM 기본기와 안정 연결",
+      "order": 4,
+      "exit_capability": "모델 호출 파라미터·구조화 출력·도구 호출을 활용해 불안정한 LLM을 신뢰 가능한 컴포넌트로 연결할 수 있다.",
+      "sections": [
+        {
+          "id": "4.1",
+          "phase_id": "4",
+          "title": "LLM 호출 기본기",
+          "order": 1,
+          "topics": [
+            {
+              "id": "4.1.1",
+              "section_id": "4.1",
+              "title": "Prompt 구조와 System·User·Assistant 역할",
+              "order": 1,
+              "learning_objectives": [
+                "메시지 역할 구분과 시스템 프롬프트 작성 규칙을 적용해 일관된 모델 응답을 얻을 수 있다"
+              ],
+              "learning_content": [
+                "System / User / Assistant 메시지 의미",
+                "System 프롬프트가 영향을 미치는 범위",
+                "Few-shot 예시 위치",
+                "Chain-of-Thought 유도",
+                "Prompt 버전 관리"
+              ],
+              "prerequisites": ["3.3.2"],
+              "lab": null
+            },
+            {
+              "id": "4.1.2",
+              "section_id": "4.1",
+              "title": "Sampling 파라미터: temperature와 top-p",
+              "order": 2,
+              "learning_objectives": [
+                "temperature·top-p·top-k의 작용을 구분해 작업별로 적절한 샘플링을 선택할 수 있다"
+              ],
+              "learning_content": [
+                "logit과 확률 분포",
+                "temperature 효과",
+                "top-p 누적 확률 컷",
+                "결정적 응답을 위한 설정",
+                "샘플링과 비결정성의 관계"
+              ],
+              "prerequisites": ["4.1.1"],
+              "lab": null
+            },
+            {
+              "id": "4.1.3",
+              "section_id": "4.1",
+              "title": "Token과 Context Window 관리",
+              "order": 3,
+              "learning_objectives": [
+                "토크나이저와 컨텍스트 윈도우 한계를 이해하고 prompt budget을 분배할 수 있다"
+              ],
+              "learning_content": [
+                "BPE/SentencePiece 토크나이저",
+                "한글·코드의 토큰 비용",
+                "Context window와 attention 비용",
+                "Prompt / Tool / Memory budget 분배",
+                "Summarization fallback"
+              ],
+              "prerequisites": ["4.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "phase_id": "4",
+          "title": "구조화 출력과 도구 호출",
+          "order": 2,
+          "topics": [
+            {
+              "id": "4.2.1",
+              "section_id": "4.2",
+              "title": "Function calling과 Tool calling",
+              "order": 1,
+              "learning_objectives": [
+                "도구 스키마 설계·도구 선택·인자 검증의 핵심을 짚어 안정적인 tool calling을 구현할 수 있다"
+              ],
+              "learning_content": [
+                "Tool 스키마 정의(name, description, parameters)",
+                "Tool 선택 정확도와 description 품질",
+                "병렬 tool call",
+                "도구 결과 주입 패턴",
+                "Tool 사용 실패 처리"
+              ],
+              "prerequisites": ["4.1.3"],
+              "lab": null
+            },
+            {
+              "id": "4.2.2",
+              "section_id": "4.2",
+              "title": "Structured Output: JSON Schema와 Pydantic",
+              "order": 2,
+              "learning_objectives": [
+                "JSON Schema·Pydantic으로 출력 형식을 강제하고 invalid output을 자동 복구할 수 있다"
+              ],
+              "learning_content": [
+                "JSON mode와 Structured Output API",
+                "Pydantic 모델 정의와 검증",
+                "Invalid output 시 retry 정책",
+                "스키마 강제와 자유도의 trade-off",
+                "코드/이미지 등 비-JSON 출력 처리"
+              ],
+              "prerequisites": ["4.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.3",
+          "phase_id": "4",
+          "title": "의사결정",
+          "order": 3,
+          "topics": [
+            {
+              "id": "4.3.1",
+              "section_id": "4.3",
+              "title": "Fine-tuning vs RAG vs Prompting",
+              "order": 1,
+              "learning_objectives": [
+                "도메인 적응 세 가지 방법의 비용·갱신성·정확성 trade-off로 선택 기준을 세울 수 있다"
+              ],
+              "learning_content": [
+                "Prompting의 한계",
+                "RAG의 비용·갱신성 장점",
+                "Fine-tuning의 적용 시점",
+                "혼합 전략",
+                "의사결정 트리"
+              ],
+              "prerequisites": ["4.2.2"],
+              "lab": null
+            },
+            {
+              "id": "4.3.2",
+              "section_id": "4.3",
+              "title": "모델 변경 시 회귀 감지",
+              "order": 2,
+              "learning_objectives": [
+                "모델 업그레이드·교체 시 품질 회귀를 감지하는 평가 절차를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "Golden dataset 준비",
+                "A/B 비교 평가",
+                "Tool call·구조화 출력 회귀",
+                "비용·지연 회귀",
+                "롤백 기준"
+              ],
+              "prerequisites": ["4.3.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "RAG 시스템",
+      "order": 5,
+      "exit_capability": "RAG 파이프라인 구성요소를 설계하고 검색 품질 레버를 사용해 답변 정확도를 측정·개선할 수 있다.",
+      "sections": [
+        {
+          "id": "5.1",
+          "phase_id": "5",
+          "title": "RAG 파이프라인",
+          "order": 1,
+          "topics": [
+            {
+              "id": "5.1.1",
+              "section_id": "5.1",
+              "title": "RAG 구성요소 한눈에 보기",
+              "order": 1,
+              "learning_objectives": [
+                "Loader→Parser→Chunker→Embedding→Vector DB→Retriever→Reranker→Generator→Citation→Eval의 전 흐름을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Ingestion과 Query 두 경로",
+                "각 단계의 입력·출력",
+                "단계별 품질 측정 지점",
+                "흔한 실패 지점",
+                "최소 구현 vs 운영급 구현"
+              ],
+              "prerequisites": ["4.3.2"],
+              "lab": null
+            },
+            {
+              "id": "5.1.2",
+              "section_id": "5.1",
+              "title": "Loader·Parser·Chunker",
+              "order": 2,
+              "learning_objectives": [
+                "PDF·HTML·코드 등 이질적 소스를 파싱하고 의미 단위로 청킹하는 전략을 적용할 수 있다"
+              ],
+              "learning_content": [
+                "PDF 레이아웃 파싱(테이블/이미지)",
+                "HTML noise 제거",
+                "고정 청킹 vs 의미 청킹",
+                "Markdown 헤더 기반 청킹",
+                "코드·로그 등 특수 소스"
+              ],
+              "prerequisites": ["5.1.1"],
+              "lab": null
+            },
+            {
+              "id": "5.1.3",
+              "section_id": "5.1",
+              "title": "Embedding과 Vector DB 선택",
+              "order": 3,
+              "learning_objectives": [
+                "임베딩 모델·차원·정규화와 Vector DB 옵션(pgvector, Qdrant, Weaviate, Milvus, OpenSearch)을 비교 선택할 수 있다"
+              ],
+              "learning_content": [
+                "Dense embedding의 차원과 비용",
+                "Cosine·Dot·L2 거리",
+                "Vector DB 옵션 비교",
+                "HNSW·IVF 인덱스 trade-off",
+                "Hybrid 인덱스(BM25+Dense)"
+              ],
+              "prerequisites": ["5.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.2",
+          "phase_id": "5",
+          "title": "검색 품질 개선",
+          "order": 2,
+          "topics": [
+            {
+              "id": "5.2.1",
+              "section_id": "5.2",
+              "title": "Chunk size·overlap 튜닝",
+              "order": 1,
+              "learning_objectives": [
+                "Chunk size와 overlap이 recall·precision·비용에 미치는 영향을 측정해 최적값을 찾을 수 있다"
+              ],
+              "learning_content": [
+                "Chunk size의 trade-off",
+                "Overlap이 보장하는 문맥 연속성",
+                "도메인별 권장값",
+                "Recall vs Precision 측정",
+                "Cost 영향(임베딩·저장)"
+              ],
+              "prerequisites": ["5.1.3"],
+              "lab": null
+            },
+            {
+              "id": "5.2.2",
+              "section_id": "5.2",
+              "title": "Hybrid Search: BM25 + Dense",
+              "order": 2,
+              "learning_objectives": [
+                "Sparse·Dense 점수 결합 방법(RRF, weighted)을 비교하고 hybrid 인덱스를 구성할 수 있다"
+              ],
+              "learning_content": [
+                "BM25 점수 모델",
+                "Dense vs Sparse 강점 영역",
+                "Reciprocal Rank Fusion(RRF)",
+                "Weighted score blend",
+                "OpenSearch·Weaviate hybrid 구현"
+              ],
+              "prerequisites": ["5.2.1"],
+              "lab": null
+            },
+            {
+              "id": "5.2.3",
+              "section_id": "5.2",
+              "title": "Query Rewriting·HyDE·Multi-Query",
+              "order": 3,
+              "learning_objectives": [
+                "사용자 질의를 변형해 recall을 끌어올리는 세 가지 기법을 적용 시점과 함께 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Query rewriting과 conversation context",
+                "HyDE: 가설 답변으로 검색",
+                "Multi-query 분기",
+                "비용 폭증 방지",
+                "변형이 역효과를 내는 경우"
+              ],
+              "prerequisites": ["5.2.2"],
+              "lab": null
+            },
+            {
+              "id": "5.2.4",
+              "section_id": "5.2",
+              "title": "Reranking: Cohere와 BGE-reranker",
+              "order": 4,
+              "learning_objectives": [
+                "Cross-encoder 리랭커의 동작과 비용·지연 영향을 이해해 적절한 top-k에서 적용할 수 있다"
+              ],
+              "learning_content": [
+                "Bi-encoder vs Cross-encoder",
+                "Cohere Rerank API",
+                "BGE-reranker 자체 호스팅",
+                "Top-N 컷 결정",
+                "Reranker 비용·지연"
+              ],
+              "prerequisites": ["5.2.3"],
+              "lab": null
+            },
+            {
+              "id": "5.2.5",
+              "section_id": "5.2",
+              "title": "Metadata filtering과 Citation",
+              "order": 5,
+              "learning_objectives": [
+                "메타데이터 필터로 검색 범위를 좁히고 인용 기반 답변으로 hallucination을 억제할 수 있다"
+              ],
+              "learning_content": [
+                "메타데이터 스키마 설계",
+                "Pre-filter vs Post-filter",
+                "Citation을 포함한 답변 포맷",
+                "출처가 없는 주장 거부",
+                "Hallucination 측정과 인용 정확도"
+              ],
+              "prerequisites": ["5.2.4"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.3",
+          "phase_id": "5",
+          "title": "GraphRAG",
+          "order": 3,
+          "topics": [
+            {
+              "id": "5.3.1",
+              "section_id": "5.3",
+              "title": "GraphRAG와 KG-RAG 기본 개념",
+              "order": 1,
+              "learning_objectives": [
+                "Microsoft GraphRAG·OG-RAG·KAG의 아이디어와 테이블·관계형 데이터 강점을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "엔티티/관계 추출",
+                "Community summarization",
+                "Local vs Global query",
+                "KG와 Vector 인덱스 결합",
+                "GraphRAG 적용 시점"
+              ],
+              "prerequisites": ["5.2.5"],
+              "lab": null
+            },
+            {
+              "id": "5.3.2",
+              "section_id": "5.3",
+              "title": "Cypher schema와 시계열 fact node",
+              "order": 2,
+              "learning_objectives": [
+                "Cypher 스키마와 시간 인덱스를 가진 fact node로 시계열 KG를 표현할 수 있다"
+              ],
+              "learning_content": [
+                "Neo4j Cypher 기초",
+                "Entity·Relationship·Property",
+                "Fact node로 시간 표현",
+                "시계열 질의 패턴",
+                "KG 업데이트와 충돌"
+              ],
+              "prerequisites": ["5.3.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "Agent 아키텍처와 Memory",
+      "order": 6,
+      "exit_capability": "Agent 패턴과 구성요소를 결합해 장기 작업을 안정적으로 수행하는 Agent 시스템을 설계할 수 있다.",
+      "sections": [
+        {
+          "id": "6.1",
+          "phase_id": "6",
+          "title": "Agent 패턴",
+          "order": 1,
+          "topics": [
+            {
+              "id": "6.1.1",
+              "section_id": "6.1",
+              "title": "ReAct: Reasoning + Acting의 기본 루프",
+              "order": 1,
+              "learning_objectives": [
+                "ReAct 루프의 Thought-Action-Observation 구조와 한계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Thought / Action / Observation 사이클",
+                "Tool 호출과 결과 주입",
+                "무한 루프 위험",
+                "단순 작업에서의 강점",
+                "ReAct 변형들"
+              ],
+              "prerequisites": ["5.3.2"],
+              "lab": null
+            },
+            {
+              "id": "6.1.2",
+              "section_id": "6.1",
+              "title": "Reflexion: 자기 결과 검토",
+              "order": 2,
+              "learning_objectives": [
+                "Reflexion의 자기 평가 루프를 적용해 실패한 trajectory를 수정할 수 있다"
+              ],
+              "learning_content": [
+                "Reflection 단계의 역할",
+                "실패 trajectory 기록과 재시도",
+                "Self-correction의 한계",
+                "Reflexion과 evaluation의 차이",
+                "비용·지연 영향"
+              ],
+              "prerequisites": ["6.1.1"],
+              "lab": null
+            },
+            {
+              "id": "6.1.3",
+              "section_id": "6.1",
+              "title": "Plan-and-Execute",
+              "order": 3,
+              "learning_objectives": [
+                "다단계 작업에서 Planner와 Executor를 분리한 구조의 장점과 위험을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Plan 생성과 검증",
+                "Step 단위 실행과 결과 반영",
+                "Plan 수정 트리거",
+                "Planner 모델과 Executor 모델 분리",
+                "정해진 DAG와의 비교"
+              ],
+              "prerequisites": ["6.1.2"],
+              "lab": null
+            },
+            {
+              "id": "6.1.4",
+              "section_id": "6.1",
+              "title": "Tree of Thoughts·Router·Workflow",
+              "order": 4,
+              "learning_objectives": [
+                "탐색·분기·DAG 흐름이 필요한 작업에 ToT·Router·Workflow 패턴을 선택할 수 있다"
+              ],
+              "learning_content": [
+                "Tree of Thoughts 탐색 구조",
+                "Router agent로 요청 분배",
+                "LangGraph Workflow와 상태 머신",
+                "Agent vs Workflow 결정 기준",
+                "Hybrid 패턴 사례"
+              ],
+              "prerequisites": ["6.1.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.2",
+          "phase_id": "6",
+          "title": "Agent 구성요소",
+          "order": 2,
+          "topics": [
+            {
+              "id": "6.2.1",
+              "section_id": "6.2",
+              "title": "Planner·Executor·Tool Registry·Guardrail",
+              "order": 1,
+              "learning_objectives": [
+                "Agent를 Planner·Executor·Tool Registry·Guardrail 네 요소로 분해해 책임을 분리할 수 있다"
+              ],
+              "learning_content": [
+                "Planner의 역할과 모델 선택",
+                "Executor와 Tool Registry",
+                "Guardrail의 위치와 종류",
+                "Evaluator·Tracer 인터페이스",
+                "구성요소 간 데이터 모델"
+              ],
+              "prerequisites": ["6.1.4"],
+              "lab": null
+            },
+            {
+              "id": "6.2.2",
+              "section_id": "6.2",
+              "title": "State와 Orchestrator",
+              "order": 2,
+              "learning_objectives": [
+                "Agent 상태를 직렬화 가능한 형태로 모델링하고 Orchestrator로 단계 전이를 제어할 수 있다"
+              ],
+              "learning_content": [
+                "State 스키마 설계",
+                "Checkpoint와 resume",
+                "Orchestrator의 의사결정",
+                "동시성과 race condition",
+                "장기 실행 작업의 영속화"
+              ],
+              "prerequisites": ["6.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.3",
+          "phase_id": "6",
+          "title": "Memory 설계",
+          "order": 3,
+          "topics": [
+            {
+              "id": "6.3.1",
+              "section_id": "6.3",
+              "title": "Short-term과 Long-term Memory",
+              "order": 1,
+              "learning_objectives": [
+                "단기 메모리(window/summary)와 장기 메모리(vector/KV)의 역할과 trade-off를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "대화 window 관리",
+                "Summary 기반 압축",
+                "Long-term 저장소(Vector, KV)",
+                "휘발성과 지속성 분리",
+                "Memory miss 처리"
+              ],
+              "prerequisites": ["6.2.2"],
+              "lab": null
+            },
+            {
+              "id": "6.3.2",
+              "section_id": "6.3",
+              "title": "Episodic·Semantic·Procedural Memory",
+              "order": 2,
+              "learning_objectives": [
+                "경험·지식·절차 세 종류 메모리의 구분으로 Agent의 학습 능력을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "Episodic memory: 실행 경험",
+                "Semantic memory: 일반화된 지식",
+                "Procedural memory: 반복 절차",
+                "각 메모리의 검색 인터페이스",
+                "RAG와 Semantic memory의 결합"
+              ],
+              "prerequisites": ["6.3.1"],
+              "lab": null
+            },
+            {
+              "id": "6.3.3",
+              "section_id": "6.3",
+              "title": "Memory 5대 질문: 무엇·언제·검색·갱신·보호",
+              "order": 3,
+              "learning_objectives": [
+                "Memory 시스템을 설계할 때 답해야 할 5대 질문으로 자기 진단을 할 수 있다"
+              ],
+              "learning_content": [
+                "무엇을 저장할 것인가",
+                "언제 저장·삭제할 것인가",
+                "어떻게 검색할 것인가",
+                "어떻게 갱신할 것인가",
+                "어떻게 보호할 것인가"
+              ],
+              "prerequisites": ["6.3.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.4",
+          "phase_id": "6",
+          "title": "Multi-Agent",
+          "order": 4,
+          "topics": [
+            {
+              "id": "6.4.1",
+              "section_id": "6.4",
+              "title": "Supervisor·Hierarchical·Swarm",
+              "order": 1,
+              "learning_objectives": [
+                "Multi-Agent 토폴로지 세 가지의 차이와 사용 시점을 비교할 수 있다"
+              ],
+              "learning_content": [
+                "Supervisor 패턴과 Handoff",
+                "Hierarchical 위임",
+                "Swarm 자율 협업",
+                "Agent-to-Agent(A2A) 프로토콜",
+                "Multi-Agent가 단일 Agent를 이기는 조건"
+              ],
+              "prerequisites": ["6.3.3"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "title": "MCP와 도구 통합",
+      "order": 7,
+      "exit_capability": "MCP 표준으로 외부 시스템을 안전하고 확장 가능하게 연동하고, Tool 수가 폭증해도 운영할 수 있는 구조를 설계할 수 있다.",
+      "sections": [
+        {
+          "id": "7.1",
+          "phase_id": "7",
+          "title": "MCP 개념",
+          "order": 1,
+          "topics": [
+            {
+              "id": "7.1.1",
+              "section_id": "7.1",
+              "title": "Tool·Resource·Prompt·Server·Client",
+              "order": 1,
+              "learning_objectives": [
+                "MCP의 다섯 핵심 개념을 구분하고 각 역할을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Tool: 실행 가능한 기능",
+                "Resource: 읽기 전용 데이터",
+                "Prompt: 재사용 템플릿",
+                "Server / Client 책임 분리",
+                "MCP가 해결하는 표준화 문제"
+              ],
+              "prerequisites": ["6.4.1"],
+              "lab": null
+            },
+            {
+              "id": "7.1.2",
+              "section_id": "7.1",
+              "title": "stdio vs Streamable HTTP",
+              "order": 2,
+              "learning_objectives": [
+                "두 전송 방식의 적용 환경과 보안·확장성 차이를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "stdio: 로컬 프로세스",
+                "Streamable HTTP: 원격",
+                "인증·인가 차이",
+                "Streaming 응답 패턴",
+                "전송 선택 기준"
+              ],
+              "prerequisites": ["7.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "7.2",
+          "phase_id": "7",
+          "title": "MCP 운영",
+          "order": 2,
+          "topics": [
+            {
+              "id": "7.2.1",
+              "section_id": "7.2",
+              "title": "MCP Gateway와 보안 계층화",
+              "order": 1,
+              "learning_objectives": [
+                "MCP Gateway로 인증·인가·감사 로그를 중앙화해 Agent의 외부 접근을 통제할 수 있다"
+              ],
+              "learning_content": [
+                "Gateway 패턴의 필요성",
+                "AuthN/AuthZ 중앙화",
+                "Rate limit과 Quota",
+                "감사 로그",
+                "Gateway 운영 모니터링"
+              ],
+              "prerequisites": ["7.1.2"],
+              "lab": null
+            },
+            {
+              "id": "7.2.2",
+              "section_id": "7.2",
+              "title": "Tool 수 폭증 시 routing 전략",
+              "order": 2,
+              "learning_objectives": [
+                "수십~수백 개 Tool 환경에서 선택 정확도와 토큰 비용을 유지하는 routing 전략을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "Tool 수 폭증의 임계점",
+                "Tool router agent",
+                "임베딩 기반 Tool 검색",
+                "Hierarchical tool 분류",
+                "선택 정확도 측정"
+              ],
+              "prerequisites": ["7.2.1"],
+              "lab": null
+            },
+            {
+              "id": "7.2.3",
+              "section_id": "7.2",
+              "title": "대표 MCP 사례: Gmail·GitHub·Slack·DB",
+              "order": 3,
+              "learning_objectives": [
+                "업무 자동화 시나리오에서 자주 쓰는 MCP 서버 네 가지의 활용 패턴을 비교할 수 있다"
+              ],
+              "learning_content": [
+                "Gmail MCP 사용 패턴",
+                "Calendar MCP",
+                "GitHub MCP와 코드 작업",
+                "Slack MCP",
+                "DB·File MCP 보안 고려"
+              ],
+              "prerequisites": ["7.2.2"],
+              "lab": null
+            },
+            {
+              "id": "7.2.4",
+              "section_id": "7.2",
+              "title": "Tool description 품질과 선택 정확도",
+              "order": 4,
+              "learning_objectives": [
+                "Tool description 품질이 선택 정확도에 미치는 영향을 측정해 개선 절차를 만들 수 있다"
+              ],
+              "learning_content": [
+                "Description의 정보량과 모호성",
+                "Few-shot 예시 주입",
+                "이름 충돌 해결",
+                "선택 오류의 패턴",
+                "Description 회귀 평가"
+              ],
+              "prerequisites": ["7.2.3"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "title": "Prompt Optimization 자동화",
+      "order": 8,
+      "exit_capability": "수작업 프롬프트 튜닝을 넘어서 자동 최적화 파이프라인을 구성하고 결과를 평가할 수 있다.",
+      "sections": [
+        {
+          "id": "8.1",
+          "phase_id": "8",
+          "title": "자동 프롬프트 개선",
+          "order": 1,
+          "topics": [
+            {
+              "id": "8.1.1",
+              "section_id": "8.1",
+              "title": "DSPy: 프롬프트 모듈화와 컴파일",
+              "order": 1,
+              "learning_objectives": [
+                "DSPy의 Signature·Module·Optimizer 개념으로 프롬프트를 자동 컴파일하는 흐름을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Signature 정의",
+                "Module 합성",
+                "Optimizer(BootstrapFewShot 등)",
+                "Metric 정의",
+                "수작업 프롬프트와의 비교"
+              ],
+              "prerequisites": ["7.2.4"],
+              "lab": null
+            },
+            {
+              "id": "8.1.2",
+              "section_id": "8.1",
+              "title": "GEPA: Generative Evolutionary Prompt Adaptation",
+              "order": 2,
+              "learning_objectives": [
+                "GEPA의 진화·반영 기반 프롬프트 적응 절차를 설명하고 Reflexion과의 관계를 짚을 수 있다"
+              ],
+              "learning_content": [
+                "진화적 탐색 개념",
+                "Reflection 기반 후보 생성",
+                "선택 기준과 적합도",
+                "Reflexion과의 차이",
+                "적용 사례"
+              ],
+              "prerequisites": ["8.1.1"],
+              "lab": null
+            },
+            {
+              "id": "8.1.3",
+              "section_id": "8.1",
+              "title": "TextGrad와 OPRO",
+              "order": 3,
+              "learning_objectives": [
+                "텍스트 그래디언트 개념과 OPRO의 옵티마이저-as-LLM 접근을 비교 설명할 수 있다"
+              ],
+              "learning_content": [
+                "TextGrad의 텍스트 그래디언트",
+                "OPRO 루프",
+                "수치 그래디언트와의 비유",
+                "Optimizer LLM의 비용",
+                "어떤 작업에 어떤 기법인가"
+              ],
+              "prerequisites": ["8.1.2"],
+              "lab": null
+            },
+            {
+              "id": "8.1.4",
+              "section_id": "8.1",
+              "title": "자동 최적화 파이프라인 설계",
+              "order": 4,
+              "learning_objectives": [
+                "데이터셋·메트릭·옵티마이저·회귀 평가를 묶은 자동 최적화 파이프라인을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "Train/Val/Test 분할",
+                "메트릭 선택",
+                "Optimizer 비용 관리",
+                "회귀 평가와 롤백",
+                "CI 통합"
+              ],
+              "prerequisites": ["8.1.3"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "title": "평가와 관측",
+      "order": 9,
+      "exit_capability": "RAG·Agent·Tool 사용에 대한 평가 메트릭을 정의하고, 운영 지표를 추적하는 관측 시스템을 설계할 수 있다.",
+      "sections": [
+        {
+          "id": "9.1",
+          "phase_id": "9",
+          "title": "평가 지표",
+          "order": 1,
+          "topics": [
+            {
+              "id": "9.1.1",
+              "section_id": "9.1",
+              "title": "RAG 검색 평가: Context precision과 recall",
+              "order": 1,
+              "learning_objectives": [
+                "Context precision·recall로 검색 단계 품질을 측정하고 chunker·retriever 개선에 활용할 수 있다"
+              ],
+              "learning_content": [
+                "Precision@k, Recall@k 정의",
+                "Context relevance 평가",
+                "수작업 라벨링 vs LLM-as-Judge",
+                "단계별 분리 측정",
+                "측정 비용과 sampling"
+              ],
+              "prerequisites": ["8.1.4"],
+              "lab": null
+            },
+            {
+              "id": "9.1.2",
+              "section_id": "9.1",
+              "title": "답변 품질: Faithfulness·Relevance·Correctness",
+              "order": 2,
+              "learning_objectives": [
+                "Faithfulness·Relevance·Correctness 세 지표의 차이와 측정 방법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Faithfulness와 hallucination",
+                "Relevance와 사용자 질의 정합",
+                "Correctness와 정답 비교",
+                "Citation 기반 검증",
+                "지표 간 충돌 사례"
+              ],
+              "prerequisites": ["9.1.1"],
+              "lab": null
+            },
+            {
+              "id": "9.1.3",
+              "section_id": "9.1",
+              "title": "Agent: Task success와 Tool selection accuracy",
+              "order": 3,
+              "learning_objectives": [
+                "Agent 작업의 성공률과 도구 선택 정확도를 정의하고 trajectory 단위 평가를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "Task success rate 정의",
+                "Tool selection accuracy",
+                "Trajectory eval과 final-answer eval",
+                "Sub-task 단위 분해",
+                "측정 가능한 task 설계"
+              ],
+              "prerequisites": ["9.1.2"],
+              "lab": null
+            },
+            {
+              "id": "9.1.4",
+              "section_id": "9.1",
+              "title": "비용과 속도: Token·Latency 지표",
+              "order": 4,
+              "learning_objectives": [
+                "토큰 사용량과 p50/p95/p99 지연을 추적해 SLA와 비용 회귀를 관리할 수 있다"
+              ],
+              "learning_content": [
+                "Token 사용량 분해",
+                "p50/p95/p99 정의",
+                "Streaming TTFT",
+                "Cost per request 계산",
+                "회귀 알림 임계값"
+              ],
+              "prerequisites": ["9.1.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "9.2",
+          "phase_id": "9",
+          "title": "평가 도구와 루프",
+          "order": 2,
+          "topics": [
+            {
+              "id": "9.2.1",
+              "section_id": "9.2",
+              "title": "Ragas·DeepEval·LangSmith·Langfuse 비교",
+              "order": 1,
+              "learning_objectives": [
+                "주요 평가 도구의 강점과 사용 시점을 비교해 스택을 선택할 수 있다"
+              ],
+              "learning_content": [
+                "Ragas의 RAG 메트릭 세트",
+                "DeepEval의 단위 테스트 모델",
+                "LangSmith의 추적·평가 통합",
+                "Langfuse 오픈소스 옵션",
+                "Phoenix/Arize·TruLens 짧은 소개"
+              ],
+              "prerequisites": ["9.1.4"],
+              "lab": null
+            },
+            {
+              "id": "9.2.2",
+              "section_id": "9.2",
+              "title": "Golden dataset 기반 회귀 평가 루프",
+              "order": 2,
+              "learning_objectives": [
+                "Golden dataset 구축·자동 실행·실패 분석·수정·회귀로 이어지는 평가 루프를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "Golden dataset 큐레이션",
+                "자동 실행 파이프라인",
+                "실패 분석 워크플로",
+                "수정 후 회귀 검증",
+                "데이터셋 진화"
+              ],
+              "prerequisites": ["9.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "9.3",
+          "phase_id": "9",
+          "title": "Observability",
+          "order": 3,
+          "topics": [
+            {
+              "id": "9.3.1",
+              "section_id": "9.3",
+              "title": "필수 로깅 항목과 Trace 데이터 모델",
+              "order": 1,
+              "learning_objectives": [
+                "User input부터 Final answer까지 필수 로깅 항목과 trace span 모델을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "필수 로깅 10개 항목",
+                "Trace / Span 데이터 모델",
+                "프롬프트 버전 추적",
+                "Tool I/O 직렬화",
+                "민감 정보 마스킹"
+              ],
+              "prerequisites": ["9.2.2"],
+              "lab": null
+            },
+            {
+              "id": "9.3.2",
+              "section_id": "9.3",
+              "title": "운영 지표와 알림",
+              "order": 2,
+              "learning_objectives": [
+                "Task success·Tool failure·Hallucination·Cost·Latency·Retry 6개 지표로 알림 체계를 구성할 수 있다"
+              ],
+              "learning_content": [
+                "운영 6대 지표 정의",
+                "임계값과 알림 채널",
+                "Hallucination rate 측정 한계",
+                "Cost per request 알림",
+                "장애 회고 워크플로"
+              ],
+              "prerequisites": ["9.3.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "title": "AI 시스템 디자인 케이스",
+      "order": 10,
+      "exit_capability": "RAG·Agent·LLM Gateway 등 대표 케이스를 화이트보드에서 설계하고 트레이드오프를 설명할 수 있다.",
+      "sections": [
+        {
+          "id": "10.1",
+          "phase_id": "10",
+          "title": "검색과 답변",
+          "order": 1,
+          "topics": [
+            {
+              "id": "10.1.1",
+              "section_id": "10.1",
+              "title": "RAG 시스템 화이트보드 설계와 Freshness SLA",
+              "order": 1,
+              "learning_objectives": [
+                "Ingestion부터 Generation까지 RAG 전체 스택을 그리고 Freshness SLA를 보장하는 방법을 제시할 수 있다"
+              ],
+              "learning_content": [
+                "Ingestion·Index·Query 분리",
+                "Freshness SLA 정의",
+                "증분 인덱싱",
+                "Invalidate vs Re-embed",
+                "운영 지표"
+              ],
+              "prerequisites": ["9.3.2"],
+              "lab": null
+            },
+            {
+              "id": "10.1.2",
+              "section_id": "10.1",
+              "title": "대용량 문서 Ingestion Pipeline",
+              "order": 2,
+              "learning_objectives": [
+                "수백만 문서 ingestion을 위한 큐·워커·중복 제거·실패 복구 설계를 할 수 있다"
+              ],
+              "learning_content": [
+                "큐와 워커 풀",
+                "Chunk·임베딩 단계 분리",
+                "중복 제거(content hash)",
+                "실패 재시도와 DLQ",
+                "비용·시간 추정"
+              ],
+              "prerequisites": ["10.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "10.2",
+          "phase_id": "10",
+          "title": "Agent 플랫폼",
+          "order": 2,
+          "topics": [
+            {
+              "id": "10.2.1",
+              "section_id": "10.2",
+              "title": "AI Agent Platform 설계",
+              "order": 1,
+              "learning_objectives": [
+                "Planner·Tool Registry·Memory·Execution Engine·Guardrail을 가진 Agent 플랫폼 구조를 그릴 수 있다"
+              ],
+              "learning_content": [
+                "Multi-tenant 격리",
+                "Tool Registry 카탈로그",
+                "Memory 백엔드 추상화",
+                "Execution Engine 큐",
+                "Guardrail 체인"
+              ],
+              "prerequisites": ["10.1.2"],
+              "lab": null
+            },
+            {
+              "id": "10.2.2",
+              "section_id": "10.2",
+              "title": "Multi-Agent 오케스트레이터와 A2A",
+              "order": 2,
+              "learning_objectives": [
+                "전문성을 가진 Agent들을 Supervisor가 조율하고 A2A로 통신하는 시스템을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "Supervisor 책임",
+                "Specialist Agent 분리",
+                "Handoff 프로토콜",
+                "A2A 메시지 모델",
+                "장기 실행과 영속화"
+              ],
+              "prerequisites": ["10.2.1"],
+              "lab": null
+            },
+            {
+              "id": "10.2.3",
+              "section_id": "10.2",
+              "title": "1000개 Tool을 가진 Agent 시스템",
+              "order": 3,
+              "learning_objectives": [
+                "Tool 수가 폭증한 환경에서 라우팅·캐싱·평가까지 포함한 시스템 설계를 제시할 수 있다"
+              ],
+              "learning_content": [
+                "Tool 카탈로그와 메타데이터",
+                "임베딩 기반 라우팅",
+                "Tool group과 권한",
+                "사용 통계 기반 추천",
+                "선택 정확도 운영 평가"
+              ],
+              "prerequisites": ["10.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "10.3",
+          "phase_id": "10",
+          "title": "운영 인프라",
+          "order": 3,
+          "topics": [
+            {
+              "id": "10.3.1",
+              "section_id": "10.3",
+              "title": "LLM Gateway 설계",
+              "order": 1,
+              "learning_objectives": [
+                "Model routing·Fallback·Semantic/Prefix Cache·비용 제어를 포함한 LLM Gateway를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "Provider abstraction",
+                "Routing 정책",
+                "Semantic/Prefix Cache",
+                "Quota·Budget",
+                "관측·감사"
+              ],
+              "prerequisites": ["10.2.3"],
+              "lab": null
+            },
+            {
+              "id": "10.3.2",
+              "section_id": "10.3",
+              "title": "Coding Agent 플랫폼 설계",
+              "order": 2,
+              "learning_objectives": [
+                "Repo indexing·Issue 분석·Patch 생성·Test 실행을 포함한 Coding Agent를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "Repo 인덱싱과 코드 임베딩",
+                "Issue 이해 단계",
+                "Patch 생성·검토",
+                "Sandbox에서 Test 실행",
+                "PR 자동화 한계"
+              ],
+              "prerequisites": ["10.3.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "title": "보안과 안전",
+      "order": 11,
+      "exit_capability": "Agent가 마주하는 6대 보안 위협을 인지하고 최소 권한·입력 검증·감사 로깅을 결합해 방어할 수 있다.",
+      "sections": [
+        {
+          "id": "11.1",
+          "phase_id": "11",
+          "title": "위협 모델",
+          "order": 1,
+          "topics": [
+            {
+              "id": "11.1.1",
+              "section_id": "11.1",
+              "title": "Prompt Injection 공격과 방어",
+              "order": 1,
+              "learning_objectives": [
+                "Direct·Indirect Prompt Injection의 패턴을 인지하고 입력 분리·탐지·정책으로 방어할 수 있다"
+              ],
+              "learning_content": [
+                "Direct vs Indirect injection",
+                "신뢰 경계와 컨텍스트 분리",
+                "Injection 탐지기",
+                "System 지시 강건성",
+                "공격 데모와 실패 사례"
+              ],
+              "prerequisites": ["10.3.2"],
+              "lab": null
+            },
+            {
+              "id": "11.1.2",
+              "section_id": "11.1",
+              "title": "Tool Abuse와 Excessive Agency",
+              "order": 2,
+              "learning_objectives": [
+                "최소 권한 원칙과 Human-in-the-loop 위치 설계로 Tool 남용을 줄일 수 있다"
+              ],
+              "learning_content": [
+                "Tool allowlist",
+                "Scope·rate quota",
+                "Human approval 게이트",
+                "Excessive Agency 사례",
+                "복구 가능한 도구 vs 비가역 도구"
+              ],
+              "prerequisites": ["11.1.1"],
+              "lab": null
+            },
+            {
+              "id": "11.1.3",
+              "section_id": "11.1",
+              "title": "Data Leakage와 Output 검증",
+              "order": 3,
+              "learning_objectives": [
+                "민감 정보 마스킹과 output 검증으로 사용자·모델·시스템 데이터 누출을 방지할 수 있다"
+              ],
+              "learning_content": [
+                "PII 탐지·마스킹",
+                "Output content filter",
+                "Cross-tenant 격리",
+                "프롬프트 누출과 시스템 노출",
+                "DLP 통합"
+              ],
+              "prerequisites": ["11.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "11.2",
+          "phase_id": "11",
+          "title": "운영 가드",
+          "order": 2,
+          "topics": [
+            {
+              "id": "11.2.1",
+              "section_id": "11.2",
+              "title": "Insecure Output Handling과 Downstream sanitize",
+              "order": 1,
+              "learning_objectives": [
+                "LLM 출력을 downstream 시스템 입력으로 그대로 쓸 때 발생하는 취약점과 방어를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "SQL Injection·XSS 재현",
+                "코드 실행 위험",
+                "Output sanitize 위치",
+                "JSON·SQL·셸 분리",
+                "신뢰 경계 재정의"
+              ],
+              "prerequisites": ["11.1.3"],
+              "lab": null
+            },
+            {
+              "id": "11.2.2",
+              "section_id": "11.2",
+              "title": "Secret 관리와 권한 분리",
+              "order": 2,
+              "learning_objectives": [
+                "Vault·환경 격리·감사 로그를 결합해 Agent의 비밀 노출을 줄일 수 있다"
+              ],
+              "learning_content": [
+                "Vault·KMS 통합",
+                "환경별 자격증명 분리",
+                "감사 로그 의무 항목",
+                "키 회전",
+                "프롬프트 내 secret 검출"
+              ],
+              "prerequisites": ["11.2.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "title": "면접 대응과 포트폴리오 전략",
+      "order": 12,
+      "exit_capability": "Coding·System Design·Agentic AI 면접에 일관된 응답 프레임으로 답하고, Research Agent 포트폴리오로 핵심 역량을 증명할 수 있다.",
+      "sections": [
+        {
+          "id": "12.1",
+          "phase_id": "12",
+          "title": "면접 응답 체계",
+          "order": 1,
+          "topics": [
+            {
+              "id": "12.1.1",
+              "section_id": "12.1",
+              "title": "Coding 면접 응답 프레임",
+              "order": 1,
+              "learning_objectives": [
+                "Clarify→Plan→Code→Test→Complexity 다섯 단계 응답 프레임으로 Medium 문제를 푸는 흐름을 익힐 수 있다"
+              ],
+              "learning_content": [
+                "문제 명확화 질문 3개",
+                "엣지 케이스 사전 나열",
+                "Plan을 말로 설명",
+                "Test case dry-run",
+                "복잡도 마무리"
+              ],
+              "prerequisites": ["11.2.2"],
+              "lab": null
+            },
+            {
+              "id": "12.1.2",
+              "section_id": "12.1",
+              "title": "Backend 인터뷰 핵심: async·Redis·Index·Queue·Idempotency",
+              "order": 2,
+              "learning_objectives": [
+                "다섯 핵심 질문에 사용 시점·이유·실패 사례를 묶어 답할 수 있다"
+              ],
+              "learning_content": [
+                "async가 도움이 되는 경우",
+                "Redis 자주 쓰는 패턴 5종",
+                "DB index가 필요한 시점",
+                "Queue로 비동기 분리하는 기준",
+                "Idempotency가 중요한 이유"
+              ],
+              "prerequisites": ["12.1.1"],
+              "lab": null
+            },
+            {
+              "id": "12.1.3",
+              "section_id": "12.1",
+              "title": "System Design 면접 대응: RAG·Gateway·Tracing",
+              "order": 3,
+              "learning_objectives": [
+                "대표 케이스 세 가지에 대한 30분 화이트보드 답변 흐름을 익힐 수 있다"
+              ],
+              "learning_content": [
+                "요구사항 정리 5분",
+                "고수준 다이어그램 10분",
+                "구성요소 상세 10분",
+                "트레이드오프 5분",
+                "확장·실패 시나리오"
+              ],
+              "prerequisites": ["12.1.2"],
+              "lab": null
+            },
+            {
+              "id": "12.1.4",
+              "section_id": "12.1",
+              "title": "Agentic AI 면접 질문",
+              "order": 4,
+              "learning_objectives": [
+                "Agent vs Workflow·Memory 설계·Tool selection·HITL·Injection 방어 질문에 답할 수 있다"
+              ],
+              "learning_content": [
+                "Agent vs Workflow 차이 답안",
+                "Multi-agent 필요 시점",
+                "Memory 설계 5대 질문 활용",
+                "HITL 위치 결정",
+                "Prompt injection 방어 요약"
+              ],
+              "prerequisites": ["12.1.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "12.2",
+          "phase_id": "12",
+          "title": "포트폴리오",
+          "order": 2,
+          "topics": [
+            {
+              "id": "12.2.1",
+              "section_id": "12.2",
+              "title": "Research Agent: 핵심 역량 한 번에 증명",
+              "order": 1,
+              "learning_objectives": [
+                "RAG 전체 스택·Agent·Eval·Tracing을 포함한 Research Agent로 핵심 역량을 한 프로젝트에 응축할 수 있다"
+              ],
+              "learning_content": [
+                "전체 기능 11개 체크리스트",
+                "데이터·도메인 선택",
+                "Eval과 데모 흐름",
+                "README와 설계문서",
+                "차별화 포인트"
+              ],
+              "prerequisites": ["12.1.4"],
+              "lab": null
+            },
+            {
+              "id": "12.2.2",
+              "section_id": "12.2",
+              "title": "Coding·Data·Workflow Agent 변형",
+              "order": 2,
+              "learning_objectives": [
+                "Coding·Data Analysis·Workflow Agent 세 변형의 차별점과 평가 포인트를 구분할 수 있다"
+              ],
+              "learning_content": [
+                "Coding Agent: Repo·PR·Test",
+                "Data Agent: NL→SQL→차트",
+                "Workflow Agent: Gmail/Calendar/Slack",
+                "각 변형이 강조하는 역량",
+                "면접 시 어필 포인트"
+              ],
+              "prerequisites": ["12.2.1"],
+              "lab": null
+            },
+            {
+              "id": "12.2.3",
+              "section_id": "12.2",
+              "title": "Evaluation Dashboard 포트폴리오",
+              "order": 3,
+              "learning_objectives": [
+                "Agent 품질을 자동 평가·시각화하는 대시보드 프로젝트로 Eval 역량을 증명할 수 있다"
+              ],
+              "learning_content": [
+                "지표 카탈로그",
+                "골든 데이터셋과 회귀",
+                "대시보드 UI 구성",
+                "비용·지연 추적",
+                "오픈소스 통합 사례"
+              ],
+              "prerequisites": ["12.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "12.3",
+          "phase_id": "12",
+          "title": "마무리",
+          "order": 3,
+          "topics": [
+            {
+              "id": "12.3.1",
+              "section_id": "12.3",
+              "title": "학습 로드맵 8단계와 함정",
+              "order": 1,
+              "learning_objectives": [
+                "8단계 로드맵을 다시 점검하면서 단계별 흔한 함정과 우회법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "단계별 종료 조건",
+                "LeetCode·System Design 동시 진행",
+                "RAG·Agent 학습 함정",
+                "Eval·Security 미루기 위험",
+                "포트폴리오 완성 기준"
+              ],
+              "prerequisites": ["12.2.3"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
