@@ -22,7 +22,7 @@
         ]
       }
     ],
-    "Notification": [
+    "SessionStart": [
       {
         "matcher": "compact",
         "hooks": [
@@ -33,5 +33,8 @@
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "andrej-karpathy-skills@karpathy-skills": true
   }
 }
