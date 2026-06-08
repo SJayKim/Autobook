@@ -1,0 +1,1545 @@
+{
+  "schema_version": "1.0.0",
+  "curriculum_id": "agent-evaluation-observability",
+  "title": "에이전트 평가와 관측: 비결정적 시스템을 프로덕션에 올리는 법",
+  "locale": "ko-KR",
+  "numbering": { "phase_base": 1 },
+  "prerequisite_shorthand": "none",
+  "prerequisite_ordering": { "mode": "id_numeric_tuple" },
+  "phases": [
+    {
+      "id": "1",
+      "title": "에이전트 평가의 기초",
+      "order": 1,
+      "exit_capability": "에이전트 평가가 LLM 평가와 어떻게 다른지 설명하고, 대표적 실패 모드를 분류하며, 단일 메트릭 최적화의 함정을 인식할 수 있다.",
+      "sections": [
+        {
+          "id": "1.1",
+          "phase_id": "1",
+          "title": "에이전트 평가의 출발점",
+          "order": 1,
+          "topics": [
+            {
+              "id": "1.1.1",
+              "section_id": "1.1",
+              "title": "에이전트의 정의와 평가 단위",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트를 모델, 도구, 메모리, 루프 네 가지 구성요소로 분해하고 평가의 단위가 어디인지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "에이전트의 일반적 정의(자율적 의사결정 루프)",
+                "모델, 도구, 메모리, 루프 네 가지 구성요소",
+                "단일 LLM 호출과 에이전트 호출의 차이",
+                "평가의 단위: 토큰, 응답, 단계, 전체 trajectory",
+                "평가 단위에 따른 측정 도구의 변화"
+              ],
+              "prerequisites": [],
+              "lab": null
+            },
+            {
+              "id": "1.1.2",
+              "section_id": "1.1",
+              "title": "비결정성이 만드는 평가의 어려움",
+              "order": 2,
+              "learning_objectives": [
+                "동일 입력에서 발생하는 비결정성이 디버깅과 평가에 주는 영향을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "샘플링과 비결정성의 원천",
+                "동일 프롬프트에서도 다른 결과가 나오는 이유",
+                "디버깅 시 재현 불가능한 실패의 의미",
+                "여러 번의 trial로 평균을 내는 통계적 평가",
+                "Anthropic 사례: '왜인지 안 보임' 문제"
+              ],
+              "prerequisites": ["1.1.1"],
+              "lab": null
+            },
+            {
+              "id": "1.1.3",
+              "section_id": "1.1",
+              "title": "LLM 평가와 에이전트 평가의 결정적 차이",
+              "order": 3,
+              "learning_objectives": [
+                "LLM 평가와 에이전트 평가의 차이를 측정 대상, 환경, 비용 세 측면에서 비교할 수 있다"
+              ],
+              "learning_content": [
+                "단일 응답 품질 측정 vs 다단계 행동 측정",
+                "정적 데이터셋 vs 환경과 상호작용",
+                "토큰 비용 vs 도구 호출 비용",
+                "평가 시간의 차이(밀리초 vs 분 단위)",
+                "에이전트 평가에 별도 도구가 필요한 이유"
+              ],
+              "prerequisites": ["1.1.2"],
+              "lab": null
+            },
+            {
+              "id": "1.1.4",
+              "section_id": "1.1",
+              "title": "Trajectory 평가와 Final-Answer 평가의 구분",
+              "order": 4,
+              "learning_objectives": [
+                "Trajectory eval과 Final-answer eval의 측정 대상과 한계를 비교하고 상황에 맞는 선택을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Final-answer 평가의 정의와 한계",
+                "Trajectory 평가의 정의와 측정 항목",
+                "둘 사이의 보완 관계",
+                "Final-answer만으로 놓치는 실패",
+                "Trajectory만으로 놓치는 정답"
+              ],
+              "prerequisites": ["1.1.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "phase_id": "1",
+          "title": "Failure Mode Taxonomy",
+          "order": 2,
+          "topics": [
+            {
+              "id": "1.2.1",
+              "section_id": "1.2",
+              "title": "Tool selection error",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트가 잘못된 도구를 선택하는 패턴과 그 원인을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "도구 선택 오류의 정의",
+                "비슷한 이름의 도구를 혼동하는 사례",
+                "도구 설명문 품질이 선택에 미치는 영향",
+                "도구 선택 오류를 잡는 평가 항목",
+                "복구 vs 재시도 vs 종료 결정"
+              ],
+              "prerequisites": ["1.1.4"],
+              "lab": null
+            },
+            {
+              "id": "1.2.2",
+              "section_id": "1.2",
+              "title": "Planning loop와 무한 반복",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트가 빙빙 도는 planning loop의 발생 조건과 탐지 방법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Planning loop의 정의",
+                "동일 단계 반복의 패턴",
+                "토큰·비용 폭주를 일으키는 메커니즘",
+                "스텝 수 임계치와 종료 조건",
+                "Replit 사례: Datadog가 못 잡는 빙빙 도는 에이전트"
+              ],
+              "prerequisites": ["1.2.1"],
+              "lab": null
+            },
+            {
+              "id": "1.2.3",
+              "section_id": "1.2",
+              "title": "Hallucinated reasoning",
+              "order": 3,
+              "learning_objectives": [
+                "도구 출력과 모순되는 추론 환각의 패턴을 식별하고 검증 방법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Hallucinated reasoning의 정의",
+                "도구 결과를 무시하고 자기 추론을 따르는 패턴",
+                "근거 없는 사실 주장의 사례",
+                "Trajectory 검증으로 잡는 방법",
+                "근거-결론 일치도 평가 항목"
+              ],
+              "prerequisites": ["1.2.2"],
+              "lab": null
+            },
+            {
+              "id": "1.2.4",
+              "section_id": "1.2",
+              "title": "Premature termination",
+              "order": 4,
+              "learning_objectives": [
+                "에이전트가 작업을 완료하지 않고 종료하는 패턴의 원인과 탐지 방법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Premature termination의 정의",
+                "토큰 한계, max steps 도달, 자체 판단 종료",
+                "사용자 의도와 에이전트 종료 조건의 불일치",
+                "완수율(completion rate) 메트릭",
+                "재시도 vs 부분 응답 정책"
+              ],
+              "prerequisites": ["1.2.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "phase_id": "1",
+          "title": "다차원 메트릭 설계",
+          "order": 3,
+          "topics": [
+            {
+              "id": "1.3.1",
+              "section_id": "1.3",
+              "title": "단일 메트릭 최적화의 함정",
+              "order": 1,
+              "learning_objectives": [
+                "단일 메트릭에 최적화한 시스템이 어떻게 hidden quality를 잃는지 Klarna 사례로 설명할 수 있다"
+              ],
+              "learning_content": [
+                "단일 KPI 최적화의 위험",
+                "Klarna 사례 개요(CSAT 47% 증가, 1천만 달러 절감)",
+                "비용 압도가 만든 품질 저하",
+                "측정되지 않는 품질의 침식",
+                "사후에 인간 상담사 재고용에 이른 경위"
+              ],
+              "prerequisites": ["1.2.4"],
+              "lab": null
+            },
+            {
+              "id": "1.3.2",
+              "section_id": "1.3",
+              "title": "Hidden quality와 escalation path",
+              "order": 2,
+              "learning_objectives": [
+                "관측되지 않는 품질 차원과 escalation path를 메트릭으로 측정하는 방법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Hidden quality의 정의(공감, 안심, 상황 인식)",
+                "복잡·감정 사례에서의 unheard·unsupported 신호",
+                "Escalation path를 측정 가능한 지표로 바꾸기",
+                "다차원 메트릭 설계 원칙",
+                "정량·정성 지표의 균형"
+              ],
+              "prerequisites": ["1.3.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Offline 평가 설계",
+      "order": 2,
+      "exit_capability": "골든 데이터셋과 LLM-as-judge를 결합한 offline 평가 파이프라인을 설계하고, 학술 벤치마크를 활용해 자체 시스템을 측정할 수 있다.",
+      "sections": [
+        {
+          "id": "2.1",
+          "phase_id": "2",
+          "title": "골든 데이터셋",
+          "order": 1,
+          "topics": [
+            {
+              "id": "2.1.1",
+              "section_id": "2.1",
+              "title": "골든 데이터셋의 역할과 한계",
+              "order": 1,
+              "learning_objectives": [
+                "골든 데이터셋이 평가에서 차지하는 역할과 그 한계를 구분하여 설명할 수 있다"
+              ],
+              "learning_content": [
+                "골든 데이터셋의 정의",
+                "회귀 테스트로서의 역할",
+                "정답 라벨링의 비용",
+                "분포 편향의 위험",
+                "현실 트래픽과의 갭"
+              ],
+              "prerequisites": ["1.3.2"],
+              "lab": null
+            },
+            {
+              "id": "2.1.2",
+              "section_id": "2.1",
+              "title": "골든 데이터셋 구축 절차",
+              "order": 2,
+              "learning_objectives": [
+                "실 트래픽 샘플링부터 라벨링·검수까지 골든 데이터셋 구축의 단계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "샘플링 전략(랜덤, 계층, 어려운 케이스 우선)",
+                "라벨링 가이드 작성",
+                "이중 라벨링과 합의율",
+                "케이스의 분류 체계 정의",
+                "데이터셋 버전 관리"
+              ],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            },
+            {
+              "id": "2.1.3",
+              "section_id": "2.1",
+              "title": "데이터셋 진화와 회귀 테스트",
+              "order": 3,
+              "learning_objectives": [
+                "데이터셋이 시간에 따라 진화해야 하는 이유와 회귀 테스트로 활용하는 방법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "데이터 분포 드리프트",
+                "프로덕션 실패를 데이터셋에 흡수하기",
+                "회귀 테스트로 자동 실행",
+                "PR 머지 게이트로 활용",
+                "데이터셋 만료와 갱신 주기"
+              ],
+              "prerequisites": ["2.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "phase_id": "2",
+          "title": "LLM-as-Judge",
+          "order": 2,
+          "topics": [
+            {
+              "id": "2.2.1",
+              "section_id": "2.2",
+              "title": "LLM-as-Judge 동작 원리",
+              "order": 1,
+              "learning_objectives": [
+                "LLM-as-Judge의 동작 방식과 자동 채점 파이프라인의 구성을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "LLM-as-Judge의 정의",
+                "Reference-based vs reference-free 채점",
+                "Pairwise vs pointwise 평가",
+                "프롬프트 템플릿과 rubric",
+                "스코어 분포의 해석"
+              ],
+              "prerequisites": ["2.1.3"],
+              "lab": null
+            },
+            {
+              "id": "2.2.2",
+              "section_id": "2.2",
+              "title": "평가 LLM의 편향과 한계",
+              "order": 2,
+              "learning_objectives": [
+                "Judge LLM이 가진 위치 편향, 길이 편향, 자기 선호 편향을 식별하고 영향을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Position bias(처음·끝 응답 선호)",
+                "Length bias(긴 응답 선호)",
+                "Self-enhancement(자기 모델 선호)",
+                "도메인 지식 부족으로 인한 오판",
+                "편향이 메트릭에 누적되는 양상"
+              ],
+              "prerequisites": ["2.2.1"],
+              "lab": null
+            },
+            {
+              "id": "2.2.3",
+              "section_id": "2.2",
+              "title": "Judge 보정 기법",
+              "order": 3,
+              "learning_objectives": [
+                "Judge의 편향을 완화하는 보정 기법을 두 가지 이상 적용할 수 있다"
+              ],
+              "learning_content": [
+                "위치 무작위화",
+                "길이 정규화",
+                "다중 모델 앙상블",
+                "사람 라벨과의 일치도 측정",
+                "Judge 자체의 회귀 테스트"
+              ],
+              "prerequisites": ["2.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "phase_id": "2",
+          "title": "Trajectory 평가",
+          "order": 3,
+          "topics": [
+            {
+              "id": "2.3.1",
+              "section_id": "2.3",
+              "title": "Trajectory 평가 설계",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트의 단계별 trajectory를 평가하는 메트릭과 데이터 구조를 설계할 수 있다"
+              ],
+              "learning_content": [
+                "Trajectory의 표현(steps, tools, observations)",
+                "단계별 정확도 정의",
+                "올바른 도구 선택률",
+                "올바른 인자 전달률",
+                "전체 trajectory의 일관성 평가"
+              ],
+              "prerequisites": ["2.2.3"],
+              "lab": null
+            },
+            {
+              "id": "2.3.2",
+              "section_id": "2.3",
+              "title": "단계별 정확도 측정",
+              "order": 2,
+              "learning_objectives": [
+                "Trajectory의 각 단계에서 측정 가능한 정확도 지표를 구성하고 집계 방법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "단계 단위 분류 정확도",
+                "오류의 단계 분포",
+                "Critical step과 비critical step 구분",
+                "단계별 가중 평균",
+                "Final-answer 정답 + trajectory 결합 점수"
+              ],
+              "prerequisites": ["2.3.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.4",
+          "phase_id": "2",
+          "title": "학술 벤치마크",
+          "order": 4,
+          "topics": [
+            {
+              "id": "2.4.1",
+              "section_id": "2.4",
+              "title": "τ-bench",
+              "order": 1,
+              "learning_objectives": [
+                "τ-bench의 측정 영역과 채점 방식을 설명하고 자체 시스템에 적용할 수 있다"
+              ],
+              "learning_content": [
+                "τ-bench의 도메인(retail, airline)",
+                "사용자 시뮬레이션 기반 평가",
+                "정책 준수율과 도구 사용 정확도",
+                "Pass@k 채점",
+                "한계와 보완"
+              ],
+              "prerequisites": ["2.3.2"],
+              "lab": null
+            },
+            {
+              "id": "2.4.2",
+              "section_id": "2.4",
+              "title": "AgentBench",
+              "order": 2,
+              "learning_objectives": [
+                "AgentBench의 다영역 평가 구조와 측정 항목을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "AgentBench의 영역 구성(OS, DB, KG 등)",
+                "환경별 평가 setup",
+                "Success rate와 progress score",
+                "여러 모델 비교의 의미",
+                "벤치마크 결과 해석의 주의점"
+              ],
+              "prerequisites": ["2.4.1"],
+              "lab": null
+            },
+            {
+              "id": "2.4.3",
+              "section_id": "2.4",
+              "title": "SWE-bench",
+              "order": 3,
+              "learning_objectives": [
+                "SWE-bench의 코드 에이전트 평가 방식과 산업적 영향을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "GitHub 이슈 기반 데이터셋",
+                "테스트 통과로 채점",
+                "SWE-bench Verified의 구성",
+                "실제 코드베이스 환경의 의미",
+                "코드 에이전트 평가 표준으로서의 위상"
+              ],
+              "prerequisites": ["2.4.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.5",
+          "phase_id": "2",
+          "title": "평가 환경 설계",
+          "order": 5,
+          "topics": [
+            {
+              "id": "2.5.1",
+              "section_id": "2.5",
+              "title": "Eval 환경 isolation",
+              "order": 1,
+              "learning_objectives": [
+                "평가 환경을 trial 사이에 isolated로 유지해야 하는 이유를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "각 trial의 clean state 시작",
+                "프로덕션과 동일한 동작 보장",
+                "Containerized 평가 환경",
+                "환경 노이즈가 메트릭에 미치는 영향",
+                "Anthropic의 isolated 환경 원칙"
+              ],
+              "prerequisites": ["2.4.3"],
+              "lab": null
+            },
+            {
+              "id": "2.5.2",
+              "section_id": "2.5",
+              "title": "Reproducibility와 shared state 위험",
+              "order": 2,
+              "learning_objectives": [
+                "Shared state가 평가를 오염시키는 메커니즘을 사례와 함께 설명할 수 있다"
+              ],
+              "learning_content": [
+                "남은 파일·캐시·git history",
+                "Shared state로 부풀려지는 점수",
+                "Anthropic 내부 사례(이전 trial git history 활용)",
+                "Correlated failure로 인한 인프라 flakiness",
+                "재현 가능성 보장 체크리스트"
+              ],
+              "prerequisites": ["2.5.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Online 평가와 관측 스택",
+      "order": 3,
+      "exit_capability": "프로덕션 환경에서 회귀를 잡는 online 평가 흐름을 설계하고, LangSmith·Langfuse·OpenTelemetry 기반의 관측 스택을 도입 의사결정과 함께 구성할 수 있다.",
+      "sections": [
+        {
+          "id": "3.1",
+          "phase_id": "3",
+          "title": "Online 평가",
+          "order": 1,
+          "topics": [
+            {
+              "id": "3.1.1",
+              "section_id": "3.1",
+              "title": "실 트래픽 기반 평가",
+              "order": 1,
+              "learning_objectives": [
+                "실 트래픽을 기반으로 하는 online 평가의 메트릭 설계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "실 트래픽 메트릭(완수율, 성공률, 비용, 지연)",
+                "샘플링 전략",
+                "사용자 만족도 신호(thumbs, retry, abandon)",
+                "Offline과 online의 분업",
+                "프라이버시 보존 집계"
+              ],
+              "prerequisites": ["2.5.2"],
+              "lab": null
+            },
+            {
+              "id": "3.1.2",
+              "section_id": "3.1",
+              "title": "Reactive vs Prescriptive 평가",
+              "order": 2,
+              "learning_objectives": [
+                "Reactive 평가가 prescriptive 평가와 다른 이유를 Replit 사례로 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Prescriptive 평가의 한계",
+                "Reactive 평가의 정의",
+                "Replit의 GPT-4o 모델 교체 사례",
+                "프로덕션에서 발견 후 eval 추가하는 흐름",
+                "Eval 백로그 운영"
+              ],
+              "prerequisites": ["3.1.1"],
+              "lab": null
+            },
+            {
+              "id": "3.1.3",
+              "section_id": "3.1",
+              "title": "회귀 탐지",
+              "order": 3,
+              "learning_objectives": [
+                "프로덕션 회귀를 자동으로 탐지하는 모니터링과 알람 흐름을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "기준 메트릭과 임계치",
+                "이동 평균과 변화율 알람",
+                "코호트 단위 비교",
+                "Canary 배포와 회귀 차단",
+                "회귀 발견 시 롤백 절차"
+              ],
+              "prerequisites": ["3.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "phase_id": "3",
+          "title": "LLM Observability의 필요성",
+          "order": 2,
+          "topics": [
+            {
+              "id": "3.2.1",
+              "section_id": "3.2",
+              "title": "전통적 모니터링과의 차이",
+              "order": 1,
+              "learning_objectives": [
+                "Datadog 같은 전통 모니터링이 에이전트에서 놓치는 실패 패턴을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "에러·지연 중심 모니터링의 한계",
+                "성공 응답으로 보이는 잘못된 행동",
+                "비용 폭주의 사일런트 실패",
+                "Replit 사례: 빙빙 도는 에이전트, blocklist 우회",
+                "LLM observability가 별도로 필요한 이유"
+              ],
+              "prerequisites": ["3.1.3"],
+              "lab": null
+            },
+            {
+              "id": "3.2.2",
+              "section_id": "3.2",
+              "title": "Trace, Span, Metric 데이터 모델",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트 관측을 위한 trace, span, metric 데이터 모델과 그 차이를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Trace의 정의와 구조",
+                "Span의 부모-자식 관계",
+                "Metric과 trace의 결합",
+                "에이전트 trace의 단계 표현",
+                "Token, latency, cost 메트릭 부착"
+              ],
+              "prerequisites": ["3.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "phase_id": "3",
+          "title": "LangSmith 깊게 보기",
+          "order": 3,
+          "topics": [
+            {
+              "id": "3.3.1",
+              "section_id": "3.3",
+              "title": "LangSmith의 trace 모델",
+              "order": 1,
+              "learning_objectives": [
+                "LangSmith의 trace 모델과 LangChain 통합 방식을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "LangSmith의 trace 구조",
+                "LangChain·LangGraph 자동 인스트루먼트",
+                "Run의 메타데이터와 태그",
+                "Replay와 fork 기능",
+                "Hosted vs self-hosted 옵션"
+              ],
+              "prerequisites": ["3.2.2"],
+              "lab": null
+            },
+            {
+              "id": "3.3.2",
+              "section_id": "3.3",
+              "title": "LangSmith 평가·실험 통합",
+              "order": 2,
+              "learning_objectives": [
+                "LangSmith의 데이터셋, 실험, 평가 워크플로를 연결해 회귀 테스트를 자동화할 수 있다"
+              ],
+              "learning_content": [
+                "데이터셋 관리",
+                "실험 실행과 비교",
+                "Custom evaluator 등록",
+                "Production trace를 데이터셋으로 흡수",
+                "팀 협업과 권한 모델"
+              ],
+              "prerequisites": ["3.3.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.4",
+          "phase_id": "3",
+          "title": "Langfuse 깊게 보기",
+          "order": 4,
+          "topics": [
+            {
+              "id": "3.4.1",
+              "section_id": "3.4",
+              "title": "Langfuse 자체 호스팅과 데이터 주권",
+              "order": 1,
+              "learning_objectives": [
+                "Langfuse의 자체 호스팅 옵션과 데이터 주권 측면의 이점을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "오픈소스 Langfuse의 구조",
+                "Self-hosted 배포 패턴",
+                "데이터 주권과 규제 환경",
+                "Postgres·ClickHouse 백엔드",
+                "한국·EU 등 데이터 거주성 요구"
+              ],
+              "prerequisites": ["3.3.2"],
+              "lab": null
+            },
+            {
+              "id": "3.4.2",
+              "section_id": "3.4",
+              "title": "Langfuse OpenTelemetry 호환성",
+              "order": 2,
+              "learning_objectives": [
+                "Langfuse가 OpenTelemetry 표준을 어떻게 수용하는지와 그 의미를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "OpenTelemetry 표준 수용",
+                "OTLP endpoint",
+                "다중 SDK 지원",
+                "타 옵저버빌리티 도구와의 연동",
+                "벤더 락인 회피"
+              ],
+              "prerequisites": ["3.4.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.5",
+          "phase_id": "3",
+          "title": "도구 비교와 의사결정",
+          "order": 5,
+          "topics": [
+            {
+              "id": "3.5.1",
+              "section_id": "3.5",
+              "title": "한국 기업의 의사결정 프레임워크",
+              "order": 1,
+              "learning_objectives": [
+                "한국 기업이 LangSmith와 Langfuse 중에서 선택할 때 고려할 차원을 정리하여 설명할 수 있다"
+              ],
+              "learning_content": [
+                "데이터 주권과 보안 정책",
+                "Self-host 가능 여부",
+                "팀 규모와 운영 부담",
+                "통합 비용과 마이그레이션 부담",
+                "벤더 신뢰성과 로드맵"
+              ],
+              "prerequisites": ["3.4.2"],
+              "lab": null
+            },
+            {
+              "id": "3.5.2",
+              "section_id": "3.5",
+              "title": "Hybrid 스택 구성 패턴",
+              "order": 2,
+              "learning_objectives": [
+                "Replit식 hybrid 스택(Braintrust + LangSmith) 같은 조합의 장단점을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Replit의 Braintrust + LangSmith 조합",
+                "역할 분담(평가 vs traceability)",
+                "자체 harness가 끼어드는 경계",
+                "OTel로 묶는 표준화 전략",
+                "Hybrid의 운영 복잡도"
+              ],
+              "prerequisites": ["3.5.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.6",
+          "phase_id": "3",
+          "title": "OpenTelemetry for GenAI",
+          "order": 6,
+          "topics": [
+            {
+              "id": "3.6.1",
+              "section_id": "3.6",
+              "title": "OpenTelemetry 표준 개요",
+              "order": 1,
+              "learning_objectives": [
+                "OpenTelemetry의 표준화 범위와 GenAI 관측에서의 위치를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "OTel의 SDK·collector·protocol",
+                "Trace·metric·log 통합",
+                "벤더 중립 표준의 가치",
+                "전통 분산 추적과의 연속성",
+                "GenAI까지 확장된 배경"
+              ],
+              "prerequisites": ["3.5.2"],
+              "lab": null
+            },
+            {
+              "id": "3.6.2",
+              "section_id": "3.6",
+              "title": "GenAI Semantic Conventions",
+              "order": 2,
+              "learning_objectives": [
+                "OTel GenAI semantic conventions의 핵심 속성을 식별하고 trace에 부착할 수 있다"
+              ],
+              "learning_content": [
+                "gen_ai.system, model, request 속성",
+                "Tool call, prompt, completion 속성",
+                "Token usage 메트릭",
+                "Vendor 별 매핑",
+                "표준 진행 상태(2025 작업 항목)"
+              ],
+              "prerequisites": ["3.6.1"],
+              "lab": null
+            },
+            {
+              "id": "3.6.3",
+              "section_id": "3.6",
+              "title": "표준 기반 무벤더 락인 설계",
+              "order": 3,
+              "learning_objectives": [
+                "OTel 표준 위에서 LangSmith·Langfuse·자체 백엔드를 동시 지원하는 설계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "OTel collector pipeline",
+                "다중 백엔드 동시 export",
+                "Sampling과 PII redaction",
+                "벤더 교체 시 영향 범위",
+                "표준 채택 로드맵"
+              ],
+              "prerequisites": ["3.6.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "프로덕션 패턴: 신뢰성과 안전",
+      "order": 4,
+      "exit_capability": "Tiered autonomy, circuit breaker, fallback routing, human-in-the-loop을 결합해 비결정적 에이전트를 안전하게 운영하는 신뢰성 패턴을 설계할 수 있다.",
+      "sections": [
+        {
+          "id": "4.1",
+          "phase_id": "4",
+          "title": "Tiered Autonomy",
+          "order": 1,
+          "topics": [
+            {
+              "id": "4.1.1",
+              "section_id": "4.1",
+              "title": "자율성 단계 정의",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트의 자율성을 단계별로 분류하고 각 단계의 권한 범위를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Read-only, Suggest, Execute, Autonomous 단계",
+                "단계별 도구 권한",
+                "단계별 비가역 행동의 허용 여부",
+                "사용자 신뢰 곡선",
+                "조직 정책에 따른 단계 결정"
+              ],
+              "prerequisites": ["3.6.3"],
+              "lab": null
+            },
+            {
+              "id": "4.1.2",
+              "section_id": "4.1",
+              "title": "위험도 기반 권한 부여",
+              "order": 2,
+              "learning_objectives": [
+                "행동의 위험도에 따라 자율성 단계를 차등 적용하는 정책을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "위험도 분류(데이터 변경, 외부 호출, 비용)",
+                "위험도 매트릭스",
+                "동일 작업도 컨텍스트에 따라 권한 차등",
+                "단계 전환 트리거",
+                "감사 로그와 회귀 검토"
+              ],
+              "prerequisites": ["4.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "phase_id": "4",
+          "title": "Circuit Breaker",
+          "order": 2,
+          "topics": [
+            {
+              "id": "4.2.1",
+              "section_id": "4.2",
+              "title": "Circuit Breaker 동작 원리",
+              "order": 1,
+              "learning_objectives": [
+                "분산 시스템의 circuit breaker 패턴이 에이전트에 적용될 때의 동작을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Closed, Open, Half-open 상태",
+                "장애 임계치와 회복 시간",
+                "전통 마이크로서비스의 사례",
+                "에이전트 루프에서의 트리거",
+                "차단 시 사용자 메시지"
+              ],
+              "prerequisites": ["4.1.2"],
+              "lab": null
+            },
+            {
+              "id": "4.2.2",
+              "section_id": "4.2",
+              "title": "에이전트 임계치 설계",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트별로 적절한 차단 임계치를 설정하고 회복 전략을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "스텝 수, 토큰, 비용 임계치",
+                "도구 실패율 기반 차단",
+                "사용자별 임계치 분리",
+                "시간 윈도우와 sliding window",
+                "Half-open 시 시도 횟수"
+              ],
+              "prerequisites": ["4.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.3",
+          "phase_id": "4",
+          "title": "Fallback Routing",
+          "order": 3,
+          "topics": [
+            {
+              "id": "4.3.1",
+              "section_id": "4.3",
+              "title": "Fallback의 종류",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트 시스템의 fallback 패턴을 모델, 도구, 응답 세 층위로 분류하여 설명할 수 있다"
+              ],
+              "learning_content": [
+                "모델 fallback(가용성·비용·품질)",
+                "도구 fallback(주·보조 도구)",
+                "응답 fallback(템플릿·휴리스틱)",
+                "Fallback chain의 한계",
+                "정적 vs 동적 fallback"
+              ],
+              "prerequisites": ["4.2.2"],
+              "lab": null
+            },
+            {
+              "id": "4.3.2",
+              "section_id": "4.3",
+              "title": "모델 라우팅 전략",
+              "order": 2,
+              "learning_objectives": [
+                "Task type, cost, accuracy를 축으로 하는 모델 라우팅 전략을 JPMorgan 사례로 설명할 수 있다"
+              ],
+              "learning_content": [
+                "JPMorgan의 단일 API + 다중 모델",
+                "Task type 분류기",
+                "Cost-accuracy 트레이드오프",
+                "모델 가용성과 SLA",
+                "라우팅 결정의 관측"
+              ],
+              "prerequisites": ["4.3.1"],
+              "lab": null
+            },
+            {
+              "id": "4.3.3",
+              "section_id": "4.3",
+              "title": "Graceful Degradation",
+              "order": 3,
+              "learning_objectives": [
+                "전체 서비스가 멈추지 않도록 점진적으로 기능을 축소하는 graceful degradation을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "기능 우선순위 분류",
+                "비핵심 기능 비활성화",
+                "사용자에게 알리는 메시지",
+                "장애 종료 후 회복 절차",
+                "관측을 통한 장애 범위 자동 인식"
+              ],
+              "prerequisites": ["4.3.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.4",
+          "phase_id": "4",
+          "title": "Human-in-the-loop 재정의",
+          "order": 4,
+          "topics": [
+            {
+              "id": "4.4.1",
+              "section_id": "4.4",
+              "title": "모든 걸 승인 의 한계",
+              "order": 1,
+              "learning_objectives": [
+                "전수 승인 모델의 운영 부담과 사용자 경험 문제를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "전수 승인의 운영 비용",
+                "승인 피로(fatigue)와 자동 승인화",
+                "실제 위험과 승인 빈도의 불일치",
+                "Anthropic·OpenAI 가이드의 권고",
+                "전수 승인이 만드는 시스템 병목"
+              ],
+              "prerequisites": ["4.3.3"],
+              "lab": null
+            },
+            {
+              "id": "4.4.2",
+              "section_id": "4.4",
+              "title": "임계치 기반 예외 검토",
+              "order": 2,
+              "learning_objectives": [
+                "위험·신뢰도 임계치 기반의 선택적 HITL 패턴을 설계할 수 있다"
+              ],
+              "learning_content": [
+                "신뢰도 점수와 임계치",
+                "비가역 작업의 자동 트리거",
+                "비용 임계치 기반 트리거",
+                "임계치 동적 조정",
+                "HITL이 트리거되는 비율 측정"
+              ],
+              "prerequisites": ["4.4.1"],
+              "lab": null
+            },
+            {
+              "id": "4.4.3",
+              "section_id": "4.4",
+              "title": "Escalation Path 설계",
+              "order": 3,
+              "learning_objectives": [
+                "에이전트가 사람으로 핸드오버하는 escalation path를 설계하고 측정할 수 있다"
+              ],
+              "learning_content": [
+                "감정·복잡도 신호 기반 escalation",
+                "Klarna 사례의 hybrid 회귀 교훈",
+                "Handover 시 컨텍스트 전달",
+                "사람 응답까지의 대기 경험",
+                "Escalation 비율의 KPI화"
+              ],
+              "prerequisites": ["4.4.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "케이스 스터디: 실전에서 배우기",
+      "order": 5,
+      "exit_capability": "Anthropic, Replit, JPMorgan, Klarna, Palantir 등 대표 사례에서 평가·관측·거버넌스 패턴을 추출하고 자체 시스템 설계에 적용할 수 있다.",
+      "sections": [
+        {
+          "id": "5.1",
+          "phase_id": "5",
+          "title": "Anthropic Multi-Agent Research System",
+          "order": 1,
+          "topics": [
+            {
+              "id": "5.1.1",
+              "section_id": "5.1",
+              "title": "Lead + Subagent 아키텍처",
+              "order": 1,
+              "learning_objectives": [
+                "Anthropic Research 기능의 Lead Agent + 병렬 Subagent 구조와 협업 방식을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Lead Agent의 역할(분해·조정)",
+                "Subagent의 병렬 실행",
+                "결과 합성과 의사결정",
+                "Emergent behavior의 원천",
+                "엄격 지시 vs 협업 framework로서의 프롬프트"
+              ],
+              "prerequisites": ["4.4.3"],
+              "lab": null
+            },
+            {
+              "id": "5.1.2",
+              "section_id": "5.1",
+              "title": "Production Tracing 설계",
+              "order": 2,
+              "learning_objectives": [
+                "Anthropic이 prototype에서 production으로 옮길 때 도입한 full production tracing의 의의를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Tracing 도입 전후의 디버깅 체험",
+                "검색 쿼리·소스 선택·도구 실패 분리",
+                "체계적 진단의 의미",
+                "Tracing이 잡아내는 emergent behavior",
+                "프로덕션에서의 tracing baseline 원칙"
+              ],
+              "prerequisites": ["5.1.1"],
+              "lab": null
+            },
+            {
+              "id": "5.1.3",
+              "section_id": "5.1",
+              "title": "프라이버시 보존 모니터링",
+              "order": 3,
+              "learning_objectives": [
+                "개별 대화 내용을 보지 않으면서 의사결정 패턴을 모니터링하는 패턴을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "대화 내용 비공개와 패턴 가시성의 동시 확보",
+                "집계·익명화 메트릭",
+                "공통 실패의 root cause 추적",
+                "한국 상권·소상공인 데이터에 대한 적용",
+                "프라이버시·관측 양립 설계"
+              ],
+              "prerequisites": ["5.1.2"],
+              "lab": null
+            },
+            {
+              "id": "5.1.4",
+              "section_id": "5.1",
+              "title": "Source Quality Heuristic 사례",
+              "order": 4,
+              "learning_objectives": [
+                "Anthropic이 SEO 콘텐츠 팜 선호 문제를 manual testing으로 발견하고 프롬프트로 해결한 흐름을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "에이전트가 SEO·학술·블로그 중 SEO를 선호한 사례",
+                "자동 평가가 놓친 품질 신호",
+                "Manual testing의 essential 성격",
+                "Source quality heuristic 프롬프트 추가",
+                "수정 후 회귀 평가"
+              ],
+              "prerequisites": ["5.1.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.2",
+          "phase_id": "5",
+          "title": "Replit Agent",
+          "order": 2,
+          "topics": [
+            {
+              "id": "5.2.1",
+              "section_id": "5.2",
+              "title": "Hybrid 평가 스택의 구성",
+              "order": 1,
+              "learning_objectives": [
+                "Replit이 Braintrust, LangSmith, 자체 harness를 결합한 평가 스택의 구성을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Braintrust의 평가 역할",
+                "LangSmith의 traceability 역할",
+                "자체 Python harness가 채우는 공간",
+                "각 도구의 경계와 책임",
+                "Hybrid 스택의 운영 비용"
+              ],
+              "prerequisites": ["5.1.4"],
+              "lab": null
+            },
+            {
+              "id": "5.2.2",
+              "section_id": "5.2",
+              "title": "Computer Use 기반 테스트",
+              "order": 2,
+              "learning_objectives": [
+                "Replit이 Chrome 인스턴스와 Docker 컨테이너로 web agent를 테스트한 방식을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Anthropic computer use 활용",
+                "Chrome 인스턴스와 Docker 컨테이너",
+                "테스트 인스턴스와의 사용자식 상호작용",
+                "환경 isolation과 cleanup",
+                "Computer use 기반 평가의 비용"
+              ],
+              "prerequisites": ["5.2.1"],
+              "lab": null
+            },
+            {
+              "id": "5.2.3",
+              "section_id": "5.2",
+              "title": "Reactive Eval과 가드레일 우회",
+              "order": 3,
+              "learning_objectives": [
+                "Replit의 reactive eval 흐름과 가드레일 우회 사례에서 얻을 교훈을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "GPT-4o 모델 자동 교체 사례",
+                "프로덕션에서 발견된 패턴을 eval로 흡수",
+                "Next.js 미지원과 사용자 우회",
+                "Replit CEO 사칭 prompting",
+                "가드레일조차 창의적 prompting으로 뚫리는 현실"
+              ],
+              "prerequisites": ["5.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.3",
+          "phase_id": "5",
+          "title": "JPMorgan LLM Suite",
+          "order": 3,
+          "topics": [
+            {
+              "id": "5.3.1",
+              "section_id": "5.3",
+              "title": "중앙 플랫폼 패턴",
+              "order": 1,
+              "learning_objectives": [
+                "엔터프라이즈가 모델·보안·관측·거버넌스를 한 플랫폼에 모으는 이유를 250K 직원 규모로 설명할 수 있다"
+              ],
+              "learning_content": [
+                "JPMorgan LLM Suite의 규모",
+                "모델·보안·관측·거버넌스 통합",
+                "수천 앱 위의 공통 AI 레이어",
+                "데이터 접근·권한·프로세스의 wiring",
+                "엔터프라이즈 갭의 본질"
+              ],
+              "prerequisites": ["5.2.3"],
+              "lab": null
+            },
+            {
+              "id": "5.3.2",
+              "section_id": "5.3",
+              "title": "단일 API 뒤의 다중 모델 라우팅",
+              "order": 2,
+              "learning_objectives": [
+                "JPMorgan이 단일 API 뒤에서 OpenAI·Anthropic 모델을 task type·cost·accuracy로 라우팅하는 구조를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "단일 API의 추상화 효과",
+                "Task type 분류와 모델 매핑",
+                "Cost·accuracy 기반 결정",
+                "모델 변경 시 클라이언트 영향 차단",
+                "관측·과금의 통합"
+              ],
+              "prerequisites": ["5.3.1"],
+              "lab": null
+            },
+            {
+              "id": "5.3.3",
+              "section_id": "5.3",
+              "title": "측정 가능한 프로세스부터 시작",
+              "order": 3,
+              "learning_objectives": [
+                "KYC·분쟁·대출·RFP 같은 문서 중심 프로세스부터 도입을 시작하는 전략의 근거를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "측정 가능·문서 중심 프로세스 우선",
+                "데이터 정비(identity, entitlements, lineage)",
+                "가드레일 정의(redaction, PII, audit)",
+                "고위험 태스크의 HITL 우선",
+                "안정성 도달 후 post-check로 이동"
+              ],
+              "prerequisites": ["5.3.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.4",
+          "phase_id": "5",
+          "title": "Klarna 반면교사",
+          "order": 4,
+          "topics": [
+            {
+              "id": "5.4.1",
+              "section_id": "5.4",
+              "title": "성공 지표 뒤의 함정",
+              "order": 1,
+              "learning_objectives": [
+                "Klarna가 발표한 성공 지표와 그 이면에서 일어난 품질 저하를 함께 설명할 수 있다"
+              ],
+              "learning_content": [
+                "23개 시장·35개 언어",
+                "월 230만 건 대화, 700 FTE 분량",
+                "CSAT 47% 증가, 1천만 달러 절감",
+                "고객지원 4M·마케팅 6M의 절감 구성",
+                "수치만으로 보는 성공의 위험"
+              ],
+              "prerequisites": ["5.3.3"],
+              "lab": null
+            },
+            {
+              "id": "5.4.2",
+              "section_id": "5.4",
+              "title": "Hybrid 회귀의 교훈",
+              "order": 2,
+              "learning_objectives": [
+                "Klarna가 인간 상담사를 재고용하고 hybrid 모델로 회귀한 의사결정의 배경을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "CEO Sebastian Siemiatkowski의 공개 인정",
+                "비용이 압도적 평가 요소가 된 결과",
+                "Human out 부재의 사용자 경험 영향",
+                "Unheard·unsupported 신호",
+                "Hybrid 회귀의 의사결정"
+              ],
+              "prerequisites": ["5.4.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.5",
+          "phase_id": "5",
+          "title": "Palantir AIP - 5차원 거버넌스",
+          "order": 5,
+          "topics": [
+            {
+              "id": "5.5.1",
+              "section_id": "5.5",
+              "title": "Model Access 차원",
+              "order": 1,
+              "learning_objectives": [
+                "Palantir AIP의 model access 차원이 정의하는 통제 항목을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "거버넌스 있는 모델 접근",
+                "제공자 retention 없음 정책",
+                "통합 리소스 관리",
+                "모델 카탈로그와 승인 절차",
+                "한국 규제 환경에서의 적용"
+              ],
+              "prerequisites": ["5.4.2"],
+              "lab": null
+            },
+            {
+              "id": "5.5.2",
+              "section_id": "5.5",
+              "title": "Stateless Orchestration 차원",
+              "order": 2,
+              "learning_objectives": [
+                "Stateless·수평 확장 가능 runtime과 request 단위 isolation의 의미를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Stateless runtime의 정의",
+                "수평 확장과 부하 분산",
+                "Request 단위 isolation",
+                "다중 테넌시와 보안",
+                "장애 격리"
+              ],
+              "prerequisites": ["5.5.1"],
+              "lab": null
+            },
+            {
+              "id": "5.5.3",
+              "section_id": "5.5",
+              "title": "Memory Governance 차원",
+              "order": 3,
+              "learning_objectives": [
+                "유저 프로필, 세션 메모리, 지식 베이스에 JWT·RBAC를 적용하는 memory governance를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "유저 프로필 메모리",
+                "세션 메모리와 만료",
+                "지식 베이스 접근 통제",
+                "JWT 기반 RBAC",
+                "메모리 감사와 삭제"
+              ],
+              "prerequisites": ["5.5.2"],
+              "lab": null
+            },
+            {
+              "id": "5.5.4",
+              "section_id": "5.5",
+              "title": "Tool Governance 차원",
+              "order": 4,
+              "learning_objectives": [
+                "Tool governance의 가드레일, HITL 승인, 통제된 액션 실행 구성을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "도구 카탈로그와 가드레일",
+                "HITL 승인 워크플로",
+                "통제된 액션 실행 환경",
+                "도구별 권한 매트릭스",
+                "감사 로그와 회수"
+              ],
+              "prerequisites": ["5.5.3"],
+              "lab": null
+            },
+            {
+              "id": "5.5.5",
+              "section_id": "5.5",
+              "title": "Observability 차원",
+              "order": 5,
+              "learning_objectives": [
+                "Built-in tracing과 자체 DB 저장 기반의 observability 차원이 baseline인 이유를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "빌트인 tracing의 의미",
+                "자체 DB 저장과 데이터 주권",
+                "Full session 모니터링",
+                "메트릭과 알람",
+                "관측 없으면 reliability 없다 원칙"
+              ],
+              "prerequisites": ["5.5.4"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "실전 적용: 자가 진단과 도입 로드맵",
+      "order": 6,
+      "exit_capability": "본인의 에이전트 시스템을 5차원으로 self-audit하고, 평가·관측·거버넌스 도입 로드맵을 설계하며, 면접·문서에서 일관된 framework로 설명할 수 있다.",
+      "sections": [
+        {
+          "id": "6.1",
+          "phase_id": "6",
+          "title": "자가 진단",
+          "order": 1,
+          "topics": [
+            {
+              "id": "6.1.1",
+              "section_id": "6.1",
+              "title": "Palantir 5차원 Self-Audit",
+              "order": 1,
+              "learning_objectives": [
+                "Palantir의 5개 차원으로 자체 시스템을 self-audit하고 부족한 차원을 식별할 수 있다"
+              ],
+              "learning_content": [
+                "5개 차원별 점검 질문",
+                "Yes·No·Partial 분류",
+                "차원별 우선순위 결정",
+                "단기·중기 보강 계획",
+                "재진단 주기"
+              ],
+              "prerequisites": ["5.5.5"],
+              "lab": null
+            },
+            {
+              "id": "6.1.2",
+              "section_id": "6.1",
+              "title": "평가·관측 커버리지 점검",
+              "order": 2,
+              "learning_objectives": [
+                "본인 시스템의 평가·관측 커버리지를 매트릭스로 점검하고 공백을 식별할 수 있다"
+              ],
+              "learning_content": [
+                "평가 커버리지 매트릭스(offline·online·trajectory)",
+                "관측 커버리지 매트릭스(trace·metric·log)",
+                "Failure mode별 탐지 가능 여부",
+                "공백 우선순위",
+                "단계적 보강 로드맵"
+              ],
+              "prerequisites": ["6.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.2",
+          "phase_id": "6",
+          "title": "도입 로드맵",
+          "order": 2,
+          "topics": [
+            {
+              "id": "6.2.1",
+              "section_id": "6.2",
+              "title": "단계별 도입 우선순위",
+              "order": 1,
+              "learning_objectives": [
+                "관측·평가·거버넌스 중 어디부터 도입할지 결정하는 의사결정 트리를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "관측 우선 vs 평가 우선의 트레이드오프",
+                "Production 운영 단계별 권장 순서",
+                "조직 규모와 단계 결정",
+                "초기 1~2주 내 측정 가능한 가치",
+                "도입 비용과 ROI 추정"
+              ],
+              "prerequisites": ["6.1.2"],
+              "lab": null
+            },
+            {
+              "id": "6.2.2",
+              "section_id": "6.2",
+              "title": "KPI 설계",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트 시스템의 다차원 KPI를 정의하고 단일 메트릭 함정을 피하는 설계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "효율성·품질·안전성 세 축",
+                "정량·정성 지표의 균형",
+                "KPI 사이의 trade-off 명시",
+                "북극성 메트릭과 가드레일 메트릭",
+                "분기·월별 리뷰 주기"
+              ],
+              "prerequisites": ["6.2.1"],
+              "lab": null
+            },
+            {
+              "id": "6.2.3",
+              "section_id": "6.2",
+              "title": "거버넌스와 속도의 균형",
+              "order": 3,
+              "learning_objectives": [
+                "거버넌스가 속도를 죽이지 않도록 JPMorgan의 8주 release train 같은 패턴을 적용할 수 있다"
+              ],
+              "learning_content": [
+                "8주 update cadence",
+                "표준 인터페이스",
+                "재사용 가능 컴포넌트",
+                "고정 release train의 효과",
+                "한국 대기업·금융권 적용 시 고려"
+              ],
+              "prerequisites": ["6.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.3",
+          "phase_id": "6",
+          "title": "활용",
+          "order": 3,
+          "topics": [
+            {
+              "id": "6.3.1",
+              "section_id": "6.3",
+              "title": "시스템 설명 Framework",
+              "order": 1,
+              "learning_objectives": [
+                "면접·문서에서 본인의 멀티에이전트 시스템을 5차원 framework로 일관되게 설명할 수 있다"
+              ],
+              "learning_content": [
+                "5개 차원으로 답하는 표준 형식",
+                "한국 면접 빈출 질문 패턴",
+                "토스·카카오뱅크·KB·신한 등 금융권 관점",
+                "Trade-off를 명시하는 답변",
+                "역질문으로 깊이 보여주기"
+              ],
+              "prerequisites": ["6.2.3"],
+              "lab": null
+            },
+            {
+              "id": "6.3.2",
+              "section_id": "6.3",
+              "title": "케이스 인용과 Trade-off 설명",
+              "order": 2,
+              "learning_objectives": [
+                "Anthropic·Replit·JPMorgan·Klarna·Palantir 사례를 상황에 맞게 인용하며 trade-off를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "각 사례의 핵심 교훈 한 문장 요약",
+                "상황별 인용 매핑",
+                "단순 인용 vs 비교·대조",
+                "한계와 반례 함께 제시",
+                "본인의 시스템에 어떻게 옮길지"
+              ],
+              "prerequisites": ["6.3.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
