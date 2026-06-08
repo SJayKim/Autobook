@@ -1,0 +1,1403 @@
+{
+  "schema_version": "1.0.0",
+  "curriculum_id": "long-running-agents",
+  "title": "며칠씩 일하는 에이전트 만들기: 컨텍스트·메모리·프로토콜·하네스로 짓는 2026 에이전트 인프라",
+  "locale": "ko-KR",
+  "numbering": { "phase_base": 1 },
+  "prerequisite_shorthand": "none",
+  "prerequisite_ordering": { "mode": "id_numeric_tuple" },
+  "phases": [
+    {
+      "id": "1",
+      "title": "에이전트와 2026년의 전환",
+      "order": 1,
+      "exit_capability": "AI 에이전트의 기본 구조와 동작 루프를 설명하고, 단발 작업에서 며칠씩 실행되는 에이전트로의 전환이 왜 일어나는지, 그리고 이를 떠받치는 네 가지 인프라 축이 무엇인지 개괄할 수 있다.",
+      "sections": [
+        {
+          "id": "1.1",
+          "phase_id": "1",
+          "title": "에이전트의 기본 구조",
+          "order": 1,
+          "topics": [
+            {
+              "id": "1.1.1",
+              "section_id": "1.1",
+              "title": "이 책이 다루는 것: 며칠씩 일하는 에이전트",
+              "order": 1,
+              "learning_objectives": ["이 책의 목표인 장기 실행 에이전트와 그것을 떠받치는 네 인프라 축의 관계를 설명할 수 있다"],
+              "learning_content": [
+                "장기 실행 에이전트의 정의",
+                "단발 응답과 며칠짜리 작업의 차이",
+                "네 인프라 축(컨텍스트·메모리·프로토콜·하네스) 미리보기",
+                "인간의 전략적 감독 지점",
+                "책 전체의 구성과 읽는 순서"
+              ],
+              "prerequisites": [],
+              "lab": null
+            },
+            {
+              "id": "1.1.2",
+              "section_id": "1.1",
+              "title": "AI 에이전트란 무엇인가",
+              "order": 2,
+              "learning_objectives": ["AI 에이전트를 모델·도구·메모리·루프 네 구성요소로 분해해 설명할 수 있다"],
+              "learning_content": [
+                "에이전트의 일반적 정의",
+                "LLM은 문자열을 받아 문자열을 내보내는 함수",
+                "도구(tool)와 행동 공간",
+                "단기 메모리와 장기 메모리",
+                "자율성이 의미하는 것"
+              ],
+              "prerequisites": ["1.1.1"],
+              "lab": null
+            },
+            {
+              "id": "1.1.3",
+              "section_id": "1.1",
+              "title": "모델과 하네스: 두뇌와 몸",
+              "order": 3,
+              "learning_objectives": ["모델(내부)과 하네스(외부)의 역할 구분을 비유와 함께 설명할 수 있다"],
+              "learning_content": [
+                "모델은 가중치와 추론 능력",
+                "하네스는 모델 바깥의 실행 환경",
+                "같은 모델이라도 하네스에 따라 성능이 달라짐",
+                "모델 내부 개입과 외부 설계의 경계",
+                "엔진과 차체의 비유"
+              ],
+              "prerequisites": ["1.1.2"],
+              "lab": null
+            },
+            {
+              "id": "1.1.4",
+              "section_id": "1.1",
+              "title": "도구 사용과 행동 공간",
+              "order": 4,
+              "learning_objectives": ["에이전트가 도구를 통해 외부 세계와 상호작용하는 방식을 설명할 수 있다"],
+              "learning_content": [
+                "도구 사용(tool use)의 정의",
+                "도구 호출의 형식(이름·인자·결과)",
+                "도구 결과가 컨텍스트로 돌아오는 흐름",
+                "행동 공간 설계의 개념",
+                "도구가 너무 많을 때의 문제"
+              ],
+              "prerequisites": ["1.1.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "phase_id": "1",
+          "title": "에이전트 루프와 ReAct",
+          "order": 2,
+          "topics": [
+            {
+              "id": "1.2.1",
+              "section_id": "1.2",
+              "title": "에이전트 루프의 기본 골격",
+              "order": 1,
+              "learning_objectives": ["관찰-사고-행동이 반복되는 에이전트 루프의 단계와 종료 조건을 설명할 수 있다"],
+              "learning_content": [
+                "루프 단계(입력 → 추론 → 행동 → 관찰 → 반복)",
+                "종료 조건의 설계",
+                "턴(turn)의 개념",
+                "단발 호출과 루프의 차이",
+                "무한 루프의 위험"
+              ],
+              "prerequisites": ["1.1.4"],
+              "lab": null
+            },
+            {
+              "id": "1.2.2",
+              "section_id": "1.2",
+              "title": "ReAct 패턴: 추론과 행동의 결합",
+              "order": 2,
+              "learning_objectives": ["ReAct 패턴이 추론(reasoning)과 행동(acting)을 어떻게 엮어 환각을 줄이는지 설명할 수 있다"],
+              "learning_content": [
+                "ReAct의 정의",
+                "Thought-Action-Observation 사이클",
+                "추론만 하거나 행동만 할 때의 한계",
+                "관찰이 환각을 교정하는 원리",
+                "간단한 ReAct 시나리오 예시"
+              ],
+              "prerequisites": ["1.2.1"],
+              "lab": null
+            },
+            {
+              "id": "1.2.3",
+              "section_id": "1.2",
+              "title": "루프가 길어질 때 생기는 문제",
+              "order": 3,
+              "learning_objectives": ["루프 반복이 누적되며 컨텍스트·오류·비용·목표가 어떻게 무너지는지 설명할 수 있다"],
+              "learning_content": [
+                "컨텍스트 누적과 팽창",
+                "오류의 전파와 누적",
+                "호출 비용의 증가",
+                "목표 표류(goal drift)",
+                "장기 실행의 근본 난점"
+              ],
+              "prerequisites": ["1.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "phase_id": "1",
+          "title": "2026년의 네 가지 전환",
+          "order": 3,
+          "topics": [
+            {
+              "id": "1.3.1",
+              "section_id": "1.3",
+              "title": "프롬프트 엔지니어링에서 컨텍스트 엔지니어링으로",
+              "order": 1,
+              "learning_objectives": ["프롬프트 한 줄 최적화에서 컨텍스트 윈도우 전체 관리로 무게중심이 옮겨진 이유를 설명할 수 있다"],
+              "learning_content": [
+                "프롬프트 엔지니어링의 정의와 한계",
+                "컨텍스트 엔지니어링의 부상",
+                "유한 자원으로서의 컨텍스트 윈도우",
+                "상위 규율로의 격상",
+                "첫 번째 축(컨텍스트) 예고"
+              ],
+              "prerequisites": ["1.2.3"],
+              "lab": null
+            },
+            {
+              "id": "1.3.2",
+              "section_id": "1.3",
+              "title": "세션을 넘는 메모리",
+              "order": 2,
+              "learning_objectives": ["세션 단위 기억에서 영속적 레이어드 메모리로의 전환이 왜 필요한지 설명할 수 있다"],
+              "learning_content": [
+                "세션 경계의 한계",
+                "영속 지식 저장의 필요",
+                "레이어드 메모리 미리보기",
+                "기억하는 에이전트의 가치",
+                "두 번째 축(메모리) 예고"
+              ],
+              "prerequisites": ["1.3.1"],
+              "lab": null
+            },
+            {
+              "id": "1.3.3",
+              "section_id": "1.3",
+              "title": "프로토콜 표준화: MCP와 A2A",
+              "order": 3,
+              "learning_objectives": ["도구·에이전트 연결의 표준화(MCP, A2A)가 왜 필요한지 개괄할 수 있다"],
+              "learning_content": [
+                "통합의 M×N 문제",
+                "MCP(모델-도구 연결)",
+                "A2A(에이전트-에이전트 통신)",
+                "새로운 표준·경제학·거버넌스의 결합",
+                "세 번째 축(프로토콜) 예고"
+              ],
+              "prerequisites": ["1.3.2"],
+              "lab": null
+            },
+            {
+              "id": "1.3.4",
+              "section_id": "1.3",
+              "title": "장기 실행과 하네스 엔지니어링",
+              "order": 4,
+              "learning_objectives": ["며칠씩 실행되는 에이전트를 떠받치는 하네스 엔지니어링의 역할과 네 축의 상호작용을 개괄할 수 있다"],
+              "learning_content": [
+                "장기 실행 에이전트의 부상",
+                "하네스의 정의(자가교정·압축·롤백·인간승인)",
+                "별도 연구 분야로의 부상",
+                "네 번째 축(하네스) 예고",
+                "네 축이 서로 맞물리는 그림"
+              ],
+              "prerequisites": ["1.3.3"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "컨텍스트 엔지니어링",
+      "order": 2,
+      "exit_capability": "컨텍스트 윈도우를 유한 자원으로 보고, 무엇을 어떻게 담고 압축할지 설계하여 긴 루프에서도 에이전트의 컨텍스트를 안정적으로 관리할 수 있다.",
+      "sections": [
+        {
+          "id": "2.1",
+          "phase_id": "2",
+          "title": "컨텍스트라는 유한 자원",
+          "order": 1,
+          "topics": [
+            {
+              "id": "2.1.1",
+              "section_id": "2.1",
+              "title": "컨텍스트 윈도우와 토큰",
+              "order": 1,
+              "learning_objectives": ["컨텍스트 윈도우와 토큰의 개념, 그리고 그 한계를 설명할 수 있다"],
+              "learning_content": [
+                "토큰의 정의",
+                "컨텍스트 윈도우의 크기",
+                "입력과 출력을 합산하는 구조",
+                "토큰과 비용·지연의 관계",
+                "윈도우가 커도 유한하다는 점"
+              ],
+              "prerequisites": ["1.3.1"],
+              "lab": null
+            },
+            {
+              "id": "2.1.2",
+              "section_id": "2.1",
+              "title": "컨텍스트는 왜 유한 자원인가",
+              "order": 2,
+              "learning_objectives": ["컨텍스트를 유한 자원으로 보고 토큰 예산을 배분해야 하는 이유를 설명할 수 있다"],
+              "learning_content": [
+                "토큰 예산의 개념",
+                "채울수록 비용과 지연이 증가",
+                "무관한 내용이 신호를 희석",
+                "유한 자원 관리라는 관점",
+                "예산 배분식 사고방식"
+              ],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            },
+            {
+              "id": "2.1.3",
+              "section_id": "2.1",
+              "title": "컨텍스트 부패(context rot)",
+              "order": 3,
+              "learning_objectives": ["컨텍스트가 길어질수록 성능이 떨어지는 컨텍스트 부패 현상을 설명할 수 있다"],
+              "learning_content": [
+                "컨텍스트 부패(context rot)의 정의",
+                "중간 정보 소실(lost in the middle)",
+                "긴 컨텍스트에서의 성능 저하",
+                "무관 정보가 만드는 잡음",
+                "관측된 근거와 함의"
+              ],
+              "prerequisites": ["2.1.2"],
+              "lab": null
+            },
+            {
+              "id": "2.1.4",
+              "section_id": "2.1",
+              "title": "프롬프트 엔지니어링을 넘어서는 컨텍스트 엔지니어링",
+              "order": 4,
+              "learning_objectives": ["컨텍스트 엔지니어링이 프롬프트 엔지니어링을 포괄하는 상위 규율인 이유를 구분해 설명할 수 있다"],
+              "learning_content": [
+                "프롬프트는 하나의 입력 문자열",
+                "컨텍스트 엔지니어링은 윈도우 전체 설계",
+                "정적 프롬프트와 동적 컨텍스트의 차이",
+                "상위 규율로 포섭되는 관계",
+                "실무에서 둘을 결합하는 방식"
+              ],
+              "prerequisites": ["2.1.3", "1.3.1"],
+              "lab": null
+            },
+            {
+              "id": "2.1.5",
+              "section_id": "2.1",
+              "title": "토큰 예산 세우기",
+              "order": 5,
+              "learning_objectives": ["컨텍스트 윈도우를 용도별로 나누어 토큰 예산을 세우는 절차를 설명할 수 있다"],
+              "learning_content": [
+                "윈도우를 용도별 칸으로 나누기",
+                "시스템·도구·기록·검색의 비중 배분",
+                "여유분(headroom) 확보",
+                "예산 초과 시의 우선순위",
+                "예산을 실측으로 점검하기"
+              ],
+              "prerequisites": ["2.1.2", "2.1.4"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "phase_id": "2",
+          "title": "컨텍스트의 구성과 수집",
+          "order": 2,
+          "topics": [
+            {
+              "id": "2.2.1",
+              "section_id": "2.2",
+              "title": "컨텍스트 윈도우의 구성요소",
+              "order": 1,
+              "learning_objectives": ["시스템 프롬프트·도구·대화 기록·검색 자료 등 컨텍스트를 채우는 요소를 분해할 수 있다"],
+              "learning_content": [
+                "시스템 프롬프트",
+                "도구 정의",
+                "대화 기록",
+                "검색된 문서와 메모리 주입",
+                "각 요소의 토큰 비중"
+              ],
+              "prerequisites": ["2.1.4"],
+              "lab": null
+            },
+            {
+              "id": "2.2.2",
+              "section_id": "2.2",
+              "title": "적시(just-in-time) 컨텍스트 로딩",
+              "order": 2,
+              "learning_objectives": ["미리 채우기와 적시 로딩의 차이를 설명하고 적시 로딩의 이점을 들 수 있다"],
+              "learning_content": [
+                "미리 채우기(pre-loading)와 적시 로딩의 대비",
+                "필요할 때만 불러오기",
+                "참조(포인터)와 본문의 분리",
+                "파일 시스템을 외부 메모리로 사용",
+                "지연 로딩의 이점과 비용"
+              ],
+              "prerequisites": ["2.2.1"],
+              "lab": null
+            },
+            {
+              "id": "2.2.3",
+              "section_id": "2.2",
+              "title": "검색 증강(RAG)과 컨텍스트",
+              "order": 3,
+              "learning_objectives": ["검색 증강 생성이 컨텍스트에 외부 지식을 주입하는 방식과 한계를 설명할 수 있다"],
+              "learning_content": [
+                "RAG의 정의",
+                "임베딩과 벡터 검색",
+                "청크와 top-k 선택",
+                "관련성과 토큰 예산의 균형",
+                "RAG의 한계와 오답 위험"
+              ],
+              "prerequisites": ["2.2.2"],
+              "lab": null
+            },
+            {
+              "id": "2.2.4",
+              "section_id": "2.2",
+              "title": "도구 선택과 컨텍스트 부담",
+              "order": 4,
+              "learning_objectives": ["도구 수가 많아질 때 컨텍스트와 선택 정확도에 미치는 영향을 설명할 수 있다"],
+              "learning_content": [
+                "도구 정의가 차지하는 토큰 비용",
+                "도구 과다가 부르는 혼선",
+                "동적 도구 노출",
+                "도구 묶기와 지연 로딩",
+                "적정 도구 수의 판단"
+              ],
+              "prerequisites": ["2.2.3"],
+              "lab": null
+            },
+            {
+              "id": "2.2.5",
+              "section_id": "2.2",
+              "title": "구조화된 컨텍스트와 형식 설계",
+              "order": 5,
+              "learning_objectives": ["컨텍스트를 구조화(섹션·태그·우선순위)해 모델이 잘 활용하게 만드는 법을 설명할 수 있다"],
+              "learning_content": [
+                "구조화가 주는 효과",
+                "시스템 리마인더와 태그",
+                "우선순위에 따른 배치",
+                "형식의 일관성",
+                "노이즈 최소화"
+              ],
+              "prerequisites": ["2.2.4"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "phase_id": "2",
+          "title": "컨텍스트 압축과 최적화",
+          "order": 3,
+          "topics": [
+            {
+              "id": "2.3.1",
+              "section_id": "2.3",
+              "title": "컨텍스트 압축(compaction)의 원리",
+              "order": 1,
+              "learning_objectives": ["대화 기록을 요약·압축해 토큰을 회수하는 compaction의 원리를 설명할 수 있다"],
+              "learning_content": [
+                "압축(compaction)의 정의",
+                "요약 기반 압축",
+                "무엇을 버리고 무엇을 남길지",
+                "정보 손실의 위험",
+                "압축을 거는 시점"
+              ],
+              "prerequisites": ["2.1.3"],
+              "lab": null
+            },
+            {
+              "id": "2.3.2",
+              "section_id": "2.3",
+              "title": "점진적·공격적 압축 전략",
+              "order": 2,
+              "learning_objectives": ["토큰 사용량이 커질수록 점점 더 공격적으로 압축을 적용하는 전략을 설명할 수 있다"],
+              "learning_content": [
+                "토큰 사용량 임계값",
+                "점진적 압축",
+                "공격적 압축으로의 전환",
+                "대화를 유한 자원으로 관리",
+                "임계값과 단계 설계"
+              ],
+              "prerequisites": ["2.3.1", "2.1.2"],
+              "lab": null
+            },
+            {
+              "id": "2.3.3",
+              "section_id": "2.3",
+              "title": "컨텍스트 오프로딩과 외부화",
+              "order": 3,
+              "learning_objectives": ["컨텍스트를 외부 저장소로 내보내고 참조만 남기는 오프로딩을 설명할 수 있다"],
+              "learning_content": [
+                "오프로딩(offloading)의 정의",
+                "파일과 스크래치패드",
+                "중간 결과의 외부화",
+                "포인터로만 참조하기",
+                "메모리 계층과의 연결"
+              ],
+              "prerequisites": ["2.3.2", "2.2.2"],
+              "lab": null
+            },
+            {
+              "id": "2.3.4",
+              "section_id": "2.3",
+              "title": "서브에이전트를 통한 컨텍스트 격리",
+              "order": 4,
+              "learning_objectives": ["작업을 서브에이전트로 분리해 각자의 컨텍스트를 격리하는 이점을 설명할 수 있다"],
+              "learning_content": [
+                "서브에이전트의 정의",
+                "컨텍스트 격리",
+                "결과만 상위로 환류",
+                "병렬 탐색의 이점",
+                "컨텍스트 오염 방지"
+              ],
+              "prerequisites": ["2.3.3", "1.1.2"],
+              "lab": null
+            },
+            {
+              "id": "2.3.5",
+              "section_id": "2.3",
+              "title": "GEPA와 프롬프트 자동 최적화",
+              "order": 5,
+              "learning_objectives": ["GEPA 같은 기법이 프롬프트를 자동으로 진화·최적화하는 원리와 컨텍스트 엔지니어링과의 관계를 설명할 수 있다"],
+              "learning_content": [
+                "프롬프트 자동 최적화의 동기",
+                "GEPA(반성적 진화)의 개념",
+                "자연어 피드백 기반 개선",
+                "탐색과 평가의 반복",
+                "컨텍스트 엔지니어링 안에서의 위치"
+              ],
+              "prerequisites": ["2.1.4"],
+              "lab": null
+            },
+            {
+              "id": "2.3.6",
+              "section_id": "2.3",
+              "title": "컨텍스트 엔지니어링 종합 점검",
+              "order": 6,
+              "learning_objectives": ["수집·구조화·압축·격리·최적화를 하나의 컨텍스트 전략으로 통합해 설명할 수 있다"],
+              "learning_content": [
+                "컨텍스트의 수명주기",
+                "수집 → 구조화 → 압축 → 오프로딩 흐름",
+                "토큰 예산의 배분",
+                "흔한 실패와 대응",
+                "장기 실행과의 연결"
+              ],
+              "prerequisites": ["2.3.4", "2.3.5", "2.2.5"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "레이어드 메모리 아키텍처",
+      "order": 3,
+      "exit_capability": "세션을 넘어 지식을 영속화하는 레이어드 메모리(명시 규칙·자동 학습·온디맨드 API·서브에이전트 메모리)를 계층별로 설계하고 운영할 수 있다.",
+      "sections": [
+        {
+          "id": "3.1",
+          "phase_id": "3",
+          "title": "메모리가 필요한 이유",
+          "order": 1,
+          "topics": [
+            {
+              "id": "3.1.1",
+              "section_id": "3.1",
+              "title": "모델은 기억하지 못한다",
+              "order": 1,
+              "learning_objectives": ["LLM이 상태가 없는(stateless) 구조이며 세션이 끝나면 기억이 사라지는 이유를 설명할 수 있다"],
+              "learning_content": [
+                "상태 없는(stateless) 추론",
+                "세션 경계",
+                "컨텍스트는 일시적 작업기억",
+                "세션 간 망각",
+                "영속 저장의 필요"
+              ],
+              "prerequisites": ["1.3.2"],
+              "lab": null
+            },
+            {
+              "id": "3.1.2",
+              "section_id": "3.1",
+              "title": "컨텍스트와 메모리의 구분",
+              "order": 2,
+              "learning_objectives": ["일시적 컨텍스트(작업기억)와 영속 메모리(장기기억)를 구분해 설명할 수 있다"],
+              "learning_content": [
+                "컨텍스트는 단기이고 휘발적",
+                "메모리는 장기이고 영속적",
+                "인간 기억과의 비유",
+                "메모리에서 컨텍스트로의 적재",
+                "둘의 협력 방식"
+              ],
+              "prerequisites": ["3.1.1", "2.1.1"],
+              "lab": null
+            },
+            {
+              "id": "3.1.3",
+              "section_id": "3.1",
+              "title": "메모리가 장기 실행을 가능하게 하는 방식",
+              "order": 3,
+              "learning_objectives": ["영속 메모리가 며칠씩 실행되는 에이전트의 연속성을 어떻게 떠받치는지 설명할 수 있다"],
+              "learning_content": [
+                "세션 재개와 연속성",
+                "학습의 누적",
+                "반복 실수의 회피",
+                "사용자 선호의 유지",
+                "장기 실행과의 직접 연결"
+              ],
+              "prerequisites": ["3.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "phase_id": "3",
+          "title": "레이어드 메모리의 네 계층",
+          "order": 2,
+          "topics": [
+            {
+              "id": "3.2.1",
+              "section_id": "3.2",
+              "title": "레이어드 메모리 아키텍처 개관",
+              "order": 1,
+              "learning_objectives": ["메모리를 명시 규칙·자동 학습·온디맨드·서브에이전트 네 계층으로 나누는 이유와 전체 그림을 설명할 수 있다"],
+              "learning_content": [
+                "계층화의 동기",
+                "네 계층 개요",
+                "읽는 시점과 주체의 차이",
+                "계층 간 승급의 개념",
+                "코딩 에이전트 사례의 틀"
+              ],
+              "prerequisites": ["3.1.3"],
+              "lab": null
+            },
+            {
+              "id": "3.2.2",
+              "section_id": "3.2",
+              "title": "명시적 규칙 계층 (CLAUDE.md)",
+              "order": 2,
+              "learning_objectives": ["사람이 직접 작성하는 명시적 규칙 계층(CLAUDE.md)의 역할과 특징을 설명할 수 있다"],
+              "learning_content": [
+                "사람이 쓴 규칙 파일",
+                "항상 로드되는 명시적 지침",
+                "프로젝트 관례와 금지사항",
+                "명시성과 우선순위",
+                "좋은 규칙 작성 원칙"
+              ],
+              "prerequisites": ["3.2.1"],
+              "lab": null
+            },
+            {
+              "id": "3.2.3",
+              "section_id": "3.2",
+              "title": "자동 학습 계층 (MEMORY.md)",
+              "order": 3,
+              "learning_objectives": ["에이전트가 스스로 축적하는 자동 학습 계층(MEMORY.md)의 동작을 설명할 수 있다"],
+              "learning_content": [
+                "자동으로 기록되는 메모리",
+                "세션 중 학습의 저장",
+                "인덱스를 통한 로드",
+                "사실 단위 파일 구성",
+                "명시 규칙 계층과의 차이"
+              ],
+              "prerequisites": ["3.2.2"],
+              "lab": null
+            },
+            {
+              "id": "3.2.4",
+              "section_id": "3.2",
+              "title": "온디맨드 메모리 계층 (Memory Tool)",
+              "order": 4,
+              "learning_objectives": ["필요할 때 API로 읽고 쓰는 온디맨드 메모리(Memory Tool)의 동작을 설명할 수 있다"],
+              "learning_content": [
+                "도구 호출로 접근하는 메모리",
+                "디렉터리 기반 저장",
+                "컨텍스트 밖에 보관하다 적시 로딩",
+                "읽기·쓰기·삭제 동작",
+                "컨텍스트 절약 효과"
+              ],
+              "prerequisites": ["3.2.3", "2.2.2"],
+              "lab": null
+            },
+            {
+              "id": "3.2.5",
+              "section_id": "3.2",
+              "title": "서브에이전트 메모리 계층",
+              "order": 5,
+              "learning_objectives": ["각 서브에이전트가 자신만의 영속 마크다운 지식 저장소를 갖는 구조를 설명할 수 있다"],
+              "learning_content": [
+                "서브에이전트별 메모리",
+                "역할에 특화된 지식",
+                "영속 마크다운 저장소",
+                "격리와 공유의 균형",
+                "상위 에이전트와의 관계"
+              ],
+              "prerequisites": ["3.2.4", "2.3.4"],
+              "lab": null
+            },
+            {
+              "id": "3.2.6",
+              "section_id": "3.2",
+              "title": "계층 간 상호작용과 승급",
+              "order": 6,
+              "learning_objectives": ["네 계층이 함께 동작하며 정보가 한 계층에서 다른 계층으로 승급되는 흐름을 설명할 수 있다"],
+              "learning_content": [
+                "읽기 우선순위",
+                "일시 메모에서 영속으로 승급",
+                "자동 학습에서 명시 규칙으로 승격",
+                "계층 간 충돌 해소",
+                "어느 계층에 둘지 고르는 기준"
+              ],
+              "prerequisites": ["3.2.5"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "phase_id": "3",
+          "title": "메모리 운영 패턴",
+          "order": 3,
+          "topics": [
+            {
+              "id": "3.3.1",
+              "section_id": "3.3",
+              "title": "메모리 쓰기: 무엇을 언제 저장할까",
+              "order": 1,
+              "learning_objectives": ["저장할 가치가 있는 정보와 그렇지 않은 정보를 구분하는 기준을 설명할 수 있다"],
+              "learning_content": [
+                "저장 가치의 판단",
+                "일반화 가능한 사실",
+                "사용자 선호와 피드백",
+                "코드·히스토리로 알 수 있는 것은 제외",
+                "저장하는 시점"
+              ],
+              "prerequisites": ["3.2.6"],
+              "lab": null
+            },
+            {
+              "id": "3.3.2",
+              "section_id": "3.3",
+              "title": "메모리 읽기: 회상과 관련성",
+              "order": 2,
+              "learning_objectives": ["저장된 메모리에서 현재 작업에 관련된 것만 골라 회상(recall)하는 방식을 설명할 수 있다"],
+              "learning_content": [
+                "인덱스와 설명 기반 회상",
+                "관련성의 판단",
+                "과다 회상의 비용",
+                "회상에서 컨텍스트로의 적재",
+                "회상한 내용의 신뢰성 검증"
+              ],
+              "prerequisites": ["3.3.1"],
+              "lab": null
+            },
+            {
+              "id": "3.3.3",
+              "section_id": "3.3",
+              "title": "메모리 구조화: 스키마와 메타데이터",
+              "order": 3,
+              "learning_objectives": ["메모리를 일관된 스키마(타입·설명·링크)로 구조화하는 법을 설명할 수 있다"],
+              "learning_content": [
+                "프론트매터와 메타데이터",
+                "메모리 타입 분류",
+                "설명 필드의 역할",
+                "메모리 간 링크",
+                "인덱스 파일의 운용"
+              ],
+              "prerequisites": ["3.3.2"],
+              "lab": null
+            },
+            {
+              "id": "3.3.4",
+              "section_id": "3.3",
+              "title": "메모리 통합과 망각",
+              "order": 4,
+              "learning_objectives": ["메모리를 통합(consolidation)하고 오래되거나 틀린 메모리를 정리(pruning)하는 필요성을 설명할 수 있다"],
+              "learning_content": [
+                "중복의 통합",
+                "갱신과 신규의 구분",
+                "오래된 메모리의 폐기",
+                "망각의 필요",
+                "메모리 부패의 방지"
+              ],
+              "prerequisites": ["3.3.3"],
+              "lab": null
+            },
+            {
+              "id": "3.3.5",
+              "section_id": "3.3",
+              "title": "메모리 대 검색(RAG): 무엇을 언제",
+              "order": 5,
+              "learning_objectives": ["영속 메모리와 RAG/벡터 검색의 역할 차이와 선택 기준을 설명할 수 있다"],
+              "learning_content": [
+                "메모리는 학습된 사실",
+                "RAG는 외부 문서 검색",
+                "쓰기 주체의 차이",
+                "둘을 결합하는 패턴",
+                "선택의 기준"
+              ],
+              "prerequisites": ["3.3.4", "2.2.3"],
+              "lab": null
+            },
+            {
+              "id": "3.3.6",
+              "section_id": "3.3",
+              "title": "메모리의 함정: 오염과 낡음",
+              "order": 6,
+              "learning_objectives": ["메모리 오염(poisoning)·낡은 메모리·과신이 일으키는 위험과 대응을 설명할 수 있다"],
+              "learning_content": [
+                "잘못된 메모리의 전파",
+                "낡은 사실의 검증",
+                "메모리 오염 공격",
+                "신뢰 경계의 설정",
+                "검증 후 사용 원칙"
+              ],
+              "prerequisites": ["3.3.5"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "프로토콜 표준화 — MCP와 A2A",
+      "order": 4,
+      "exit_capability": "모델-도구 연결(MCP)과 에이전트-에이전트 통신(A2A)의 표준을 이해하고, 표준 위에서 도구·에이전트를 연결하며 비용·거버넌스를 함께 설계할 수 있다.",
+      "sections": [
+        {
+          "id": "4.1",
+          "phase_id": "4",
+          "title": "왜 프로토콜 표준인가",
+          "order": 1,
+          "topics": [
+            {
+              "id": "4.1.1",
+              "section_id": "4.1",
+              "title": "통합의 M×N 문제",
+              "order": 1,
+              "learning_objectives": ["표준 없이 모델·도구·에이전트를 연결할 때 생기는 M×N 통합 폭발 문제를 설명할 수 있다"],
+              "learning_content": [
+                "맞춤 연동의 폭발",
+                "M개 모델 × N개 도구",
+                "중복 구현의 비용",
+                "표준이 만드는 M+N 구조",
+                "재사용성의 가치"
+              ],
+              "prerequisites": ["1.3.3"],
+              "lab": null
+            },
+            {
+              "id": "4.1.2",
+              "section_id": "4.1",
+              "title": "두 가지 표준: MCP와 A2A",
+              "order": 2,
+              "learning_objectives": ["MCP(모델-도구)와 A2A(에이전트-에이전트)가 각각 무엇을 표준화하는지 구분할 수 있다"],
+              "learning_content": [
+                "MCP의 범위",
+                "A2A의 범위",
+                "수직(도구) 연결과 수평(에이전트) 연결",
+                "상호 보완 관계",
+                "2026년 표준화 흐름"
+              ],
+              "prerequisites": ["4.1.1"],
+              "lab": null
+            },
+            {
+              "id": "4.1.3",
+              "section_id": "4.1",
+              "title": "표준이 바꾸는 것: 아키텍처·경제·거버넌스",
+              "order": 3,
+              "learning_objectives": ["프로토콜 표준화가 아키텍처·경제(FinOps)·거버넌스를 함께 바꾸는 흐름을 개괄할 수 있다"],
+              "learning_content": [
+                "멀티에이전트 아키텍처의 부상",
+                "에이전트용 FinOps",
+                "새로운 거버넌스 역량",
+                "네 가지 변화의 결합",
+                "표준이 일으키는 파급"
+              ],
+              "prerequisites": ["4.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "phase_id": "4",
+          "title": "MCP: 모델과 도구의 연결",
+          "order": 2,
+          "topics": [
+            {
+              "id": "4.2.1",
+              "section_id": "4.2",
+              "title": "MCP의 구조: 호스트·클라이언트·서버",
+              "order": 1,
+              "learning_objectives": ["MCP의 호스트-클라이언트-서버 구조와 각 역할을 설명할 수 있다"],
+              "learning_content": [
+                "호스트(에이전트 앱)",
+                "클라이언트의 역할",
+                "서버의 역할",
+                "클라이언트와 서버의 1:1 연결",
+                "전체 데이터 흐름"
+              ],
+              "prerequisites": ["4.1.2"],
+              "lab": null
+            },
+            {
+              "id": "4.2.2",
+              "section_id": "4.2",
+              "title": "MCP의 세 가지 기본형: 도구·리소스·프롬프트",
+              "order": 2,
+              "learning_objectives": ["MCP 서버가 노출하는 도구(tools)·리소스(resources)·프롬프트(prompts)를 구분해 설명할 수 있다"],
+              "learning_content": [
+                "도구(tools): 실행되는 기능",
+                "리소스(resources): 읽는 데이터",
+                "프롬프트(prompts): 재사용 템플릿",
+                "각 기본형의 용도",
+                "모델이 무엇을 고르는지"
+              ],
+              "prerequisites": ["4.2.1", "1.1.4"],
+              "lab": null
+            },
+            {
+              "id": "4.2.3",
+              "section_id": "4.2",
+              "title": "MCP 전송 계층: stdio와 HTTP",
+              "order": 3,
+              "learning_objectives": ["MCP의 전송 방식(stdio, 스트리밍 HTTP)과 선택 기준을 설명할 수 있다"],
+              "learning_content": [
+                "stdio 기반 로컬 전송",
+                "HTTP 기반 원격 전송",
+                "JSON-RPC 메시지 형식",
+                "로컬과 원격의 선택",
+                "연결의 수명주기"
+              ],
+              "prerequisites": ["4.2.1"],
+              "lab": null
+            },
+            {
+              "id": "4.2.4",
+              "section_id": "4.2",
+              "title": "MCP 서버 만들기",
+              "order": 4,
+              "learning_objectives": ["간단한 MCP 서버가 도구를 정의하고 노출하는 과정을 단계별로 설명할 수 있다"],
+              "learning_content": [
+                "서버 초기화",
+                "도구 등록(이름·설명·입력 스키마)",
+                "요청 처리",
+                "결과 반환",
+                "클라이언트 연결 확인"
+              ],
+              "prerequisites": ["4.2.2", "4.2.3"],
+              "lab": { "description": "도구 하나를 노출하는 최소 MCP 서버를 정의하고 호출 흐름을 따라가 본다" }
+            },
+            {
+              "id": "4.2.5",
+              "section_id": "4.2",
+              "title": "기존 도구를 MCP 서버로 감싸기",
+              "order": 5,
+              "learning_objectives": ["이미 있는 API나 함수를 MCP 서버로 감싸 표준 인터페이스로 노출하는 방법을 설명할 수 있다"],
+              "learning_content": [
+                "기존 API의 래핑",
+                "함수 시그니처를 도구 스키마로 변환",
+                "오류와 예외의 표준화",
+                "인증 정보의 주입",
+                "래핑 시 흔한 함정"
+              ],
+              "prerequisites": ["4.2.4"],
+              "lab": null
+            },
+            {
+              "id": "4.2.6",
+              "section_id": "4.2",
+              "title": "MCP 보안과 신뢰",
+              "order": 6,
+              "learning_objectives": ["MCP 서버 연결에서 발생하는 보안 위험과 권한·신뢰 경계를 설명할 수 있다"],
+              "learning_content": [
+                "신뢰되지 않은 서버의 위험",
+                "도구 설명을 통한 주입 공격",
+                "권한 범위의 제한",
+                "사용자 동의",
+                "민감 데이터 노출 방지"
+              ],
+              "prerequisites": ["4.2.5", "3.3.6"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.3",
+          "phase_id": "4",
+          "title": "A2A: 에이전트 간 통신",
+          "order": 3,
+          "topics": [
+            {
+              "id": "4.3.1",
+              "section_id": "4.3",
+              "title": "A2A 프로토콜이 푸는 문제",
+              "order": 1,
+              "learning_objectives": ["서로 다른 에이전트가 협업할 때 A2A가 표준화하는 통신 문제를 설명할 수 있다"],
+              "learning_content": [
+                "이종 에이전트의 협업",
+                "서로 내부를 모르는 불투명한 상대",
+                "표준 메시지의 필요",
+                "상호운용성",
+                "MCP만으로는 부족한 지점"
+              ],
+              "prerequisites": ["4.1.2"],
+              "lab": null
+            },
+            {
+              "id": "4.3.2",
+              "section_id": "4.3",
+              "title": "에이전트 카드와 능력 발견",
+              "order": 2,
+              "learning_objectives": ["에이전트 카드(Agent Card)로 에이전트의 능력을 공표하고 발견하는 방식을 설명할 수 있다"],
+              "learning_content": [
+                "에이전트 카드는 능력 명세",
+                "능력 발견(discovery)",
+                "엔드포인트·인증·스킬 정보",
+                "동적 라우팅",
+                "카드 기반 상대 선택"
+              ],
+              "prerequisites": ["4.3.1"],
+              "lab": null
+            },
+            {
+              "id": "4.3.3",
+              "section_id": "4.3",
+              "title": "A2A의 작업과 메시지 모델",
+              "order": 3,
+              "learning_objectives": ["A2A에서 작업(task)·메시지·아티팩트가 오가는 흐름을 설명할 수 있다"],
+              "learning_content": [
+                "작업(task)의 생명주기",
+                "메시지 교환",
+                "아티팩트(결과물)",
+                "장기 작업과 스트리밍",
+                "상태 추적"
+              ],
+              "prerequisites": ["4.3.2"],
+              "lab": null
+            },
+            {
+              "id": "4.3.4",
+              "section_id": "4.3",
+              "title": "MCP와 A2A의 역할 분담",
+              "order": 4,
+              "learning_objectives": ["MCP(도구 연결)와 A2A(에이전트 연결)를 한 시스템에서 어떻게 함께 쓰는지 설명할 수 있다"],
+              "learning_content": [
+                "수직(MCP)과 수평(A2A)의 결합",
+                "에이전트가 동시에 도구이자 협업자",
+                "계층적 구성",
+                "결합 예시",
+                "경계의 구분"
+              ],
+              "prerequisites": ["4.3.3", "4.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.4",
+          "phase_id": "4",
+          "title": "멀티에이전트와 거버넌스·FinOps",
+          "order": 4,
+          "topics": [
+            {
+              "id": "4.4.1",
+              "section_id": "4.4",
+              "title": "멀티에이전트 오케스트레이션 패턴",
+              "order": 1,
+              "learning_objectives": ["표준 위에서 여러 에이전트를 조율하는 대표 패턴(감독자·파이프라인·병렬)을 설명할 수 있다"],
+              "learning_content": [
+                "감독자(supervisor) 패턴",
+                "파이프라인 패턴",
+                "병렬 팬아웃 패턴",
+                "역할 분담",
+                "패턴 선택 기준"
+              ],
+              "prerequisites": ["4.3.4"],
+              "lab": null
+            },
+            {
+              "id": "4.4.2",
+              "section_id": "4.4",
+              "title": "에이전트용 FinOps: 비용의 경제학",
+              "order": 2,
+              "learning_objectives": ["에이전트 운영 비용을 측정·배분·통제하는 FinOps 관점을 설명할 수 있다"],
+              "learning_content": [
+                "토큰과 호출 비용",
+                "비용 가시성",
+                "예산과 쿼터",
+                "모델 선택의 경제학",
+                "비용과 품질의 트레이드오프"
+              ],
+              "prerequisites": ["4.4.1", "2.1.2"],
+              "lab": null
+            },
+            {
+              "id": "4.4.3",
+              "section_id": "4.4",
+              "title": "거버넌스와 감사 가능성",
+              "order": 3,
+              "learning_objectives": ["멀티에이전트 시스템의 거버넌스(정책·권한·감사) 역량을 설명할 수 있다"],
+              "learning_content": [
+                "정책 집행",
+                "권한 경계",
+                "감사 로그",
+                "책임 추적",
+                "규정 준수"
+              ],
+              "prerequisites": ["4.4.2", "4.2.6"],
+              "lab": null
+            },
+            {
+              "id": "4.4.4",
+              "section_id": "4.4",
+              "title": "프로토콜 보안과 신뢰 경계",
+              "order": 4,
+              "learning_objectives": ["MCP·A2A를 가로지르는 보안 위협과 신뢰 경계 설계를 설명할 수 있다"],
+              "learning_content": [
+                "공급망 위험",
+                "에이전트 사칭",
+                "권한 상승",
+                "신뢰 경계 설계",
+                "표준이 제공하는 보안 기능"
+              ],
+              "prerequisites": ["4.4.3", "4.3.2"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "장기 실행 에이전트와 하네스 엔지니어링",
+      "order": 5,
+      "exit_capability": "컨텍스트·메모리·프로토콜 위에 자가교정·압축·롤백·인간승인 경계를 갖춘 하네스를 얹어, 며칠씩 안정적으로 실행되는 에이전트를 설계할 수 있다.",
+      "sections": [
+        {
+          "id": "5.1",
+          "phase_id": "5",
+          "title": "하네스 엔지니어링이란",
+          "order": 1,
+          "topics": [
+            {
+              "id": "5.1.1",
+              "section_id": "5.1",
+              "title": "장기 실행 에이전트의 도전 과제",
+              "order": 1,
+              "learning_objectives": ["며칠씩 실행되는 에이전트가 마주치는 안정성·비용·감독의 도전 과제를 설명할 수 있다"],
+              "learning_content": [
+                "누적되는 오류",
+                "컨텍스트의 폭증",
+                "비용의 누적",
+                "목표 표류",
+                "사람이 없는 시간대의 위험"
+              ],
+              "prerequisites": ["1.3.4", "1.2.3"],
+              "lab": null
+            },
+            {
+              "id": "5.1.2",
+              "section_id": "5.1",
+              "title": "하네스 엔지니어링의 정의와 범위",
+              "order": 2,
+              "learning_objectives": ["하네스 엔지니어링을 모델 바깥의 오케스트레이션 인프라로 정의하고 그 범위를 설명할 수 있다"],
+              "learning_content": [
+                "하네스는 모델 바깥의 인프라",
+                "모델 내부 개입과의 구분",
+                "별도 연구 분야로의 부상",
+                "네 핵심 요소 예고",
+                "앞의 세 축과의 관계"
+              ],
+              "prerequisites": ["5.1.1"],
+              "lab": null
+            },
+            {
+              "id": "5.1.3",
+              "section_id": "5.1",
+              "title": "하네스의 네 기둥 조감도",
+              "order": 3,
+              "learning_objectives": ["자가교정·압축·롤백·인간승인 네 요소가 어떻게 장기 실행을 떠받치는지 도식으로 설명할 수 있다"],
+              "learning_content": [
+                "자가 교정",
+                "압축(compaction)",
+                "롤백(rollback)",
+                "인간 승인 경계",
+                "네 요소의 상호작용"
+              ],
+              "prerequisites": ["5.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.2",
+          "phase_id": "5",
+          "title": "자가 교정과 안정성",
+          "order": 2,
+          "topics": [
+            {
+              "id": "5.2.1",
+              "section_id": "5.2",
+              "title": "자가 교정 루프",
+              "order": 1,
+              "learning_objectives": ["에이전트가 자신의 오류를 감지하고 스스로 교정하는 루프와 그 한계를 설명할 수 있다"],
+              "learning_content": [
+                "오류 감지",
+                "자기 검증",
+                "재시도",
+                "검증자(critic)의 분리",
+                "자가 교정의 한계"
+              ],
+              "prerequisites": ["5.1.3", "1.2.2"],
+              "lab": null
+            },
+            {
+              "id": "5.2.2",
+              "section_id": "5.2",
+              "title": "피드백과 검증 신호 설계",
+              "order": 2,
+              "learning_objectives": ["행동 결과를 모델이 쓸 수 있는 피드백 신호로 돌려주는 설계를 설명할 수 있다"],
+              "learning_content": [
+                "실행 결과의 환류",
+                "테스트·린터·타입 검사",
+                "오류 메시지의 정제",
+                "검증 가능한 목표",
+                "신호의 품질"
+              ],
+              "prerequisites": ["5.2.1"],
+              "lab": null
+            },
+            {
+              "id": "5.2.3",
+              "section_id": "5.2",
+              "title": "긴 실행에서의 압축 운영",
+              "order": 3,
+              "learning_objectives": ["장기 실행 중 하네스가 컨텍스트를 자동 압축해 루프를 유지하는 방식을 설명할 수 있다"],
+              "learning_content": [
+                "하네스가 주도하는 압축",
+                "압축 훅과 임계값",
+                "상태를 보존하는 압축",
+                "컨텍스트 엔지니어링과의 연결",
+                "압축 실패에 대한 대비"
+              ],
+              "prerequisites": ["5.2.2", "2.3.2"],
+              "lab": null
+            },
+            {
+              "id": "5.2.4",
+              "section_id": "5.2",
+              "title": "신뢰성: 실패를 예상한 설계",
+              "order": 4,
+              "learning_objectives": ["도구 실패·타임아웃·비결정성을 견디는 신뢰성 설계를 설명할 수 있다"],
+              "learning_content": [
+                "실패 모드의 분류",
+                "재시도와 백오프",
+                "타임아웃과 서킷 브레이커",
+                "비결정성의 흡수",
+                "우아한 저하(graceful degradation)"
+              ],
+              "prerequisites": ["5.2.3"],
+              "lab": null
+            },
+            {
+              "id": "5.2.5",
+              "section_id": "5.2",
+              "title": "관측 가능성과 추적",
+              "order": 5,
+              "learning_objectives": ["장기 실행 에이전트의 행동을 추적·관측해 디버깅·감사하는 방법을 설명할 수 있다"],
+              "learning_content": [
+                "트레이스와 스팬",
+                "행동 로그",
+                "토큰·비용 계측",
+                "재현 가능성",
+                "관측에 기반한 개선"
+              ],
+              "prerequisites": ["5.2.4", "4.4.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.3",
+          "phase_id": "5",
+          "title": "롤백과 인간 승인 경계",
+          "order": 3,
+          "topics": [
+            {
+              "id": "5.3.1",
+              "section_id": "5.3",
+              "title": "가역성과 체크포인트",
+              "order": 1,
+              "learning_objectives": ["에이전트 행동을 되돌릴 수 있게 하는 가역성·체크포인트 설계를 설명할 수 있다"],
+              "learning_content": [
+                "가역적 설계의 원칙",
+                "체크포인트와 스냅샷",
+                "상태 복원",
+                "위험 행동의 격리",
+                "되돌리기 경로의 확보"
+              ],
+              "prerequisites": ["5.1.3"],
+              "lab": null
+            },
+            {
+              "id": "5.3.2",
+              "section_id": "5.3",
+              "title": "롤백 메커니즘",
+              "order": 2,
+              "learning_objectives": ["잘못된 진행을 안전한 지점으로 롤백하는 메커니즘을 설명할 수 있다"],
+              "learning_content": [
+                "체크포인트로의 복귀",
+                "부분 롤백",
+                "부수효과의 취소",
+                "보상 트랜잭션",
+                "롤백의 비용"
+              ],
+              "prerequisites": ["5.3.1"],
+              "lab": null
+            },
+            {
+              "id": "5.3.3",
+              "section_id": "5.3",
+              "title": "인간 승인 경계 (human-in-the-loop)",
+              "order": 3,
+              "learning_objectives": ["위험·비가역 행동 앞에서 사람의 승인을 요구하는 경계를 설계하는 법을 설명할 수 있다"],
+              "learning_content": [
+                "승인 경계의 정의",
+                "위험 등급의 분류",
+                "승인 요청 방식",
+                "차단과 허용의 결정",
+                "사람이 개입하는 전략적 지점"
+              ],
+              "prerequisites": ["5.3.2", "5.1.1"],
+              "lab": null
+            },
+            {
+              "id": "5.3.4",
+              "section_id": "5.3",
+              "title": "자율성 수준과 권한 위임",
+              "order": 4,
+              "learning_objectives": ["작업 위험도에 따라 자율성 수준과 권한을 조절하는 설계를 설명할 수 있다"],
+              "learning_content": [
+                "자율성의 단계",
+                "권한 위임의 범위",
+                "신뢰의 점증",
+                "모드별 경계(읽기·쓰기·실행)",
+                "점진적 자율"
+              ],
+              "prerequisites": ["5.3.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.4",
+          "phase_id": "5",
+          "title": "종합: 며칠씩 일하는 에이전트",
+          "order": 4,
+          "topics": [
+            {
+              "id": "5.4.1",
+              "section_id": "5.4",
+              "title": "멀티에이전트로 규모 키우기",
+              "order": 1,
+              "learning_objectives": ["단일 에이전트의 한계를 넘어 멀티에이전트로 장기·대규모 작업을 분할하는 설계를 설명할 수 있다"],
+              "learning_content": [
+                "작업의 분할",
+                "오케스트레이터와 워커",
+                "컨텍스트 격리의 재사용",
+                "서브에이전트 메모리의 결합",
+                "합류와 동기화"
+              ],
+              "prerequisites": ["5.2.5", "4.4.1", "3.2.5"],
+              "lab": null
+            },
+            {
+              "id": "5.4.2",
+              "section_id": "5.4",
+              "title": "네 축을 하나로 엮기",
+              "order": 2,
+              "learning_objectives": ["컨텍스트·메모리·프로토콜·하네스 네 축이 한 에이전트 안에서 어떻게 맞물리는지 종합해 설명할 수 있다"],
+              "learning_content": [
+                "네 축의 상호 의존",
+                "한 루프 안에서의 협력",
+                "약한 축이 만드는 병목",
+                "통합 점검표",
+                "설계의 순서"
+              ],
+              "prerequisites": ["5.4.1", "5.3.4", "2.3.6", "3.3.6"],
+              "lab": null
+            },
+            {
+              "id": "5.4.3",
+              "section_id": "5.4",
+              "title": "사례 분석: 코딩 에이전트의 하네스",
+              "order": 3,
+              "learning_objectives": ["실제 에이전틱 코딩 도구에서 네 축이 구현된 방식을 사례로 분석할 수 있다"],
+              "learning_content": [
+                "명시 규칙과 자동 메모리",
+                "컨텍스트 압축의 적용",
+                "MCP를 통한 도구 연결",
+                "승인과 롤백 경계",
+                "통합 사례의 해부"
+              ],
+              "prerequisites": ["5.4.2"],
+              "lab": null
+            },
+            {
+              "id": "5.4.4",
+              "section_id": "5.4",
+              "title": "한 걸음씩 만드는 장기 실행 에이전트",
+              "order": 4,
+              "learning_objectives": ["최소 루프에서 시작해 네 축을 점진적으로 더해 며칠씩 일하는 에이전트로 키우는 로드맵을 제시할 수 있다"],
+              "learning_content": [
+                "최소 ReAct 루프에서 시작",
+                "컨텍스트 관리 더하기",
+                "메모리 더하기",
+                "도구와 프로토콜 더하기",
+                "하네스(승인·롤백·관측) 더하기"
+              ],
+              "prerequisites": ["5.4.3"],
+              "lab": null
+            },
+            {
+              "id": "5.4.5",
+              "section_id": "5.4",
+              "title": "앞으로의 방향과 마무리",
+              "order": 5,
+              "learning_objectives": ["장기 실행 에이전트 인프라의 향후 과제와 이 책의 핵심을 종합할 수 있다"],
+              "learning_content": [
+                "표준의 성숙",
+                "자율성 확대와 거버넌스의 균형",
+                "평가와 신뢰의 과제",
+                "인간 역할의 변화",
+                "책 전체의 회고"
+              ],
+              "prerequisites": ["5.4.4"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
