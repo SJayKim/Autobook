@@ -1,0 +1,1381 @@
+{
+  "schema_version": "1.0.0",
+  "curriculum_id": "opic-english-ih",
+  "title": "OPIc 영어 IH 완성: 전략과 템플릿으로 문단 단위 발화에 도달하는 길",
+  "locale": "ko-KR",
+  "numbering": { "phase_base": 1 },
+  "prerequisite_shorthand": "none",
+  "prerequisite_ordering": { "mode": "id_numeric_tuple" },
+  "phases": [
+    {
+      "id": "1",
+      "title": "OPIc과 IH 이해하기",
+      "order": 1,
+      "exit_capability": "OPIc 시험의 전체 구조와 채점 방식을 설명하고, ACTFL 등급 체계 안에서 IH의 위치와 판별 기준을 구별하며, 자신에게 유리한 Background Survey와 Self-Assessment를 전략적으로 선택할 수 있다.",
+      "sections": [
+        {
+          "id": "1.1",
+          "phase_id": "1",
+          "title": "OPIc 시험의 이해",
+          "order": 1,
+          "topics": [
+            {
+              "id": "1.1.1",
+              "section_id": "1.1",
+              "title": "이 책이 다루는 것: OPIc IH로 가는 지도",
+              "order": 1,
+              "learning_objectives": ["이 책의 목표인 OPIc IH 등급과, 전략·언어기술·주제 스크립트·실전이라는 학습 경로의 관계를 설명할 수 있다"],
+              "learning_content": [
+                "OPIc IH 목표의 의미",
+                "전략+템플릿 종합서의 구성",
+                "여섯 Phase의 흐름 미리보기",
+                "암기가 아니라 변형 발화를 기르는 책",
+                "책을 읽고 활용하는 순서"
+              ],
+              "prerequisites": [],
+              "lab": null
+            },
+            {
+              "id": "1.1.2",
+              "section_id": "1.1",
+              "title": "OPIc이란 무엇인가",
+              "order": 2,
+              "learning_objectives": ["OPIc이 컴퓨터 기반의 말하기 능력 평가라는 점과 ACTFL 평가 철학을 설명할 수 있다"],
+              "learning_content": [
+                "OPIc의 정의(Oral Proficiency Interview - Computer)",
+                "주관 기관 ACTFL",
+                "실제로 말할 수 있는가를 보는 절대평가",
+                "필기 시험과의 차이",
+                "AI 진행자 Ava와 응답 녹음 방식"
+              ],
+              "prerequisites": ["1.1.1"],
+              "lab": null
+            },
+            {
+              "id": "1.1.3",
+              "section_id": "1.1",
+              "title": "시험 한 회의 전체 진행 흐름",
+              "order": 3,
+              "learning_objectives": ["설문, 자가진단, 자기소개, 난이도 조정, 본문제로 이어지는 시험 한 회의 순서를 단계별로 설명할 수 있다"],
+              "learning_content": [
+                "Background Survey 단계",
+                "Self-Assessment 단계",
+                "자기소개(1번, 채점 미반영)",
+                "1차·2차 난이도 조정 화면",
+                "본문제와 롤플레이 콤보 배치",
+                "전체 소요 시간(약 60분)"
+              ],
+              "prerequisites": ["1.1.2"],
+              "lab": null
+            },
+            {
+              "id": "1.1.4",
+              "section_id": "1.1",
+              "title": "채점과 성적은 어떻게 정해지는가",
+              "order": 4,
+              "learning_objectives": ["OPIc이 점수가 아니라 등급으로 평가되며 절대평가로 채점된다는 점을 설명할 수 있다"],
+              "learning_content": [
+                "등급제(NL~AL) 평가",
+                "절대평가의 의미(상대 경쟁이 아님)",
+                "성적 발표 시점(약 5일 후)",
+                "응답 전체를 종합해 등급을 매기는 방식",
+                "한 문제 실수보다 전반적 인상이 중요"
+              ],
+              "prerequisites": ["1.1.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "phase_id": "1",
+          "title": "등급 체계와 IH의 좌표",
+          "order": 2,
+          "topics": [
+            {
+              "id": "1.2.1",
+              "section_id": "1.2",
+              "title": "ACTFL 등급 체계 전체 지도",
+              "order": 1,
+              "learning_objectives": ["NL부터 AL까지의 등급 체계를 텍스트 타입의 발전(단어→문장→문단) 기준으로 정렬해 설명할 수 있다"],
+              "learning_content": [
+                "Novice(NL/NM/NH) 구간",
+                "Intermediate(IL/IM1~3/IH) 구간",
+                "Advanced(AL) 구간",
+                "단어→구→문장→문단으로 가는 텍스트 타입의 축",
+                "등급 사이의 연속성"
+              ],
+              "prerequisites": ["1.1.4"],
+              "lab": null
+            },
+            {
+              "id": "1.2.2",
+              "section_id": "1.2",
+              "title": "IH란 무엇인가: 공식 정의와 핵심 특징",
+              "order": 2,
+              "learning_objectives": ["IH 등급의 공식 설명을 바탕으로 문단 단위 발화와 예측 불가 상황 대응이라는 핵심 특징을 설명할 수 있다"],
+              "learning_content": [
+                "IH의 공식 정의(복잡한 상황에서 대부분의 사건을 설명·해결)",
+                "문단(paragraph) 단위 발화",
+                "발화량과 어휘 다양성",
+                "일관성이 전 영역에서 완벽하지는 않은 단계",
+                "IH가 취업·이직에서 갖는 위치"
+              ],
+              "prerequisites": ["1.2.1"],
+              "lab": null
+            },
+            {
+              "id": "1.2.3",
+              "section_id": "1.2",
+              "title": "IH 채점의 4대 축",
+              "order": 3,
+              "learning_objectives": ["Function, Accuracy, Content, Text Type라는 네 평가 축이 IH에서 각각 무엇을 요구하는지 구별해 설명할 수 있다"],
+              "learning_content": [
+                "Function(기능): 묘사·서사·비교를 단락 수준에서 수행",
+                "Accuracy(정확성): 의사소통을 방해하지 않는 어휘·문법·발음",
+                "Content/Context(내용·맥락): 질문에 직접 답하기",
+                "Text Type(텍스트 타입): 문단 구성과 발화량",
+                "네 축이 함께 작동해 등급을 만든다"
+              ],
+              "prerequisites": ["1.2.2"],
+              "lab": null
+            },
+            {
+              "id": "1.2.4",
+              "section_id": "1.2",
+              "title": "IH와 IM3의 결정적 차이",
+              "order": 4,
+              "learning_objectives": ["문장 나열에 머무는 IM3와 문단을 구성하는 IH의 차이를 텍스트 타입·연결어·시제 기준으로 구별할 수 있다"],
+              "learning_content": [
+                "문장 나열(IM3) vs 문단 발화(IH)",
+                "기초 연결어(and/but/so) vs 다양한 접속사",
+                "단순 과거 시도 vs 시제 대부분 운용",
+                "단순 나열 vs 서사 구조",
+                "IM3에서 IH로 넘어가는 한 끗"
+              ],
+              "prerequisites": ["1.2.3"],
+              "lab": null
+            },
+            {
+              "id": "1.2.5",
+              "section_id": "1.2",
+              "title": "IH와 AL의 차이, 그리고 목표를 IH에 맞추기",
+              "order": 5,
+              "learning_objectives": ["IH와 AL의 차이를 일관성·정확도 기준으로 설명하고, IH 목표에서 무엇에 힘을 빼도 되는지 판단할 수 있다"],
+              "learning_content": [
+                "AL은 모든 시제·문단 결속을 일관되게 유지",
+                "IH는 가끔 흔들려도 전반적으로 문단을 유지",
+                "완벽주의가 오히려 발화를 막는 문제",
+                "IH 목표에서 우선순위(발화량·시제·연결어)",
+                "AL을 노릴 때와 IH로 충분할 때"
+              ],
+              "prerequisites": ["1.2.4"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "phase_id": "1",
+          "title": "서베이와 자가진단 전략",
+          "order": 3,
+          "topics": [
+            {
+              "id": "1.3.1",
+              "section_id": "1.3",
+              "title": "Background Survey가 문제로 이어지는 원리",
+              "order": 1,
+              "learning_objectives": ["설문에서 선택한 항목이 실제 출제 주제로 연결되는 구조를 설명할 수 있다"],
+              "learning_content": [
+                "설문 응답이 출제 풀을 결정",
+                "선택 항목 = 준비할 수 있는 주제",
+                "선택하지 않은 영역에서 돌발이 나오는 구조",
+                "총 12개 항목 선택 개요",
+                "전략적 설계의 출발점"
+              ],
+              "prerequisites": ["1.2.5"],
+              "lab": null
+            },
+            {
+              "id": "1.3.2",
+              "section_id": "1.3",
+              "title": "서베이 카테고리별 항목 해설",
+              "order": 2,
+              "learning_objectives": ["직업·거주·여가·취미·운동·여행 등 서베이 카테고리와 대표 선택지를 설명할 수 있다"],
+              "learning_content": [
+                "직업·학생 여부 항목",
+                "거주 형태 항목",
+                "여가활동(영화·공원·카페 등)",
+                "취미·관심사(음악·독서 등)",
+                "운동·스포츠 항목",
+                "휴가·출장 항목"
+              ],
+              "prerequisites": ["1.3.1"],
+              "lab": null
+            },
+            {
+              "id": "1.3.3",
+              "section_id": "1.3",
+              "title": "나에게 유리한 서베이 선택 전략",
+              "order": 3,
+              "learning_objectives": ["콤보가 겹치는 주제 묶음을 골라 준비 효율을 높이는 12개 항목 조합 전략을 설계할 수 있다"],
+              "learning_content": [
+                "말할 거리가 많은 실제 경험 우선",
+                "콤보가 겹치는 묶음(영화+공연+콘서트 등)",
+                "장소 묘사가 겹치는 묶음(공원+해변+조깅)",
+                "돌발을 줄이는 항목 분산",
+                "12개 항목 조합 예시"
+              ],
+              "prerequisites": ["1.3.2"],
+              "lab": null
+            },
+            {
+              "id": "1.3.4",
+              "section_id": "1.3",
+              "title": "Self-Assessment 단계 선택: 왜 5인가",
+              "order": 4,
+              "learning_objectives": ["자가진단 1~6단계와 예상 등급·문항 수의 관계를 설명하고 IH 목표에서 5를 권장하는 이유를 판단할 수 있다"],
+              "learning_content": [
+                "단계별 예상 등급(1~2 NL/NM, 3 IL, 4 IM2, 5 IH, 6 AL)",
+                "단계와 문항 수·돌발 비중의 관계",
+                "5 선택 시 IH 도달 가능 구간",
+                "6의 부담(돌발 비중 증가)",
+                "자기 실력에 맞춘 안전한 선택"
+              ],
+              "prerequisites": ["1.3.3"],
+              "lab": null
+            },
+            {
+              "id": "1.3.5",
+              "section_id": "1.3",
+              "title": "1차·2차 난이도 조정 화면 활용법",
+              "order": 5,
+              "learning_objectives": ["시험 중 두 번 제공되는 난이도 조정 화면의 역할과 IH 목표에 맞는 선택을 설명할 수 있다"],
+              "learning_content": [
+                "1차 조정(자기소개 후)",
+                "2차 조정(시험 중반)",
+                "더 어렵게/유지/더 쉽게 선택의 의미",
+                "IH 목표 시 권장 선택",
+                "체감 난이도와 실제 등급의 관계"
+              ],
+              "prerequisites": ["1.3.4"],
+              "lab": null
+            },
+            {
+              "id": "1.3.6",
+              "section_id": "1.3",
+              "title": "시험 당일 진행과 청취·시간 전략",
+              "order": 6,
+              "learning_objectives": ["문항 청취·재생, 답변 시작, 시간 배분 등 시험 당일의 운영 전략을 설명할 수 있다"],
+              "learning_content": [
+                "Ava의 음성 안내와 재생 횟수",
+                "준비 시간 없이 바로 답변 시작",
+                "유형별 답변 시간 감각",
+                "긴장 관리와 첫 문장 확보",
+                "끝까지 완주하는 페이스 배분"
+              ],
+              "prerequisites": ["1.3.5"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "문제 유형 완전 분해",
+      "order": 2,
+      "exit_capability": "OPIc에 나오는 묘사·습관·경험·비교·롤플레이·돌발 여섯 유형을 듣고 즉시 분류하고, 각 유형의 답변 프레임워크를 말로 설명할 수 있다.",
+      "sections": [
+        {
+          "id": "2.1",
+          "phase_id": "2",
+          "title": "유형 지도",
+          "order": 1,
+          "topics": [
+            {
+              "id": "2.1.1",
+              "section_id": "2.1",
+              "title": "6대 문제 유형 한눈에 보기",
+              "order": 1,
+              "learning_objectives": ["여섯 가지 문제 유형과 시험 내 콤보 배치를 한 장의 지도로 설명할 수 있다"],
+              "learning_content": [
+                "묘사·습관·경험·비교·롤플레이·돌발 여섯 유형",
+                "콤보 세트 구성 방식",
+                "유형을 알아채는 질문 신호어",
+                "유형별 난이도 분포",
+                "이후 섹션의 학습 순서"
+              ],
+              "prerequisites": ["1.2.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "phase_id": "2",
+          "title": "묘사 유형",
+          "order": 2,
+          "topics": [
+            {
+              "id": "2.2.1",
+              "section_id": "2.2",
+              "title": "묘사 문제의 답변 프레임워크",
+              "order": 1,
+              "learning_objectives": ["묘사 문제를 외부 묘사에서 내부 묘사를 거쳐 개인 감상으로 잇는 프레임워크로 설명할 수 있다"],
+              "learning_content": [
+                "외부(위치·크기·색) → 내부(분위기·세부) → 감상 순서",
+                "묘사를 여는 첫 문장",
+                "공간을 훑는 시선 이동",
+                "감각 묘사(보이는 것·들리는 것)",
+                "마무리 감상 문장"
+              ],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            },
+            {
+              "id": "2.2.2",
+              "section_id": "2.2",
+              "title": "장소 묘사 구조",
+              "order": 2,
+              "learning_objectives": ["자주 가는 장소를 위치·구성·분위기 순으로 묘사하는 구조와 표현을 구성할 수 있다"],
+              "learning_content": [
+                "위치 표현(It's located in..., near...)",
+                "공간 구성 묘사",
+                "분위기 형용사(cozy, spacious)",
+                "자주 가는 이유 연결",
+                "장소 묘사 예시 답변"
+              ],
+              "prerequisites": ["2.2.1"],
+              "lab": null
+            },
+            {
+              "id": "2.2.3",
+              "section_id": "2.2",
+              "title": "사람 묘사 구조",
+              "order": 3,
+              "learning_objectives": ["사람을 외모·성격·관계 순으로 묘사하는 구조와 표현을 구성할 수 있다"],
+              "learning_content": [
+                "외모 묘사 표현(looks like, tall, friendly face)",
+                "성격 묘사 형용사",
+                "그 사람과 나의 관계",
+                "구체적 일화로 성격 보여주기",
+                "사람 묘사 예시 답변"
+              ],
+              "prerequisites": ["2.2.1"],
+              "lab": null
+            },
+            {
+              "id": "2.2.4",
+              "section_id": "2.2",
+              "title": "사물·대상 묘사 구조",
+              "order": 4,
+              "learning_objectives": ["좋아하는 사물이나 대상을 특징·용도·의미 순으로 묘사하는 구조를 구성할 수 있다"],
+              "learning_content": [
+                "대상의 외형·특징 묘사",
+                "용도·기능 설명",
+                "나에게 갖는 의미",
+                "감각·세부 디테일 추가",
+                "사물 묘사 예시 답변"
+              ],
+              "prerequisites": ["2.2.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "phase_id": "2",
+          "title": "습관·루틴 유형",
+          "order": 3,
+          "topics": [
+            {
+              "id": "2.3.1",
+              "section_id": "2.3",
+              "title": "습관·루틴 문제의 구조",
+              "order": 1,
+              "learning_objectives": ["반복적 행동을 시간 흐름과 빈도 표현으로 서술하는 루틴 답변 구조를 구성할 수 있다"],
+              "learning_content": [
+                "빈도 표현(usually, whenever, every time)",
+                "시간 흐름 서술(first, then, after that)",
+                "전형적인 하루·과정 묘사",
+                "구체적 디테일로 살 붙이기",
+                "루틴 예시 답변"
+              ],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.4",
+          "phase_id": "2",
+          "title": "과거 경험·서사 유형",
+          "order": 4,
+          "topics": [
+            {
+              "id": "2.4.1",
+              "section_id": "2.4",
+              "title": "과거 경험 문제의 서사 구조",
+              "order": 1,
+              "learning_objectives": ["과거 경험을 6하원칙과 발단·전개·결말의 서사 구조로 풀어내는 틀을 구성할 수 있다"],
+              "learning_content": [
+                "6하원칙(when/where/who/what/how/why)",
+                "발단-전개-결말 서사",
+                "도입 표현(I remember this one time...)",
+                "과거시제 일관 유지",
+                "마무리 감상(Looking back...)"
+              ],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            },
+            {
+              "id": "2.4.2",
+              "section_id": "2.4",
+              "title": "기억에 남는 경험 vs 문제가 생겼던 경험",
+              "order": 2,
+              "learning_objectives": ["긍정적 경험과 문제 상황 경험의 서술 차이를 구별하고 각각에 맞는 전개를 구성할 수 있다"],
+              "learning_content": [
+                "기억에 남는(memorable) 경험의 초점",
+                "문제가 생긴(something went wrong) 경험의 초점",
+                "갈등·해결 구조",
+                "감정 변화 표현",
+                "두 유형의 예시 답변"
+              ],
+              "prerequisites": ["2.4.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.5",
+          "phase_id": "2",
+          "title": "비교 유형",
+          "order": 5,
+          "topics": [
+            {
+              "id": "2.5.1",
+              "section_id": "2.5",
+              "title": "비교 문제의 구조와 과거-현재 축",
+              "order": 1,
+              "learning_objectives": ["과거와 현재 또는 두 대상을 대조 표현과 시제 전환으로 비교하는 구조를 구성할 수 있다"],
+              "learning_content": [
+                "과거 축(used to, back then) vs 현재 축(these days)",
+                "대조 연결어(however, on the other hand)",
+                "변화 서술(things have changed)",
+                "두 대상 비교의 균형",
+                "비교 예시 답변"
+              ],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.6",
+          "phase_id": "2",
+          "title": "롤플레이 유형",
+          "order": 6,
+          "topics": [
+            {
+              "id": "2.6.1",
+              "section_id": "2.6",
+              "title": "롤플레이 콤보의 구성",
+              "order": 1,
+              "learning_objectives": ["11~13번에 고정 출제되는 롤플레이 3콤보의 구성과 각 번호의 역할을 설명할 수 있다"],
+              "learning_content": [
+                "11번 정보 요청, 12번 문제 해결, 13번 경험 연결",
+                "역할극(role-play) 상황 설정",
+                "가상의 상대에게 말 거는 마인드셋",
+                "콤보가 하나의 시나리오로 엮이는 방식",
+                "롤플레이가 IH 판별에서 갖는 비중"
+              ],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            },
+            {
+              "id": "2.6.2",
+              "section_id": "2.6",
+              "title": "11번: 정보 요청 패턴",
+              "order": 2,
+              "learning_objectives": ["전화나 직접 상황에서 서너 개의 질문으로 정보를 요청하는 패턴을 구성할 수 있다"],
+              "learning_content": [
+                "전화 시작 표현(Hi, I'm calling to ask...)",
+                "질문 표현(Could you tell me...?, I was wondering if...)",
+                "서너 개 질문 배치",
+                "정중한 마무리",
+                "정보 요청 예시 답변"
+              ],
+              "prerequisites": ["2.6.1"],
+              "lab": null
+            },
+            {
+              "id": "2.6.3",
+              "section_id": "2.6",
+              "title": "12번: 문제 설명과 대안 제시 패턴",
+              "order": 3,
+              "learning_objectives": ["문제 상황을 설명하고 두세 가지 대안을 제시하는 롤플레이 패턴을 구성할 수 있다"],
+              "learning_content": [
+                "상황 설명(something came up, it arrived damaged)",
+                "사과·양해 표현",
+                "대안 제시(One option would be..., Alternatively...)",
+                "협상·요청 마무리",
+                "문제 해결 예시 답변"
+              ],
+              "prerequisites": ["2.6.2"],
+              "lab": null
+            },
+            {
+              "id": "2.6.4",
+              "section_id": "2.6",
+              "title": "13번: 경험 연결 패턴",
+              "order": 4,
+              "learning_objectives": ["롤플레이 주제와 관련된 자신의 과거 경험을 이어 말하는 패턴을 구성할 수 있다"],
+              "learning_content": [
+                "롤플레이 상황과 비슷했던 실제 경험 연결",
+                "과거 경험 서사 구조 재활용",
+                "주제 일관성 유지",
+                "감상으로 마무리",
+                "경험 연결 예시 답변"
+              ],
+              "prerequisites": ["2.6.3"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.7",
+          "phase_id": "2",
+          "title": "돌발·어드밴스 유형",
+          "order": 7,
+          "topics": [
+            {
+              "id": "2.7.1",
+              "section_id": "2.7",
+              "title": "돌발 문제의 정체와 대응 원리",
+              "order": 1,
+              "learning_objectives": ["서베이에서 고르지 않은 주제가 나오는 돌발 문제의 출제 원리와 대응 원칙을 설명할 수 있다"],
+              "learning_content": [
+                "돌발 = 설문 외 주제",
+                "난이도 5~6에서 비중 증가",
+                "빈출 돌발 주제 개요(은행·날씨·기술 등)",
+                "일반 지식으로 문단 구성하기",
+                "회피하지 않고 아는 만큼 말하는 원칙"
+              ],
+              "prerequisites": ["2.1.1"],
+              "lab": null
+            },
+            {
+              "id": "2.7.2",
+              "section_id": "2.7",
+              "title": "Advanced 문제의 비교·설득 구조",
+              "order": 2,
+              "learning_objectives": ["14~15번에 등장하는 추상적 비교·설득형 문제의 구조와 요구 수준을 설명할 수 있다"],
+              "learning_content": [
+                "사회·일반 주제로 확장되는 질문",
+                "추상적 비교(세대·사회 변화)",
+                "의견과 근거 구조",
+                "IH에서 부분적으로만 대응해도 되는 영역",
+                "어드밴스 예시 질문"
+              ],
+              "prerequisites": ["2.5.1", "2.7.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "IH 핵심 언어 기술",
+      "order": 3,
+      "exit_capability": "문장 나열을 넘어 문단 단위로 발화하고, 연결어·시제·디테일·필러·자기수정을 실제 답변에서 자연스럽게 구사해 IH 수준의 발화를 만들 수 있다.",
+      "sections": [
+        {
+          "id": "3.1",
+          "phase_id": "3",
+          "title": "문단 단위 발화",
+          "order": 1,
+          "topics": [
+            {
+              "id": "3.1.1",
+              "section_id": "3.1",
+              "title": "문장 나열에서 문단으로",
+              "order": 1,
+              "learning_objectives": ["흩어진 문장들을 하나의 문단으로 묶어 Text Type을 끌어올리는 방법을 설명할 수 있다"],
+              "learning_content": [
+                "문장 나열과 문단의 차이",
+                "한 문단을 관통하는 하나의 초점",
+                "주제문과 뒷받침 문장",
+                "문장 사이를 잇는 연결",
+                "문단으로 들리게 만드는 호흡"
+              ],
+              "prerequisites": ["1.2.4"],
+              "lab": null
+            },
+            {
+              "id": "3.1.2",
+              "section_id": "3.1",
+              "title": "서론-본론-결론과 MP3 구조 체화",
+              "order": 2,
+              "learning_objectives": ["서론-본론-결론과 핵심-포인트-요약(MP3) 구조를 답변에 적용해 말할 수 있다"],
+              "learning_content": [
+                "도입 문장으로 질문에 직접 답하기",
+                "본론에서 디테일·이유·에피소드 전개",
+                "결론에서 감상·현재 상태로 마무리",
+                "MP3(Main Point-Point들-Summary) 구조",
+                "구조를 답변에 얹는 연습"
+              ],
+              "prerequisites": ["3.1.1"],
+              "lab": null
+            },
+            {
+              "id": "3.1.3",
+              "section_id": "3.1",
+              "title": "IH 발화량 만들기: 4문장에서 10문장으로",
+              "order": 3,
+              "learning_objectives": ["짧은 답변을 디테일과 예시로 확장해 IH 수준의 발화량으로 늘리는 방법을 설명할 수 있다"],
+              "learning_content": [
+                "IH 발화량 기준(약 10문장·1분 30초)",
+                "디테일·예시로 확장",
+                "무의미한 채우기와의 구분",
+                "한 포인트를 두세 문장으로 늘리기",
+                "발화량과 Text Type의 관계"
+              ],
+              "prerequisites": ["3.1.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "phase_id": "3",
+          "title": "연결어",
+          "order": 2,
+          "topics": [
+            {
+              "id": "3.2.1",
+              "section_id": "3.2",
+              "title": "연결어 마스터: 순서·인과·대조·추가",
+              "order": 1,
+              "learning_objectives": ["순서·인과·대조·추가 네 갈래의 연결어를 구별해 문장을 논리적으로 잇는 데 사용할 수 있다"],
+              "learning_content": [
+                "순서(first, then, after that, finally)",
+                "인과(because, so, as a result, that's why)",
+                "대조(however, on the other hand, although)",
+                "추가(also, in addition, what's more, not only... but also)",
+                "and/but 반복에서 벗어나기"
+              ],
+              "prerequisites": ["3.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "phase_id": "3",
+          "title": "시제 운용",
+          "order": 3,
+          "topics": [
+            {
+              "id": "3.3.1",
+              "section_id": "3.3",
+              "title": "현재 시제와 습관 표현",
+              "order": 1,
+              "learning_objectives": ["현재 시제와 빈도 표현을 사용해 습관과 일상을 정확히 서술할 수 있다"],
+              "learning_content": [
+                "단순 현재로 습관 말하기",
+                "빈도 부사(usually, often, rarely)",
+                "현재진행으로 요즘 상태 말하기",
+                "습관 표현과 루틴 답변의 결합",
+                "현재 시제 흔한 오류"
+              ],
+              "prerequisites": ["3.1.1"],
+              "lab": null
+            },
+            {
+              "id": "3.3.2",
+              "section_id": "3.3",
+              "title": "과거·과거진행: 경험 서술의 뼈대",
+              "order": 2,
+              "learning_objectives": ["단순 과거와 과거진행을 구별해 경험을 일관된 과거시제로 서술할 수 있다"],
+              "learning_content": [
+                "단순 과거로 사건 나열",
+                "과거진행으로 배경·동시 동작",
+                "과거시제 일관 유지의 중요성",
+                "불규칙 동사 주의",
+                "경험 답변에 적용"
+              ],
+              "prerequisites": ["3.3.1"],
+              "lab": null
+            },
+            {
+              "id": "3.3.3",
+              "section_id": "3.3",
+              "title": "현재완료와 미래: 변화와 계획 말하기",
+              "order": 3,
+              "learning_objectives": ["현재완료와 미래 표현으로 변화와 앞으로의 계획을 말할 수 있다"],
+              "learning_content": [
+                "현재완료로 경험·변화(I've been to..., have changed)",
+                "미래 표현(will, be going to, planning to)",
+                "변화 서술에서의 현재완료 활용",
+                "계획·전망 말하기",
+                "시제 혼용 피하기"
+              ],
+              "prerequisites": ["3.3.2"],
+              "lab": null
+            },
+            {
+              "id": "3.3.4",
+              "section_id": "3.3",
+              "title": "비교의 시제 전환: used to / would / these days",
+              "order": 4,
+              "learning_objectives": ["과거 습관과 현재를 대조하는 used to, would, these days를 사용해 시제를 명확히 전환할 수 있다"],
+              "learning_content": [
+                "used to로 과거 습관·상태",
+                "would로 반복된 과거 행동",
+                "these days/nowadays로 현재 전환",
+                "과거-현재 대조의 문장 짝짓기",
+                "비교 답변에 적용"
+              ],
+              "prerequisites": ["3.3.3", "2.5.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.4",
+          "phase_id": "3",
+          "title": "디테일과 어휘",
+          "order": 4,
+          "topics": [
+            {
+              "id": "3.4.1",
+              "section_id": "3.4",
+              "title": "디테일 추가 기법: 5W1H 확장",
+              "order": 1,
+              "learning_objectives": ["밋밋한 문장을 5W1H 질문으로 확장해 구체적 디테일을 더하는 기법을 적용할 수 있다"],
+              "learning_content": [
+                "한 문장에 5W1H 되묻기",
+                "언제·어디서·누구와·왜를 덧붙이기",
+                "감정·이유로 살 붙이기",
+                "추상에서 구체로 내려가기",
+                "확장 전후 비교 예시"
+              ],
+              "prerequisites": ["3.1.3"],
+              "lab": null
+            },
+            {
+              "id": "3.4.2",
+              "section_id": "3.4",
+              "title": "어휘 레벨업: 감각 형용사·부사·구동사",
+              "order": 2,
+              "learning_objectives": ["기본 어휘를 감각 형용사·부사·구동사로 다양화해 표현의 폭을 넓힐 수 있다"],
+              "learning_content": [
+                "good/nice를 대체하는 형용사",
+                "감각 형용사(cozy, breathtaking)",
+                "정도·태도 부사",
+                "구동사(hang out, end up, come up with)",
+                "과한 어휘 대신 자연스러운 수준 찾기"
+              ],
+              "prerequisites": ["3.4.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.5",
+          "phase_id": "3",
+          "title": "자연스러움",
+          "order": 5,
+          "topics": [
+            {
+              "id": "3.5.1",
+              "section_id": "3.5",
+              "title": "필러로 생각할 시간 벌기",
+              "order": 1,
+              "learning_objectives": ["자연스러운 필러를 사용해 생각하는 시간을 확보하면서 발화를 이어갈 수 있다"],
+              "learning_content": [
+                "필러 목록(Well, You know, I mean, Actually, Let me think)",
+                "필러로 공백 메우기",
+                "과용 시 역효과",
+                "생각 정리와 동시에 말 잇기",
+                "필러를 자연스럽게 배치하기"
+              ],
+              "prerequisites": ["3.1.3"],
+              "lab": null
+            },
+            {
+              "id": "3.5.2",
+              "section_id": "3.5",
+              "title": "자기수정 자연스럽게 하기",
+              "order": 2,
+              "learning_objectives": ["말하다 막히거나 틀렸을 때 자연스럽게 고쳐 말하는 자기수정 표현을 사용할 수 있다"],
+              "learning_content": [
+                "자기수정 표현(I mean..., what I meant to say is...)",
+                "다시 말하기(let me rephrase that)",
+                "실수를 자연스럽게 넘기기",
+                "자기수정이 오히려 점수가 되는 이유",
+                "당황하지 않는 태도"
+              ],
+              "prerequisites": ["3.5.1"],
+              "lab": null
+            },
+            {
+              "id": "3.5.3",
+              "section_id": "3.5",
+              "title": "암기 티 없애기: 변형 발화 훈련",
+              "order": 3,
+              "learning_objectives": ["키워드만 기억하고 매번 다른 표현으로 말하는 변형 발화 훈련법을 적용할 수 있다"],
+              "learning_content": [
+                "스크립트 낭독의 위험",
+                "키워드·골격만 암기",
+                "같은 내용 다르게 말하기",
+                "억양·속도 자연스럽게",
+                "변형 발화 연습 루틴"
+              ],
+              "prerequisites": ["3.5.2"],
+              "lab": null
+            },
+            {
+              "id": "3.5.4",
+              "section_id": "3.5",
+              "title": "발음·억양 최소 요건",
+              "order": 4,
+              "learning_objectives": ["의사소통을 방해하지 않는 수준의 발음·강세·억양 최소 요건을 설명하고 연습할 수 있다"],
+              "learning_content": [
+                "Accuracy 항목에서의 발음 비중",
+                "단어 강세의 중요성",
+                "문장 억양과 끊어 읽기",
+                "한국어식 강세 줄이기",
+                "완벽 발음보다 전달력 우선"
+              ],
+              "prerequisites": ["3.5.3"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "서베이 주제별 스크립트",
+      "order": 4,
+      "exit_capability": "빈출 Background Survey 주제 열 가지에 대해 묘사·루틴·경험·비교 유형의 답변을 학습한 언어 기술로 즉석에서 구성할 수 있다.",
+      "sections": [
+        {
+          "id": "4.1",
+          "phase_id": "4",
+          "title": "여가·문화 주제",
+          "order": 1,
+          "topics": [
+            {
+              "id": "4.1.1",
+              "section_id": "4.1",
+              "title": "영화 감상: 묘사와 경험",
+              "order": 1,
+              "learning_objectives": ["영화 감상 주제로 영화관 묘사와 기억에 남는 영화 경험을 구성할 수 있다"],
+              "learning_content": [
+                "자주 가는 영화관 묘사",
+                "영화 보러 가기 전 준비 루틴",
+                "기억에 남는 영화 경험",
+                "장르·취향 표현",
+                "영화 주제 핵심 표현"
+              ],
+              "prerequisites": ["2.2.2", "2.4.1", "3.2.1"],
+              "lab": null
+            },
+            {
+              "id": "4.1.2",
+              "section_id": "4.1",
+              "title": "음악 감상: 루틴과 비교",
+              "order": 2,
+              "learning_objectives": ["음악 감상 주제로 음악 듣는 루틴과 과거-현재 취향 변화 비교를 구성할 수 있다"],
+              "learning_content": [
+                "좋아하는 장르·가수 묘사",
+                "음악 듣는 일상 루틴",
+                "과거 vs 현재 음악 취향 변화",
+                "음악을 듣는 상황·기분",
+                "음악 주제 핵심 표현"
+              ],
+              "prerequisites": ["2.3.1", "3.3.4"],
+              "lab": null
+            },
+            {
+              "id": "4.1.3",
+              "section_id": "4.1",
+              "title": "공연·콘서트: 경험과 비교",
+              "order": 3,
+              "learning_objectives": ["공연·콘서트 주제로 인상 깊은 공연 경험과 과거-현재 비교를 구성할 수 있다"],
+              "learning_content": [
+                "인상 깊은 공연 경험 서사",
+                "함께 간 사람·분위기",
+                "공연 전후 행동",
+                "과거 vs 현재 공연 문화 비교",
+                "공연 주제 핵심 표현"
+              ],
+              "prerequisites": ["2.4.2", "3.3.4"],
+              "lab": null
+            },
+            {
+              "id": "4.1.4",
+              "section_id": "4.1",
+              "title": "카페/커피전문점: 묘사와 루틴",
+              "order": 4,
+              "learning_objectives": ["카페 주제로 단골 카페 묘사와 카페에서의 일상 루틴을 구성할 수 있다"],
+              "learning_content": [
+                "단골 카페 묘사(위치·분위기)",
+                "카페에서 하는 일 루틴",
+                "주문·자리 잡기 디테일",
+                "카페를 찾는 이유",
+                "카페 주제 핵심 표현"
+              ],
+              "prerequisites": ["2.2.2", "2.3.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "phase_id": "4",
+          "title": "야외·활동 주제",
+          "order": 2,
+          "topics": [
+            {
+              "id": "4.2.1",
+              "section_id": "4.2",
+              "title": "공원 가기: 묘사와 경험",
+              "order": 1,
+              "learning_objectives": ["공원 주제로 자주 가는 공원 묘사와 공원에서 있었던 경험을 구성할 수 있다"],
+              "learning_content": [
+                "자주 가는 공원 묘사",
+                "공원에서 하는 활동",
+                "공원에서 있었던 특별한 일",
+                "동행인·분위기 묘사",
+                "공원 주제 핵심 표현"
+              ],
+              "prerequisites": ["2.2.2", "2.4.1"],
+              "lab": null
+            },
+            {
+              "id": "4.2.2",
+              "section_id": "4.2",
+              "title": "해변 가기: 묘사와 경험",
+              "order": 2,
+              "learning_objectives": ["해변 주제로 좋아하는 해변 묘사와 해변에서의 경험을 구성할 수 있다"],
+              "learning_content": [
+                "좋아하는 해변 묘사",
+                "해변에서 하는 활동",
+                "기억에 남는 해변 경험",
+                "감각 묘사(파도·바람·풍경)",
+                "해변 주제 핵심 표현"
+              ],
+              "prerequisites": ["2.2.2", "2.4.1"],
+              "lab": null
+            },
+            {
+              "id": "4.2.3",
+              "section_id": "4.2",
+              "title": "조깅·걷기: 루틴과 비교",
+              "order": 3,
+              "learning_objectives": ["조깅·걷기 주제로 운동 루틴과 과거-현재 운동 습관 비교를 구성할 수 있다"],
+              "learning_content": [
+                "조깅 코스·장소 묘사",
+                "운동 루틴(시간·빈도)",
+                "예전 vs 현재 운동 습관 변화",
+                "운동의 효과·기분",
+                "운동 주제 핵심 표현"
+              ],
+              "prerequisites": ["2.3.1", "3.3.4"],
+              "lab": null
+            },
+            {
+              "id": "4.2.4",
+              "section_id": "4.2",
+              "title": "헬스·운동: 루틴과 경험",
+              "order": 4,
+              "learning_objectives": ["헬스·운동 주제로 운동 루틴과 운동 중 특별한 경험을 구성할 수 있다"],
+              "learning_content": [
+                "자주 하는 운동 묘사",
+                "운동 루틴과 순서",
+                "운동 중 특별한 경험",
+                "운동을 시작한 계기",
+                "헬스 주제 핵심 표현"
+              ],
+              "prerequisites": ["2.3.1", "2.4.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.3",
+          "phase_id": "4",
+          "title": "여행·생활 주제",
+          "order": 3,
+          "topics": [
+            {
+              "id": "4.3.1",
+              "section_id": "4.3",
+              "title": "국내 여행: 묘사와 경험",
+              "order": 1,
+              "learning_objectives": ["국내 여행 주제로 좋아하는 여행지 묘사와 기억에 남는 여행 경험을 구성할 수 있다"],
+              "learning_content": [
+                "좋아하는 국내 여행지 묘사",
+                "여행 준비 과정",
+                "기억에 남는 여행 경험",
+                "여행지에서 한 활동",
+                "국내 여행 핵심 표현"
+              ],
+              "prerequisites": ["2.2.2", "2.4.1"],
+              "lab": null
+            },
+            {
+              "id": "4.3.2",
+              "section_id": "4.3",
+              "title": "해외 여행: 루틴과 트러블 경험",
+              "order": 2,
+              "learning_objectives": ["해외 여행 주제로 여행 준비 루틴과 여행 중 문제가 생긴 경험을 구성할 수 있다"],
+              "learning_content": [
+                "해외 여행 준비 루틴",
+                "방문한 나라·도시 묘사",
+                "여행 중 트러블 경험(문제 상황)",
+                "국내 vs 해외 여행 비교",
+                "해외 여행 핵심 표현"
+              ],
+              "prerequisites": ["2.4.2", "2.3.1"],
+              "lab": null
+            },
+            {
+              "id": "4.3.3",
+              "section_id": "4.3",
+              "title": "집에서 보내기: 묘사와 루틴",
+              "order": 3,
+              "learning_objectives": ["집에서 보내기 주제로 집에서의 일과와 여가 루틴을 구성할 수 있다"],
+              "learning_content": [
+                "집에서 보내는 하루 루틴",
+                "집에서 즐기는 여가",
+                "집에서의 특별한 기억",
+                "휴식·취미 활동",
+                "집에서 보내기 핵심 표현"
+              ],
+              "prerequisites": ["2.3.1", "2.4.1"],
+              "lab": null
+            },
+            {
+              "id": "4.3.4",
+              "section_id": "4.3",
+              "title": "집·거주지 묘사",
+              "order": 4,
+              "learning_objectives": ["집과 동네 주제로 사는 집과 주변 환경을 구조적으로 묘사할 수 있다"],
+              "learning_content": [
+                "집의 구조·방 묘사",
+                "좋아하는 공간",
+                "동네·주변 환경 묘사",
+                "집에 대한 감상",
+                "거주지 묘사 핵심 표현"
+              ],
+              "prerequisites": ["2.2.2"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.4",
+          "phase_id": "4",
+          "title": "주제 응용",
+          "order": 4,
+          "topics": [
+            {
+              "id": "4.4.1",
+              "section_id": "4.4",
+              "title": "한 주제를 네 유형으로 굴리기",
+              "order": 1,
+              "learning_objectives": ["하나의 서베이 주제에서 묘사·루틴·경험·비교 네 유형의 답변을 모두 끌어내는 통합 설계법을 적용할 수 있다"],
+              "learning_content": [
+                "한 주제에서 네 유형 질문 예측",
+                "공통 소재를 유형별로 재구성",
+                "콤보 흐름에 맞춘 준비",
+                "겹치는 표현 재활용",
+                "주제 하나로 콤보 대비하기"
+              ],
+              "prerequisites": ["4.1.1", "4.1.2", "4.2.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "롤플레이와 돌발 완전 정복",
+      "order": 5,
+      "exit_capability": "롤플레이 3콤보를 상황별로 자연스럽게 연기하고, 서베이에서 고르지 않은 낯선 돌발 주제도 1분 이상 문단 단위로 발화할 수 있다.",
+      "sections": [
+        {
+          "id": "5.1",
+          "phase_id": "5",
+          "title": "롤플레이 심화",
+          "order": 1,
+          "topics": [
+            {
+              "id": "5.1.1",
+              "section_id": "5.1",
+              "title": "롤플레이 마인드셋과 전화 영어 표현",
+              "order": 1,
+              "learning_objectives": ["가상의 상대와 대화하는 롤플레이 마인드셋과 전화 영어 핵심 표현을 갖추어 답변을 시작할 수 있다"],
+              "learning_content": [
+                "역할극에 몰입하는 태도",
+                "전화 시작·인사 표현",
+                "정중한 요청·확인 표현",
+                "마무리·감사 표현",
+                "전화 영어 표현 모음"
+              ],
+              "prerequisites": ["2.6.1", "3.2.1"],
+              "lab": null
+            },
+            {
+              "id": "5.1.2",
+              "section_id": "5.1",
+              "title": "시나리오 A: 예약·문의",
+              "order": 2,
+              "learning_objectives": ["예약하거나 정보를 문의하는 롤플레이 시나리오를 표현 패턴으로 연기할 수 있다"],
+              "learning_content": [
+                "예약 요청 표현",
+                "메뉴·일정·조건 문의",
+                "서너 개 질문 구성",
+                "확인·변경 요청",
+                "예약·문의 예시 답변"
+              ],
+              "prerequisites": ["2.6.2", "5.1.1"],
+              "lab": null
+            },
+            {
+              "id": "5.1.3",
+              "section_id": "5.1",
+              "title": "시나리오 B: 불량·환불·취소",
+              "order": 3,
+              "learning_objectives": ["구매 문제 상황을 설명하고 환불·교환 등 대안을 제시하는 시나리오를 연기할 수 있다"],
+              "learning_content": [
+                "문제 상황 설명(damaged, wrong item)",
+                "불만 정중하게 전달",
+                "환불·교환·재배송 대안 제시",
+                "협상·요청 마무리",
+                "불량·환불 예시 답변"
+              ],
+              "prerequisites": ["2.6.3", "5.1.1"],
+              "lab": null
+            },
+            {
+              "id": "5.1.4",
+              "section_id": "5.1",
+              "title": "시나리오 C: 약속 변경·사과",
+              "order": 4,
+              "learning_objectives": ["약속을 취소하거나 변경하며 사과하고 대안을 제안하는 시나리오를 연기할 수 있다"],
+              "learning_content": [
+                "약속 변경 상황 설명",
+                "사과 표현(I'm so sorry, something came up)",
+                "대안 일정·방법 제안",
+                "양해 구하기",
+                "약속 변경 예시 답변"
+              ],
+              "prerequisites": ["2.6.3", "5.1.1"],
+              "lab": null
+            },
+            {
+              "id": "5.1.5",
+              "section_id": "5.1",
+              "title": "시나리오 D: 직장·일상 부탁",
+              "order": 5,
+              "learning_objectives": ["동료나 지인에게 부탁하거나 도움을 요청하는 일상 시나리오를 연기할 수 있다"],
+              "learning_content": [
+                "부탁·도움 요청 표현",
+                "상황·이유 설명",
+                "정중함과 직접성의 균형",
+                "감사·후속 약속",
+                "부탁 시나리오 예시 답변"
+              ],
+              "prerequisites": ["2.6.2", "5.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.2",
+          "phase_id": "5",
+          "title": "돌발 정복",
+          "order": 2,
+          "topics": [
+            {
+              "id": "5.2.1",
+              "section_id": "5.2",
+              "title": "돌발 빈출 주제 10선 묘사법",
+              "order": 1,
+              "learning_objectives": ["날씨·재활용·기술 등 빈출 돌발 주제를 일반 지식으로 묘사·설명하는 틀을 구성할 수 있다"],
+              "learning_content": [
+                "빈출 돌발 10선(날씨·재활용·기술·은행·병원 등)",
+                "주제별 핵심 어휘",
+                "일반 지식으로 문단 만들기",
+                "개인 경험과 연결",
+                "돌발 묘사 예시"
+              ],
+              "prerequisites": ["2.7.1", "3.1.2"],
+              "lab": null
+            },
+            {
+              "id": "5.2.2",
+              "section_id": "5.2",
+              "title": "돌발 경험 연결 패턴",
+              "order": 2,
+              "learning_objectives": ["낯선 돌발 주제를 자신의 경험과 연결해 서사로 풀어내는 패턴을 적용할 수 있다"],
+              "learning_content": [
+                "돌발 주제에서 경험 끌어오기",
+                "과거 경험 서사 재활용",
+                "주제와 경험의 자연스러운 연결",
+                "디테일로 발화량 확보",
+                "돌발 경험 예시"
+              ],
+              "prerequisites": ["5.2.1", "2.4.1"],
+              "lab": null
+            },
+            {
+              "id": "5.2.3",
+              "section_id": "5.2",
+              "title": "모르는 주제 생존 전략",
+              "order": 3,
+              "learning_objectives": ["전혀 모르는 주제가 나와도 회피하지 않고 발화를 이어가는 생존 표현과 전략을 적용할 수 있다"],
+              "learning_content": [
+                "시작 표현(I'm not really familiar with this, but...)",
+                "아는 만큼 일반화해 말하기",
+                "솔직한 인정과 우회 전개",
+                "침묵·패닉 피하기",
+                "생존 전략 예시"
+              ],
+              "prerequisites": ["5.2.2", "3.5.1"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "실전 모의 훈련과 오류 교정",
+      "order": 6,
+      "exit_capability": "난이도 5의 실전 15문항을 처음부터 끝까지 완주하고, 자기 답변의 IH 미달 원인을 시제·연결어·발화량·질문 대응 기준으로 스스로 진단해 교정할 수 있다.",
+      "sections": [
+        {
+          "id": "6.1",
+          "phase_id": "6",
+          "title": "모의와 진단",
+          "order": 1,
+          "topics": [
+            {
+              "id": "6.1.1",
+              "section_id": "6.1",
+              "title": "실전 모의 1회: 난이도 5 풀세트",
+              "order": 1,
+              "learning_objectives": ["난이도 5의 15문항 풀세트를 콤보 흐름대로 처음부터 끝까지 답변해 볼 수 있다"],
+              "learning_content": [
+                "자기소개부터 어드밴스까지 15문항 흐름",
+                "콤보별 유형 배치",
+                "롤플레이 3콤보 포함",
+                "시간·페이스 관리",
+                "모의 답변 기록과 점검"
+              ],
+              "prerequisites": ["4.4.1", "5.2.3"],
+              "lab": null
+            },
+            {
+              "id": "6.1.2",
+              "section_id": "6.1",
+              "title": "IH 자가 진단 체크리스트",
+              "order": 2,
+              "learning_objectives": ["시제·연결어·발화량·질문 대응 기준으로 자기 답변이 IH에 닿았는지 진단하는 체크리스트를 적용할 수 있다"],
+              "learning_content": [
+                "텍스트 타입(문단 여부) 점검",
+                "시제 일관성 점검",
+                "연결어 다양성 점검",
+                "발화량·질문 직접성 점검",
+                "체크리스트로 약점 찾기"
+              ],
+              "prerequisites": ["6.1.1"],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.2",
+          "phase_id": "6",
+          "title": "오류 교정",
+          "order": 2,
+          "topics": [
+            {
+              "id": "6.2.1",
+              "section_id": "6.2",
+              "title": "IM3에서 IH로: 결정적 업그레이드 포인트",
+              "order": 1,
+              "learning_objectives": ["IM3에 머무는 답변을 IH로 끌어올리는 결정적 개선 포인트를 진단 결과에 따라 적용할 수 있다"],
+              "learning_content": [
+                "문장 나열을 문단으로 묶기",
+                "연결어로 결속력 높이기",
+                "시제 전환 명확히 하기",
+                "디테일로 발화량 늘리기",
+                "전후 답변 비교"
+              ],
+              "prerequisites": ["6.1.2"],
+              "lab": null
+            },
+            {
+              "id": "6.2.2",
+              "section_id": "6.2",
+              "title": "오류 교정: 시제 오류 집중",
+              "order": 2,
+              "learning_objectives": ["경험 서술에서 자주 나오는 시제 혼용 오류를 찾아 과거시제 일관성으로 교정할 수 있다"],
+              "learning_content": [
+                "경험에 현재시제 섞이는 오류",
+                "시제 일관 유지 훈련",
+                "불규칙 동사·시제 짝 점검",
+                "비교 시제 전환 오류",
+                "시제 교정 연습 예시"
+              ],
+              "prerequisites": ["6.1.2", "3.3.2"],
+              "lab": null
+            },
+            {
+              "id": "6.2.3",
+              "section_id": "6.2",
+              "title": "오류 교정: 발화량 부족 집중",
+              "order": 3,
+              "learning_objectives": ["두세 문장으로 끝나는 짧은 답변의 원인을 진단하고 디테일 확장으로 발화량을 교정할 수 있다"],
+              "learning_content": [
+                "발화량 부족의 원인",
+                "5W1H 확장 재적용",
+                "예시·에피소드 덧붙이기",
+                "무의미한 채우기와의 구분",
+                "발화량 교정 연습 예시"
+              ],
+              "prerequisites": ["6.1.2", "3.4.1"],
+              "lab": null
+            },
+            {
+              "id": "6.2.4",
+              "section_id": "6.2",
+              "title": "실전 모의 2회: 최종 점검과 시험 전 루틴",
+              "order": 4,
+              "learning_objectives": ["교정 내용을 반영한 2회차 모의로 최종 점검을 하고 시험 전날·당일 루틴을 정리할 수 있다"],
+              "learning_content": [
+                "교정 후 2회차 풀세트",
+                "1회차 대비 개선점 확인",
+                "남은 약점 마무리",
+                "시험 전날·당일 루틴",
+                "마인드셋과 컨디션 관리"
+              ],
+              "prerequisites": ["6.2.1", "6.2.2", "6.2.3"],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
