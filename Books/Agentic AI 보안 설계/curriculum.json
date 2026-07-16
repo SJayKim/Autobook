@@ -1,0 +1,1582 @@
+{
+  "schema_version": "1.0.0",
+  "curriculum_id": "agentic-ai-security",
+  "title": "Agentic AI 보안 설계: 권한을 가진 신뢰할 수 없는 실행 주체를 다루는 법",
+  "locale": "ko-KR",
+  "numbering": {
+    "phase_base": 1
+  },
+  "prerequisite_shorthand": "none",
+  "prerequisite_ordering": {
+    "mode": "id_numeric_tuple"
+  },
+  "phases": [
+    {
+      "id": "1",
+      "title": "왜 에이전트 보안은 다른가",
+      "order": 1,
+      "exit_capability": "AI 에이전트를 '권한을 가진 신뢰할 수 없는 실행 주체'로 바라보는 관점을 세우고, 임의의 에이전트 구성을 보고 신뢰 경계를 그리며 다섯 가지 기반 원칙으로 위험을 진단할 수 있다.",
+      "sections": [
+        {
+          "id": "1.1",
+          "phase_id": "1",
+          "title": "에이전트라는 새로운 보안 주체",
+          "order": 1,
+          "topics": [
+            {
+              "id": "1.1.1",
+              "section_id": "1.1",
+              "title": "이 책이 다루는 것: 권한을 가진 신뢰할 수 없는 실행 주체",
+              "order": 1,
+              "learning_objectives": [
+                "이 책의 핵심 관점인 '에이전트는 권한을 가진 신뢰할 수 없는 실행 주체'가 무엇을 뜻하는지와 책 전체 구성을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "에이전트를 권한을 가진 신뢰할 수 없는 실행 주체로 보는 관점",
+                "전통 보안(외부 방어)과의 대비",
+                "내가 배포한 에이전트가 오염될 수 있다는 전제",
+                "L0~L4 학습 지도 개괄",
+                "이 책의 목표 독자와 공부 방법"
+              ],
+              "prerequisites": [],
+              "lab": null
+            },
+            {
+              "id": "1.1.2",
+              "section_id": "1.1",
+              "title": "에이전트란 무엇이며 왜 보안이 새로워지는가",
+              "order": 2,
+              "learning_objectives": [
+                "AI 에이전트를 모델·도구·메모리·루프로 분해하고, 도구·메모리·자율성이 어떻게 새로운 공격면을 만드는지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "AI 에이전트의 정의",
+                "모델·도구·메모리·루프 네 구성요소",
+                "도구 호출과 행동 공간",
+                "자율성이 만드는 위험",
+                "며칠씩 실행되는 장기 에이전트로의 전환",
+                "공격면(attack surface)이라는 말의 뜻"
+              ],
+              "prerequisites": [
+                "1.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "1.1.3",
+              "section_id": "1.1",
+              "title": "전통 보안과 에이전트 보안의 관점 차이",
+              "order": 3,
+              "learning_objectives": [
+                "전통 보안의 '외부 공격자 방어'와 에이전트 보안의 '내부 실행 주체 오염' 전제가 어떻게 다른지 구별해 설명할 수 있다"
+              ],
+              "learning_content": [
+                "전통 보안의 경계 방어 모델",
+                "신뢰 경계 안팎의 구분",
+                "에이전트가 오염되면 내부에서 권한을 행사한다는 문제",
+                "공격자 모델의 전환",
+                "왜 기존 방화벽·백신 사고로 부족한가"
+              ],
+              "prerequisites": [
+                "1.1.2"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "phase_id": "1",
+          "title": "다섯 가지 기반 원칙",
+          "order": 2,
+          "topics": [
+            {
+              "id": "1.2.1",
+              "section_id": "1.2",
+              "title": "Zero Trust: 신뢰하지 않고 매번 검증한다",
+              "order": 1,
+              "learning_objectives": [
+                "Zero Trust Architecture의 핵심 사상을 설명하고, 에이전트의 모든 도구 호출을 신뢰할 수 없는 요청으로 다루는 근거로 연결할 수 있다"
+              ],
+              "learning_content": [
+                "Zero Trust Architecture",
+                "내부망이니까 신뢰한다는 가정의 폐기",
+                "요청마다 검증(never trust, always verify)",
+                "NIST SP 800-207 개요",
+                "에이전트 도구 호출에 적용하는 방법"
+              ],
+              "prerequisites": [
+                "1.1.3"
+              ],
+              "lab": null
+            },
+            {
+              "id": "1.2.2",
+              "section_id": "1.2",
+              "title": "최소 권한에서 최소 에이전시로",
+              "order": 2,
+              "learning_objectives": [
+                "최소 권한 원칙(PoLP)이 에이전트 맥락에서 최소 에이전시(Least Agency)로 확장되는 이유와 넓은 권한이 키우는 사고 반경을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "최소 권한 원칙(PoLP)",
+                "최소 에이전시(Least Agency)",
+                "작업에 필요한 최소한의 도구·데이터·행동 범위",
+                "'혹시 필요할까 봐' 넓게 주는 것의 위험",
+                "사고 반경(blast radius)"
+              ],
+              "prerequisites": [
+                "1.2.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "1.2.3",
+              "section_id": "1.2",
+              "title": "심층 방어: 프롬프트 지시는 방어가 아니다",
+              "order": 3,
+              "learning_objectives": [
+                "심층 방어(Defense in Depth)의 개념을 설명하고, 프롬프트로 '하지 마세요'라고 지시하는 것이 왜 방어가 아닌지 근거를 들 수 있다"
+              ],
+              "learning_content": [
+                "심층 방어(Defense in Depth)",
+                "모델 계층 실패를 전제로 한 설계",
+                "프롬프트 지시의 한계",
+                "권한·네트워크·샌드박스 계층의 중첩 방어",
+                "단일 방어선 실패 시 다음 계층"
+              ],
+              "prerequisites": [
+                "1.2.2"
+              ],
+              "lab": null
+            },
+            {
+              "id": "1.2.4",
+              "section_id": "1.2",
+              "title": "위협 모델링: STRIDE와 MITRE ATLAS",
+              "order": 4,
+              "learning_objectives": [
+                "위협 모델링이 무엇인지 설명하고, 고전 기법 STRIDE와 AI 특화 매트릭스 MITRE ATLAS를 에이전트 설계 전에 적용하는 방법을 서술할 수 있다"
+              ],
+              "learning_content": [
+                "위협 모델링의 정의와 목적",
+                "STRIDE 여섯 범주",
+                "MITRE ATLAS(AI 특화 공격 지식베이스)",
+                "'이 에이전트가 오염되면 최악의 경우 무엇을 할 수 있는가'를 설계 전에 묻기",
+                "위협 모델링을 습관화하는 절차"
+              ],
+              "prerequisites": [
+                "1.2.3"
+              ],
+              "lab": null
+            },
+            {
+              "id": "1.2.5",
+              "section_id": "1.2",
+              "title": "비인간 신원(NHI): 에이전트는 새로운 신원 주체다",
+              "order": 5,
+              "learning_objectives": [
+                "에이전트가 사람도 단순 서비스 계정도 아닌 비인간 신원(NHI)이라는 점과 workload identity·단기 크리덴셜 개념을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "비인간 신원(NHI, Non-Human Identity)",
+                "사람 계정·서비스 계정과의 차이",
+                "workload identity(SPIFFE/SPIRE) 개념",
+                "단기 크리덴셜",
+                "행위 귀속(attribution)의 필요성"
+              ],
+              "prerequisites": [
+                "1.2.2"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "phase_id": "1",
+          "title": "신뢰 경계 그리기",
+          "order": 3,
+          "topics": [
+            {
+              "id": "1.3.1",
+              "section_id": "1.3",
+              "title": "신뢰 경계란 무엇인가",
+              "order": 1,
+              "learning_objectives": [
+                "신뢰 경계(trust boundary)의 정의와, 데이터·명령이 경계를 넘을 때 왜 검증이 필요한지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "신뢰 경계(trust boundary)의 정의",
+                "신뢰 수준이 다른 두 영역 사이의 경계",
+                "경계를 넘는 데이터·명령의 검증",
+                "신뢰할 수 있는 입력과 신뢰할 수 없는 입력",
+                "경계 식별이 설계의 출발점인 이유"
+              ],
+              "prerequisites": [
+                "1.2.1",
+                "1.2.3"
+              ],
+              "lab": null
+            },
+            {
+              "id": "1.3.2",
+              "section_id": "1.3",
+              "title": "에이전트 아키텍처에서 신뢰 경계 식별하기",
+              "order": 2,
+              "learning_objectives": [
+                "모델·도구·외부 콘텐츠·메모리로 이뤄진 에이전트 구성을 보고 신뢰 경계를 직접 그려 낼 수 있다"
+              ],
+              "learning_content": [
+                "에이전트 구성요소별 신뢰 수준",
+                "외부 콘텐츠(웹·문서·이메일)가 신뢰 불가 입력인 이유",
+                "도구 호출 지점의 경계",
+                "메모리·RAG가 경계를 흐리는 문제",
+                "신뢰 경계 다이어그램을 그리는 절차"
+              ],
+              "prerequisites": [
+                "1.3.1",
+                "1.1.2"
+              ],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "LLM 보안의 기초",
+      "order": 2,
+      "exit_capability": "LLM 애플리케이션 일반의 위협 지형을 OWASP LLM Top 10으로 정리하고, 프롬프트 인젝션을 직접 재현·설명하며, 과도한 에이전시가 왜 에이전트 보안의 출발점인지 연결할 수 있다.",
+      "sections": [
+        {
+          "id": "2.1",
+          "phase_id": "2",
+          "title": "LLM 애플리케이션의 위협 지형",
+          "order": 1,
+          "topics": [
+            {
+              "id": "2.1.1",
+              "section_id": "2.1",
+              "title": "OWASP LLM Top 10 개관",
+              "order": 1,
+              "learning_objectives": [
+                "OWASP Top 10 for LLM Applications가 무엇을 목록화한 표준인지 설명하고, 열 개 항목의 큰 갈래를 짚을 수 있다"
+              ],
+              "learning_content": [
+                "OWASP LLM Top 10(2025)의 목적",
+                "LLM 애플리케이션과 에이전트의 관계",
+                "프롬프트 인젝션·민감정보 유출·공급망·데이터 오염 등 큰 갈래",
+                "표준 목록을 공통어로 쓰는 이유",
+                "에이전트 이전 단계의 기초라는 위치"
+              ],
+              "prerequisites": [
+                "1.1.2"
+              ],
+              "lab": null
+            },
+            {
+              "id": "2.1.2",
+              "section_id": "2.1",
+              "title": "프롬프트 인젝션(LLM01): 직접 인젝션",
+              "order": 2,
+              "learning_objectives": [
+                "직접 프롬프트 인젝션이 어떻게 시스템 지시를 덮어쓰는지 메커니즘을 설명하고 간단한 예로 재현 원리를 서술할 수 있다"
+              ],
+              "learning_content": [
+                "프롬프트 인젝션(LLM01)의 정의",
+                "시스템 프롬프트와 사용자 입력이 같은 문자열로 합쳐지는 구조",
+                "지시와 데이터의 경계 부재",
+                "직접 인젝션 예시",
+                "왜 근본 해결이 어려운가"
+              ],
+              "prerequisites": [
+                "2.1.1",
+                "1.3.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "2.1.3",
+              "section_id": "2.1",
+              "title": "민감정보 유출과 부적절한 출력 처리",
+              "order": 3,
+              "learning_objectives": [
+                "민감정보 유출(LLM02)과 부적절한 출력 처리(LLM05)가 무엇이며 서로 어떻게 이어지는지 구별해 설명할 수 있다"
+              ],
+              "learning_content": [
+                "민감정보 유출(LLM02)",
+                "학습 데이터·컨텍스트·시스템 프롬프트의 노출",
+                "부적절한 출력 처리(LLM05)",
+                "모델 출력을 신뢰해 실행·렌더링할 때의 위험",
+                "출력 검증의 필요성"
+              ],
+              "prerequisites": [
+                "2.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "2.1.4",
+              "section_id": "2.1",
+              "title": "공급망과 데이터·모델 오염",
+              "order": 4,
+              "learning_objectives": [
+                "LLM 공급망 취약점(LLM03)과 데이터·모델 오염(LLM04)이 어디서 발생하는지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "LLM 공급망(LLM03)",
+                "사전학습 모델·데이터셋·플러그인의 신뢰 문제",
+                "데이터·모델 오염(LLM04)",
+                "학습·미세조정 단계 오염",
+                "백도어·트리거 개념"
+              ],
+              "prerequisites": [
+                "2.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "2.1.5",
+              "section_id": "2.1",
+              "title": "벡터·임베딩 취약점",
+              "order": 5,
+              "learning_objectives": [
+                "벡터·임베딩 취약점(LLM08)이 RAG 구조에서 어떻게 위험이 되는지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "임베딩과 벡터 데이터베이스의 기초",
+                "RAG(검색 증강 생성) 개요",
+                "벡터·임베딩 취약점(LLM08)",
+                "검색된 문서가 컨텍스트로 주입되는 경로",
+                "3장 메모리 포이즈닝으로의 연결"
+              ],
+              "prerequisites": [
+                "2.1.1"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "phase_id": "2",
+          "title": "에이전시로 넘어가는 다리",
+          "order": 2,
+          "topics": [
+            {
+              "id": "2.2.1",
+              "section_id": "2.2",
+              "title": "과도한 에이전시(LLM06): 에이전트 보안의 출발점",
+              "order": 1,
+              "learning_objectives": [
+                "과도한 에이전시(LLM06)가 무엇이며, 왜 이 항목이 LLM 보안에서 에이전트 보안으로 넘어가는 다리인지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "과도한 에이전시(Excessive Agency, LLM06)",
+                "과도한 기능·과도한 권한·과도한 자율성 세 축",
+                "도구가 늘수록 커지는 위험",
+                "LLM06과 최소 에이전시의 관계",
+                "에이전트 전용 위협으로의 전환점"
+              ],
+              "prerequisites": [
+                "2.1.1",
+                "1.2.2"
+              ],
+              "lab": null
+            },
+            {
+              "id": "2.2.2",
+              "section_id": "2.2",
+              "title": "왜 모델 계층 방어만으로는 부족한가",
+              "order": 2,
+              "learning_objectives": [
+                "입력 필터·정렬 같은 모델 계층 방어가 우회 가능함을 설명하고, 아키텍처 계층 방어가 필요한 이유를 심층 방어와 연결할 수 있다"
+              ],
+              "learning_content": [
+                "모델 계층 방어(정렬·입력 필터·분류기)의 위치",
+                "분류기·필터의 우회 가능성",
+                "모델 계층 실패를 전제하는 심층 방어",
+                "아키텍처 방어로의 이행 필요성",
+                "이후 5장 방어 설계의 예고"
+              ],
+              "prerequisites": [
+                "2.2.1",
+                "1.2.3"
+              ],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "에이전트 고유의 위협",
+      "order": 3,
+      "exit_capability": "OWASP Agentic Top 10(ASI01~10)을 분류체계로 읽고, 간접 프롬프트 인젝션·Lethal Trifecta·Confused Deputy·메모리 포이즈닝 같은 핵심 공격을 스스로의 시스템에 대입해 진단할 수 있다.",
+      "sections": [
+        {
+          "id": "3.1",
+          "phase_id": "3",
+          "title": "OWASP Agentic Top 10 — 목표와 도구, 신원",
+          "order": 1,
+          "topics": [
+            {
+              "id": "3.1.1",
+              "section_id": "3.1",
+              "title": "Agentic Top 10 개관: 분류체계로 읽는 법",
+              "order": 1,
+              "learning_objectives": [
+                "OWASP Top 10 for Agentic Applications(2026)가 무엇이며 이를 에이전트 보안 학습의 중심 축으로 삼는 법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "OWASP Agentic Top 10(2026, ASI01~10)의 위치",
+                "LLM Top 10과의 차이",
+                "분류체계(taxonomy)로 위협을 조직화하는 이유",
+                "ASI 코드 명명 규칙",
+                "자기 프로젝트에 항목별 해당 여부 표를 만드는 사용법"
+              ],
+              "prerequisites": [
+                "2.2.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "3.1.2",
+              "section_id": "3.1",
+              "title": "ASI01 Agent Goal Hijack: 목표 탈취",
+              "order": 2,
+              "learning_objectives": [
+                "ASI01 목표 탈취가 악성 콘텐츠로 에이전트의 목표 자체를 바꿔치기하는 방식임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "ASI01 Agent Goal Hijack",
+                "에이전트의 목표(goal)와 계획(plan)",
+                "악성 콘텐츠가 목표를 바꿔치기하는 경로",
+                "간접 프롬프트 인젝션과의 관계",
+                "목표 무결성이 깨질 때의 결과"
+              ],
+              "prerequisites": [
+                "3.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "3.1.3",
+              "section_id": "3.1",
+              "title": "ASI02 Tool Misuse: 도구 오용",
+              "order": 3,
+              "learning_objectives": [
+                "ASI02 도구 오용이 정상 도구를 위험하게 사용하는 위협임을 파괴적 명령·의도치 않은 액션 예로 설명할 수 있다"
+              ],
+              "learning_content": [
+                "ASI02 Tool Misuse & Exploitation",
+                "정상 도구의 위험한 사용",
+                "파괴적 명령(삭제·덮어쓰기)",
+                "의도치 않은 부작용 액션",
+                "도구 인자 조작"
+              ],
+              "prerequisites": [
+                "3.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "3.1.4",
+              "section_id": "3.1",
+              "title": "ASI03 Identity & Privilege Abuse: 신원·권한 남용",
+              "order": 4,
+              "learning_objectives": [
+                "ASI03가 에이전트가 물려받은 고권한 토큰의 재사용·에스컬레이션·전파 문제임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "ASI03 Identity & Privilege Abuse",
+                "물려받은 고권한 토큰",
+                "권한 재사용과 에스컬레이션",
+                "권한 전파(propagation)",
+                "비인간 신원 관리의 필요성 연결"
+              ],
+              "prerequisites": [
+                "3.1.1",
+                "1.2.5"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "phase_id": "3",
+          "title": "OWASP Agentic Top 10 — 실행과 기억",
+          "order": 2,
+          "topics": [
+            {
+              "id": "3.2.1",
+              "section_id": "3.2",
+              "title": "ASI04 Agentic Supply Chain: 공급망 취약점",
+              "order": 1,
+              "learning_objectives": [
+                "ASI04가 오염된 도구·플러그인·프롬프트 템플릿·런타임 로드 컴포넌트의 위협임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "ASI04 Agentic Supply Chain Vulnerabilities",
+                "오염된 도구·플러그인",
+                "프롬프트 템플릿 오염",
+                "런타임에 로드되는 컴포넌트",
+                "4장 프로토콜·공급망 보안으로의 연결"
+              ],
+              "prerequisites": [
+                "3.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "3.2.2",
+              "section_id": "3.2",
+              "title": "ASI05 Unexpected Code Execution: 코드 실행",
+              "order": 2,
+              "learning_objectives": [
+                "ASI05가 에이전트가 생성·실행하는 코드·셸 명령의 무방비 실행 위협임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "ASI05 Unexpected Code Execution",
+                "에이전트가 생성한 코드의 실행",
+                "셸 명령 실행 도구의 위험",
+                "무방비 실행의 결과",
+                "샌드박싱 필요성 연결"
+              ],
+              "prerequisites": [
+                "3.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "3.2.3",
+              "section_id": "3.2",
+              "title": "ASI06 Memory & Context Poisoning: 메모리 오염",
+              "order": 3,
+              "learning_objectives": [
+                "ASI06가 메모리·임베딩·RAG DB·요약본을 오염시켜 미래 결정을 조작하는 위협임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "ASI06 Memory & Context Poisoning",
+                "메모리·임베딩·RAG DB·요약본의 오염",
+                "미래 결정 조작",
+                "지속성(persistence) 있는 공격",
+                "세션 격리 필요성 연결"
+              ],
+              "prerequisites": [
+                "3.1.1",
+                "2.1.5"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "phase_id": "3",
+          "title": "OWASP Agentic Top 10 — 협업과 신뢰",
+          "order": 3,
+          "topics": [
+            {
+              "id": "3.3.1",
+              "section_id": "3.3",
+              "title": "ASI07 Insecure Inter-Agent Communication: 에이전트 간 통신",
+              "order": 1,
+              "learning_objectives": [
+                "ASI07이 에이전트 간 메시지의 인증·암호화·의미 검증 부재 문제임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "ASI07 Insecure Inter-Agent Communication",
+                "에이전트 간 메시지 교환",
+                "인증·암호화 부재",
+                "메시지 의미 검증의 부재",
+                "A2A 프로토콜로의 연결"
+              ],
+              "prerequisites": [
+                "3.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "3.3.2",
+              "section_id": "3.3",
+              "title": "ASI08 Cascading Failures: 연쇄 실패",
+              "order": 2,
+              "learning_objectives": [
+                "ASI08이 한 에이전트의 오류가 계획→실행→메모리→다운스트림으로 증폭 전파되는 위협임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "ASI08 Cascading Failures",
+                "오류의 증폭 전파",
+                "계획→실행→메모리→다운스트림 경로",
+                "멀티에이전트에서의 파급",
+                "격리·차단으로 전파를 끊기"
+              ],
+              "prerequisites": [
+                "3.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "3.3.3",
+              "section_id": "3.3",
+              "title": "ASI09 Human-Agent Trust Exploitation: 사람-에이전트 신뢰 악용",
+              "order": 3,
+              "learning_objectives": [
+                "ASI09가 사용자의 과잉 신뢰를 악용해 의사결정을 조작하거나 정보를 탈취하는 위협임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "ASI09 Human-Agent Trust Exploitation",
+                "사용자의 과잉 신뢰",
+                "의사결정 조작",
+                "정보 탈취",
+                "신뢰를 이용한 사회공학"
+              ],
+              "prerequisites": [
+                "3.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "3.3.4",
+              "section_id": "3.3",
+              "title": "ASI10 Rogue Agents: 변절 에이전트",
+              "order": 4,
+              "learning_objectives": [
+                "ASI10이 오염·미스얼라인된 에이전트가 정상인 척 지속 활동하거나 타 에이전트를 사칭하는 위협임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "ASI10 Rogue Agents",
+                "오염·미스얼라인 에이전트",
+                "정상인 척 지속 활동",
+                "타 에이전트 사칭",
+                "탐지·격리의 어려움"
+              ],
+              "prerequisites": [
+                "3.1.1",
+                "3.3.1"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "3.4",
+          "phase_id": "3",
+          "title": "반드시 손으로 이해할 핵심 공격",
+          "order": 4,
+          "topics": [
+            {
+              "id": "3.4.1",
+              "section_id": "3.4",
+              "title": "간접 프롬프트 인젝션: agentic 보안의 1번 문제",
+              "order": 1,
+              "learning_objectives": [
+                "간접 프롬프트 인젝션이 에이전트가 읽는 외부 콘텐츠에 숨긴 지시로 실행되는 공격임을 설명하고, 왜 완전 해결책이 없는지 서술할 수 있다"
+              ],
+              "learning_content": [
+                "간접 프롬프트 인젝션(Indirect Prompt Injection)",
+                "웹페이지·문서·이메일·이슈 댓글에 숨긴 지시문",
+                "직접 인젝션과의 차이",
+                "에이전트가 콘텐츠를 읽는 순간 실행되는 구조",
+                "완전 해결책 없음이 정설인 이유",
+                "아키텍처 방어가 중요한 근거"
+              ],
+              "prerequisites": [
+                "3.1.2",
+                "2.1.2"
+              ],
+              "lab": null
+            },
+            {
+              "id": "3.4.2",
+              "section_id": "3.4",
+              "title": "Lethal Trifecta: 치명적 3요소",
+              "order": 2,
+              "learning_objectives": [
+                "Lethal Trifecta의 세 요소를 설명하고, 셋 중 하나를 제거했는지 묻는 실용 체크리스트로 쓸 수 있다"
+              ],
+              "learning_content": [
+                "Lethal Trifecta(치명적 3요소)",
+                "민감 데이터 접근",
+                "신뢰 불가 콘텐츠 노출",
+                "외부 전송 능력",
+                "세 요소가 한 에이전트에 모일 때의 위험",
+                "셋 중 하나 제거 체크리스트"
+              ],
+              "prerequisites": [
+                "3.4.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "3.4.3",
+              "section_id": "3.4",
+              "title": "Confused Deputy: 혼란한 대리인",
+              "order": 3,
+              "learning_objectives": [
+                "Confused Deputy 패턴이 낮은 권한의 요청자가 높은 권한의 에이전트를 속여 대신 일을 시키는 구조임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Confused Deputy(혼란한 대리인)",
+                "낮은 권한 요청자와 높은 권한 대리자",
+                "권한을 빌려 대신 실행시키기",
+                "멀티테넌트 에이전트에서의 위험",
+                "고전 패턴의 재림"
+              ],
+              "prerequisites": [
+                "3.1.4"
+              ],
+              "lab": null
+            },
+            {
+              "id": "3.4.4",
+              "section_id": "3.4",
+              "title": "메모리/RAG 포이즈닝의 지속성",
+              "order": 4,
+              "learning_objectives": [
+                "메모리/RAG 포이즈닝이 한 번 오염된 문서로 이후 모든 세션을 오염시키는 지속성 있는 공격임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "메모리/RAG 포이즈닝",
+                "벡터 DB에 들어간 오염 문서",
+                "이후 모든 세션 컨텍스트 오염",
+                "지속성(persistence)",
+                "일회성 공격과의 차이"
+              ],
+              "prerequisites": [
+                "3.2.3",
+                "3.4.1"
+              ],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "프로토콜과 공급망 보안",
+      "order": 4,
+      "exit_capability": "에이전트 생태계의 배관인 MCP·A2A 표준의 공격면을 이해하고, MCP 5대 공격 벡터에 대응하는 인증·검증·게이트웨이 방어와 AI 공급망 위험을 설명할 수 있다.",
+      "sections": [
+        {
+          "id": "4.1",
+          "phase_id": "4",
+          "title": "MCP 보안",
+          "order": 1,
+          "topics": [
+            {
+              "id": "4.1.1",
+              "section_id": "4.1",
+              "title": "MCP란 무엇인가: 도구 연결 표준",
+              "order": 1,
+              "learning_objectives": [
+                "MCP(Model Context Protocol)가 모델과 도구를 잇는 표준임을 설명하고 왜 이 배관이 공격면이 되는지 서술할 수 있다"
+              ],
+              "learning_content": [
+                "MCP(Model Context Protocol)의 정의",
+                "모델-도구 연결 표준의 필요성",
+                "MCP 서버와 클라이언트 구조",
+                "도구 설명문(tool description)의 역할",
+                "표준화가 열어 주는 공격면"
+              ],
+              "prerequisites": [
+                "1.1.2",
+                "3.2.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "4.1.2",
+              "section_id": "4.1",
+              "title": "MCP 공격 벡터 1: 서버·도구 기만",
+              "order": 2,
+              "learning_objectives": [
+                "Tool Poisoning, Rogue Server, rug pull이 서버·도구를 신뢰한 데서 비롯되는 기만 공격임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Tool Poisoning(도구 설명문에 악성 지시 은닉)",
+                "Rogue Server(악성 서버 등록)",
+                "rug pull(검증 후 서버가 뒤바뀜)",
+                "도구 설명문 정적 분석",
+                "서버를 적대적으로 가정하기"
+              ],
+              "prerequisites": [
+                "4.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "4.1.3",
+              "section_id": "4.1",
+              "title": "MCP 공격 벡터 2: 위임·네트워크 남용",
+              "order": 3,
+              "learning_objectives": [
+                "Confused Deputy, Token Passthrough, SSRF가 위임과 네트워크 접근을 남용하는 MCP 공격임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Token Passthrough(토큰 무검증 전달)",
+                "SSRF(도구 커넥터 경유 서버측 요청 위조)",
+                "MCP 맥락의 Confused Deputy",
+                "토큰 검증의 필요성",
+                "커넥터 네트워크 경계"
+              ],
+              "prerequisites": [
+                "4.1.2",
+                "3.4.3"
+              ],
+              "lab": null
+            },
+            {
+              "id": "4.1.4",
+              "section_id": "4.1",
+              "title": "MCP 방어: OAuth 2.1, 서버 검증·핀닝, 게이트웨이",
+              "order": 4,
+              "learning_objectives": [
+                "MCP 5대 공격에 대응하는 OAuth 2.1 인증·서버 검증·핀닝·게이트웨이/레지스트리 방어를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "OAuth 2.1 기반 인증",
+                "서버 검증과 핀닝(pinning)으로 rug pull 방지",
+                "MCP 게이트웨이/레지스트리",
+                "도구 설명문 정적 분석",
+                "모든 MCP 서버는 검증 전까지 적대적이라고 가정한다는 수칙"
+              ],
+              "prerequisites": [
+                "4.1.2",
+                "4.1.3",
+                "1.2.1"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "phase_id": "4",
+          "title": "에이전트 간 협업과 공급망",
+          "order": 2,
+          "topics": [
+            {
+              "id": "4.2.1",
+              "section_id": "4.2",
+              "title": "A2A 프로토콜과 Agent Card",
+              "order": 1,
+              "learning_objectives": [
+                "A2A(Agent2Agent) 프로토콜과 Agent Card·상호 인증이 ASI07을 어떻게 완화하는지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "A2A(Agent2Agent) 프로토콜",
+                "Agent Card(신원·능력 선언)",
+                "상호 인증",
+                "에이전트 간 통신의 신뢰 확립",
+                "ASI07의 해법 레이어"
+              ],
+              "prerequisites": [
+                "3.3.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "4.2.2",
+              "section_id": "4.2",
+              "title": "AI 공급망 보안: 슬롭스쿼팅과 오염 모델",
+              "order": 2,
+              "learning_objectives": [
+                "AI 공급망 위험으로 모델 허브 오염과 슬롭스쿼팅이 무엇인지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "AI 공급망의 범위",
+                "모델 허브의 오염 모델",
+                "패키지 저장소와 슬롭스쿼팅(LLM이 환각한 패키지명 선점)",
+                "MCP 서버 배포판",
+                "프롬프트 템플릿까지 공급망으로 취급"
+              ],
+              "prerequisites": [
+                "4.2.1",
+                "3.2.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "4.2.3",
+              "section_id": "4.2",
+              "title": "AI SBOM: 모델·데이터 출처 추적",
+              "order": 3,
+              "learning_objectives": [
+                "SBOM의 AI 확장(모델·데이터 출처 추적) 개념과 그것이 공급망 관리에 왜 필요한지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "SBOM(소프트웨어 자재 명세서)의 기초",
+                "AI 확장(모델·데이터 출처 추적)",
+                "구성요소 인벤토리",
+                "출처(provenance) 검증",
+                "정보자산 관리와의 연결"
+              ],
+              "prerequisites": [
+                "4.2.2"
+              ],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "방어 설계 패턴",
+      "order": 5,
+      "exit_capability": "실행 격리·권한/신원·흐름 통제·입출력/데이터 네 묶음의 방어 패턴을 코드·인프라 관점에서 이해하고, 3장에서 진단한 공격이 더 이상 통하지 않도록 설계를 구성할 수 있다.",
+      "sections": [
+        {
+          "id": "5.1",
+          "phase_id": "5",
+          "title": "실행 격리",
+          "order": 1,
+          "topics": [
+            {
+              "id": "5.1.1",
+              "section_id": "5.1",
+              "title": "샌드박싱: 컨테이너, microVM, WASM",
+              "order": 1,
+              "learning_objectives": [
+                "에이전트의 코드 실행을 컨테이너·microVM·WASM으로 격리하는 샌드박싱이 ASI05의 1차 방어선인 이유를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "샌드박싱(sandboxing)의 정의",
+                "컨테이너 격리",
+                "microVM(Firecracker, gVisor)",
+                "WASM 격리",
+                "ASI05 코드 실행의 1차 방어선",
+                "격리 수준의 트레이드오프"
+              ],
+              "prerequisites": [
+                "3.2.2"
+              ],
+              "lab": null
+            },
+            {
+              "id": "5.1.2",
+              "section_id": "5.1",
+              "title": "Egress 통제: 외부 전송을 구조적으로 막기",
+              "order": 2,
+              "learning_objectives": [
+                "Egress 통제가 에이전트의 네트워크 목적지를 allowlist로 제한해 Lethal Trifecta의 외부 전송을 제거하는 방법임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Egress(외부 송신) 통제",
+                "네트워크 목적지 allowlist",
+                "Lethal Trifecta의 외부 전송 축 제거",
+                "데이터 유출 경로 차단",
+                "허용 목록 설계"
+              ],
+              "prerequisites": [
+                "3.4.2",
+                "5.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "5.1.3",
+              "section_id": "5.1",
+              "title": "세션·테넌트 격리",
+              "order": 3,
+              "learning_objectives": [
+                "세션·테넌트 격리가 사용자·테넌트 간 메모리·컨텍스트를 완전히 분리해 메모리 오염 전파를 막는 방법임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "세션 격리",
+                "테넌트 격리(멀티테넌시)",
+                "사용자 간 메모리·컨텍스트 분리",
+                "메모리 오염 전파 차단",
+                "격리 실패 시 교차 오염"
+              ],
+              "prerequisites": [
+                "3.4.4"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.2",
+          "phase_id": "5",
+          "title": "권한과 신원",
+          "order": 2,
+          "topics": [
+            {
+              "id": "5.2.1",
+              "section_id": "5.2",
+              "title": "Capability 기반 권한: 읽기와 쓰기는 다른 권한",
+              "order": 1,
+              "learning_objectives": [
+                "Capability 기반 권한이 도구별·액션별로 스코프를 세분화하고 읽기 전용 기본값에 명시적 승격을 두는 설계임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Capability 기반 권한",
+                "도구별·액션별 세분화 스코프",
+                "읽기와 쓰기의 권한 분리",
+                "읽기 전용 기본값 + 명시적 승격",
+                "최소 에이전시의 구현"
+              ],
+              "prerequisites": [
+                "1.2.2",
+                "3.1.3"
+              ],
+              "lab": null
+            },
+            {
+              "id": "5.2.2",
+              "section_id": "5.2",
+              "title": "단기(JIT) 크리덴셜과 시크릿 볼트",
+              "order": 2,
+              "learning_objectives": [
+                "장기 API 키를 심는 대신 작업 시점에 최소 범위 토큰을 발급하는 JIT 크리덴셜과 시크릿 볼트가 ASI03의 해법인 이유를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "단기(JIT, Just-in-Time) 크리덴셜",
+                "장기 API 키를 심지 않기",
+                "작업 시점 최소 범위 토큰 발급",
+                "시크릿 볼트(secret vault)",
+                "ASI03 신원·권한 남용의 해법"
+              ],
+              "prerequisites": [
+                "3.1.3",
+                "1.2.5"
+              ],
+              "lab": null
+            },
+            {
+              "id": "5.2.3",
+              "section_id": "5.2",
+              "title": "에이전트 신원과 행위 귀속",
+              "order": 3,
+              "learning_objectives": [
+                "사람 계정 위임 대신 에이전트 고유 신원을 발급해 행위 귀속을 보장하는 설계를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "에이전트 고유 신원 발급",
+                "사람 계정 위임의 문제",
+                "행위 귀속(attribution)",
+                "감사·추적 가능성",
+                "비인간 신원 관리의 구현"
+              ],
+              "prerequisites": [
+                "1.2.5",
+                "5.2.2"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.3",
+          "phase_id": "5",
+          "title": "흐름 통제",
+          "order": 3,
+          "topics": [
+            {
+              "id": "5.3.1",
+              "section_id": "5.3",
+              "title": "HITL 승인 게이트와 액션 분류표",
+              "order": 1,
+              "learning_objectives": [
+                "HITL(Human-in-the-Loop) 승인 게이트가 고위험 액션을 사람 승인 뒤 실행하게 하며, 액션 분류표를 먼저 만드는 것이 실무의 출발점임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "HITL(Human-in-the-Loop) 승인 게이트",
+                "고위험 액션(삭제·송금·외부 발송)",
+                "사람 승인 후 실행",
+                "액션 분류표(무엇이 고위험인가)",
+                "승인 피로(approval fatigue)와 균형"
+              ],
+              "prerequisites": [
+                "1.2.2",
+                "3.1.2"
+              ],
+              "lab": null
+            },
+            {
+              "id": "5.3.2",
+              "section_id": "5.3",
+              "title": "Dual-LLM 패턴: 특권과 격리의 분리",
+              "order": 2,
+              "learning_objectives": [
+                "Dual-LLM 패턴이 신뢰 불가 콘텐츠를 읽는 격리 LLM과 도구 권한을 가진 특권 LLM을 분리하고 그 사이에 구조화 데이터만 통과시키는 설계임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Dual-LLM 패턴",
+                "격리 LLM(신뢰 불가 콘텐츠 읽기)",
+                "특권 LLM(도구 권한 보유)",
+                "자연어 대신 구조화 데이터만 전달",
+                "간접 인젝션 차단 원리"
+              ],
+              "prerequisites": [
+                "3.4.1",
+                "1.3.2"
+              ],
+              "lab": null
+            },
+            {
+              "id": "5.3.3",
+              "section_id": "5.3",
+              "title": "CaMeL: 제어 흐름과 데이터 흐름의 분리",
+              "order": 3,
+              "learning_objectives": [
+                "CaMeL이 제어 흐름과 데이터 흐름을 분리하고 capability로 데이터 이동을 제한하는 구조적 방어임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "CaMeL(Defeating Prompt Injections by Design)",
+                "제어 흐름과 데이터 흐름의 분리",
+                "capability로 데이터 이동 제한",
+                "설계에 의한 방어(by design)",
+                "구조적 해법의 의의"
+              ],
+              "prerequisites": [
+                "5.3.2",
+                "5.2.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "5.3.4",
+              "section_id": "5.3",
+              "title": "Plan-then-Execute: 읽기 전에 계획 확정",
+              "order": 4,
+              "learning_objectives": [
+                "Plan-then-Execute가 신뢰 불가 데이터를 읽기 전에 실행 계획을 확정해 읽은 내용이 행동을 바꾸지 못하게 하는 패턴임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "Plan-then-Execute 패턴",
+                "실행 계획을 먼저 확정",
+                "신뢰 불가 데이터 읽기 이후 계획 불변",
+                "읽은 내용이 행동을 바꾸지 못하게 하는 원리",
+                "목표 탈취(ASI01) 완화"
+              ],
+              "prerequisites": [
+                "5.3.3",
+                "3.1.2"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "5.4",
+          "phase_id": "5",
+          "title": "입출력과 데이터",
+          "order": 4,
+          "topics": [
+            {
+              "id": "5.4.1",
+              "section_id": "5.4",
+              "title": "가드레일: 입력 필터와 출력 검증, 그리고 한계",
+              "order": 1,
+              "learning_objectives": [
+                "가드레일의 입력 필터(인젝션 탐지)와 출력 검증(스키마 강제·마스킹)을 설명하고, 분류기가 왜 주 방어선이 아닌 보조 수단인지 서술할 수 있다"
+              ],
+              "learning_content": [
+                "가드레일(guardrail)",
+                "입력 필터(인젝션 탐지 분류기)",
+                "출력 검증(스키마 강제·민감정보 마스킹)",
+                "분류기의 우회 가능성",
+                "보조 수단이지 주 방어선이 아님"
+              ],
+              "prerequisites": [
+                "2.2.2",
+                "5.3.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "5.4.2",
+              "section_id": "5.4",
+              "title": "데이터 등급 분류와 DLP",
+              "order": 2,
+              "learning_objectives": [
+                "에이전트가 접근하는 데이터에 등급표를 붙이고 등급 간 이동을 통제하는 데이터 분류·DLP가 N2SF의 C/S/O와 어떻게 직결되는지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "데이터 등급 분류",
+                "N2SF C/S/O 등급과의 직결(예고)",
+                "DLP(데이터 유출 방지)",
+                "등급 간 이동 통제",
+                "마스킹·토크나이제이션"
+              ],
+              "prerequisites": [
+                "5.1.3",
+                "2.1.3"
+              ],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "운영과 보증: 배포 후",
+      "order": 6,
+      "exit_capability": "배포된 에이전트를 관측·평가·탐지·대응하는 운영 보증 체계를 이해하고, 감사 로그·레드티밍·런타임 모니터링·사고 대응 절차를 설계할 수 있다.",
+      "sections": [
+        {
+          "id": "6.1",
+          "phase_id": "6",
+          "title": "관측과 평가",
+          "order": 1,
+          "topics": [
+            {
+              "id": "6.1.1",
+              "section_id": "6.1",
+              "title": "관측성: 감사 로그, 분산 추적, 세션 리플레이",
+              "order": 1,
+              "learning_objectives": [
+                "관측성이 모든 도구 호출·프롬프트·응답을 재구성 가능하게 만들어 사고 대응의 전제가 되는 이유를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "관측성(Observability)",
+                "도구 호출·프롬프트·응답의 감사 로그",
+                "분산 추적(OpenTelemetry GenAI semantic conventions)",
+                "세션 리플레이",
+                "'왜 그 행동을 했는가'의 재구성"
+              ],
+              "prerequisites": [
+                "1.3.2",
+                "3.2.3"
+              ],
+              "lab": null
+            },
+            {
+              "id": "6.1.2",
+              "section_id": "6.1",
+              "title": "평가와 레드티밍: AgentDojo, AgentHarm",
+              "order": 2,
+              "learning_objectives": [
+                "배포 전 적대적 테스트인 레드티밍과 AgentDojo·AgentHarm 벤치마크가 회귀 테스트처럼 반복되어야 하는 이유를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "평가(evaluation)와 레드티밍(red-teaming)",
+                "배포 전 적대적 테스트",
+                "AgentDojo(에이전트 프롬프트 인젝션)",
+                "AgentHarm(유해 작업 수행)",
+                "모델·도구 변경 때마다 회귀 테스트"
+              ],
+              "prerequisites": [
+                "3.4.1",
+                "6.1.1"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "6.2",
+          "phase_id": "6",
+          "title": "탐지와 대응",
+          "order": 2,
+          "topics": [
+            {
+              "id": "6.2.1",
+              "section_id": "6.2",
+              "title": "런타임 모니터링과 이상 탐지 (AI-SPM)",
+              "order": 1,
+              "learning_objectives": [
+                "런타임 모니터링이 평소와 다른 도구 호출·권한 사용·데이터 접근을 실시간 탐지하는 영역이며 AI-SPM 제품군이 무엇인지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "런타임 모니터링",
+                "이상 탐지(anomaly detection)",
+                "평소와 다른 도구 호출·권한 사용·데이터 접근",
+                "AI-SPM(AI Security Posture Management)",
+                "실시간 탐지의 역할"
+              ],
+              "prerequisites": [
+                "6.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "6.2.2",
+              "section_id": "6.2",
+              "title": "사고 대응: kill switch, 크리덴셜 폐기, 롤백",
+              "order": 2,
+              "learning_objectives": [
+                "사고 대응으로 kill switch·크리덴셜 일괄 폐기·오염된 메모리/벡터 DB 롤백 절차를 사전에 준비하는 이유를 설명할 수 있다"
+              ],
+              "learning_content": [
+                "사고 대응(incident response)",
+                "kill switch(에이전트 즉시 정지)",
+                "크리덴셜 일괄 폐기",
+                "오염된 메모리/벡터 DB 롤백",
+                "사전 준비의 중요성"
+              ],
+              "prerequisites": [
+                "6.2.1",
+                "5.2.2"
+              ],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "title": "거버넌스·규제와 종합",
+      "order": 7,
+      "exit_capability": "위험 등급 분류→차등 통제라는 규제 공통 패턴으로 N2SF·AI 기본법·EU AI Act·NIST를 꿰고, N2SF 6대 통제와 agentic 방어 개념의 1:1 대응으로 공공 도입 시나리오를 설계하며 자기 학습 경로를 세울 수 있다.",
+      "sections": [
+        {
+          "id": "7.1",
+          "phase_id": "7",
+          "title": "위험 등급 기반 규제라는 공통 패턴",
+          "order": 1,
+          "topics": [
+            {
+              "id": "7.1.1",
+              "section_id": "7.1",
+              "title": "규제를 하나의 패턴으로 읽기",
+              "order": 1,
+              "learning_objectives": [
+                "여러 규제를 '위험 등급 분류 → 등급별 차등 통제'라는 하나의 공통 패턴으로 묶어 이해하는 법을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "위험 등급 분류 → 차등 통제라는 공통 패턴",
+                "N2SF C/S/O",
+                "EU AI Act 위험 4단계",
+                "CSAP 상/중/하",
+                "규제를 전부 외우지 않고 패턴으로 이해하기"
+              ],
+              "prerequisites": [
+                "1.1.1"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "7.2",
+          "phase_id": "7",
+          "title": "국내 프레임워크",
+          "order": 2,
+          "topics": [
+            {
+              "id": "7.2.1",
+              "section_id": "7.2",
+              "title": "N2SF: C/S/O 등급과 6대 보안통제",
+              "order": 1,
+              "learning_objectives": [
+                "N2SF가 물리적 망분리를 대체해 업무 정보를 C/S/O로 분류하고 6대 보안통제를 등급별로 차등 적용하는 체계임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "N2SF(국가 망 보안체계)",
+                "물리적 망분리의 폐기",
+                "C(기밀)/S(민감)/O(공개) 3등급 분류",
+                "6대 보안통제(권한·인증·분리격리·통제·데이터·정보자산)",
+                "공공에서 생성형 AI·클라우드를 쓰기 위한 목적",
+                "도입 경과와 시행 단계"
+              ],
+              "prerequisites": [
+                "7.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "7.2.2",
+              "section_id": "7.2",
+              "title": "AI 기본법과 고영향 AI",
+              "order": 2,
+              "learning_objectives": [
+                "AI 기본법의 고영향 AI 사업자 책무와 생성형 AI 산출물 표시 의무가 에이전트 서비스에 어떻게 적용되는지 설명할 수 있다"
+              ],
+              "learning_content": [
+                "AI 기본법(2026-01-22 시행)",
+                "고영향 AI 사업자 책무",
+                "생성형 AI 산출물 표시 의무",
+                "에이전트 서비스가 고영향에 해당하는지 판단",
+                "국내 규제 지형"
+              ],
+              "prerequisites": [
+                "7.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "7.2.3",
+              "section_id": "7.2",
+              "title": "CSAP 클라우드 보안인증제",
+              "order": 3,
+              "learning_objectives": [
+                "CSAP가 공공에 클라우드 서비스를 공급하기 위한 상/중/하 등급 인증이며 SaaS형 에이전트의 관문임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "CSAP(클라우드 보안인증제)",
+                "공공기관 클라우드 공급 요건",
+                "상/중/하 등급제",
+                "SaaS형 에이전트의 관문",
+                "N2SF 등급 분류와의 연계"
+              ],
+              "prerequisites": [
+                "7.1.1"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "7.3",
+          "phase_id": "7",
+          "title": "해외 프레임워크",
+          "order": 3,
+          "topics": [
+            {
+              "id": "7.3.1",
+              "section_id": "7.3",
+              "title": "EU AI Act: 위험 기반 규제의 원형",
+              "order": 1,
+              "learning_objectives": [
+                "EU AI Act가 금지·고위험·범용(GPAI)으로 나눠 의무를 차등 부과하는 위험 기반 규제의 원형임을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "EU AI Act",
+                "위험 기반(risk-based) 규제",
+                "금지 AI/고위험 AI/범용 AI(GPAI)",
+                "의무 차등 부과",
+                "고위험 규제 적용 일정"
+              ],
+              "prerequisites": [
+                "7.1.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "7.3.2",
+              "section_id": "7.3",
+              "title": "NIST AI RMF와 Zero Trust",
+              "order": 2,
+              "learning_objectives": [
+                "NIST AI RMF의 Govern/Map/Measure/Manage 네 기능과 NIST SP 800-207 Zero Trust가 위험 관리의 공통어로 쓰이는 방식을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "NIST AI RMF",
+                "Govern/Map/Measure/Manage 4개 기능",
+                "Generative AI Profile(NIST-AI-600-1)",
+                "위험 관리 체크리스트의 공통어",
+                "NIST SP 800-207 Zero Trust와의 연결"
+              ],
+              "prerequisites": [
+                "7.1.1",
+                "1.2.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "7.3.3",
+              "section_id": "7.3",
+              "title": "ISO/IEC 42001과 27001",
+              "order": 3,
+              "learning_objectives": [
+                "ISO/IEC 42001(AI 경영시스템)과 27001(정보보호 경영시스템)이 조직 차원 인증으로 엔터프라이즈 도입에서 요구되는 배경을 설명할 수 있다"
+              ],
+              "learning_content": [
+                "ISO/IEC 42001(AI 경영시스템)",
+                "ISO/IEC 27001(정보보호 경영시스템)",
+                "조직 차원 인증",
+                "엔터프라이즈 고객의 요구",
+                "인증이 늘어나는 배경"
+              ],
+              "prerequisites": [
+                "7.1.1"
+              ],
+              "lab": null
+            }
+          ]
+        },
+        {
+          "id": "7.4",
+          "phase_id": "7",
+          "title": "종합: 두 세계의 연결",
+          "order": 4,
+          "topics": [
+            {
+              "id": "7.4.1",
+              "section_id": "7.4",
+              "title": "N2SF 6대 통제와 Agentic 방어의 1:1 대응",
+              "order": 1,
+              "learning_objectives": [
+                "N2SF의 6대 보안통제 항목이 앞서 배운 agentic 방어 개념과 거의 1:1로 대응됨을 표로 설명할 수 있다"
+              ],
+              "learning_content": [
+                "권한↔최소 에이전시·capability·JIT(ASI03)",
+                "인증↔에이전트 신원(NHI)·OAuth 2.1·mTLS·A2A",
+                "분리격리↔샌드박싱·egress·세션격리·Dual-LLM",
+                "통제↔HITL·가드레일·정책엔진·kill switch",
+                "데이터↔C/S/O 분류·DLP·RAG 오염 방지",
+                "정보자산↔모델·MCP·프롬프트 인벤토리·공급망(ASI04)"
+              ],
+              "prerequisites": [
+                "7.2.1",
+                "5.2.1",
+                "5.2.2",
+                "5.1.1",
+                "5.1.2",
+                "5.3.1",
+                "5.4.1",
+                "5.4.2",
+                "4.1.4"
+              ],
+              "lab": null
+            },
+            {
+              "id": "7.4.2",
+              "section_id": "7.4",
+              "title": "공공 도입 시나리오: 등급별 에이전트 허용 설계",
+              "order": 2,
+              "learning_objectives": [
+                "업무 정보를 C/S/O로 분류해 O→S→C 순으로 에이전트 허용 범위를 정하는 공공 도입 흐름을 설계로 설명할 수 있다"
+              ],
+              "learning_content": [
+                "업무 정보의 C/S/O 분류",
+                "O등급부터 외부 LLM 에이전트 허용",
+                "S등급 격리·통제 조건부 허용",
+                "C등급 차단",
+                "KISA 실증사업의 검증 흐름",
+                "역방향 연구(보안통제 도출 자동화)"
+              ],
+              "prerequisites": [
+                "7.4.1"
+              ],
+              "lab": null
+            },
+            {
+              "id": "7.4.3",
+              "section_id": "7.4",
+              "title": "종합 정리와 추천 학습 순서",
+              "order": 3,
+              "learning_objectives": [
+                "책 전체를 기반→위협→방어→운영→규제로 되짚고, 자기 시스템을 진단하며 다음 학습 경로를 세울 수 있다"
+              ],
+              "learning_content": [
+                "L0~L4 전체 되짚기",
+                "기반→위협→방어→운영→규제 순서",
+                "추천 학습 순서 5단계",
+                "자기 시스템 진단 체크리스트",
+                "다음 학습 방향",
+                "핵심 자료 갈래"
+              ],
+              "prerequisites": [
+                "7.4.2"
+              ],
+              "lab": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
