@@ -1,0 +1,37 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash 'C:\\Users\\cyon1\\OneDrive\\Desktop\\Autobook\\.codex\\hooks\\protect-rules.sh' \"$TOOL_INPUT\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash 'C:\\Users\\cyon1\\OneDrive\\Desktop\\Autobook\\.codex\\hooks\\check-curly-quotes.sh'"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash 'C:\\Users\\cyon1\\OneDrive\\Desktop\\Autobook\\.codex\\hooks\\on-compact.sh'"
+          }
+        ]
+      }
+    ]
+  }
+}
